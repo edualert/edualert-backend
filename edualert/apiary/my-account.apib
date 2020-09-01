@@ -1,0 +1,50 @@
+# Group My account
+
+Endpoints for managing own profile information.
+
+
+## My account [/api/v1/my-account/]
+
+### Get my account [GET]
+
+Returns information about own profile. <br>
+This response structure is defined for all types of roles,
+so the actual response data will be just the object corresponding to the request user's role.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (MyAccount)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update my account [PUT]
+
+Updates information about own profile. <br>
+This request/response structure is defined for all types of roles,
+so the actual request/response data will be just the object corresponding to the request user's role.
+
++ Request (application/json)
+    + Attributes (MyAccountUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (MyAccount)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

@@ -1,0 +1,186 @@
+{
+    "family": "${APP}-app",
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}_task_role",
+    "volumes": [{
+      "name": "static_files",
+      "dockerVolumeConfiguration": {
+        "scope": "shared",
+        "autoprovision": true,
+        "driver": "local"
+      }
+    }],
+    "containerDefinitions": [
+        {
+            "name": "app",
+            "image": "${IMAGE_NAME}",
+            "repositoryCredentials": {
+                "credentialsParameter": "${DOCKER_CREDENTIALS}"
+            },
+            "essential": true,
+            "privileged": false,
+            "user": "docker_user",
+            "cpu": 30,
+            "memory": 500,
+            "memoryReservation": 150,
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 80
+                },
+                {
+                    "containerPort": 8443,
+                    "hostPort": 443
+                },
+                {
+                    "containerPort": 587,
+                    "hostPort": 587
+                }
+            ],
+            "environment": [
+                {
+                    "name": "ENVIRONMENT",
+                    "value": "${ENVIRONMENT}"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "DJANGO_SETTINGS_MODULE",
+                    "valueFrom": "${SECRETS}:DJANGO_SETTINGS_MODULE::"
+                },
+                {
+                    "name": "DJANGO_SECRET_KEY",
+                    "valueFrom": "${SECRETS}:DJANGO_SECRET_KEY::"
+                },
+                {
+                    "name": "CACHE_URL",
+                    "valueFrom": "${SECRETS}:CACHE_URL::"
+                },
+                {
+                    "name": "DATABASE_URL",
+                    "valueFrom": "${SECRETS}:DATABASE_URL::"
+                },
+                {
+                    "name": "SSL_CERTIFICATE",
+                    "valueFrom": "${SECRETS}:SSL_CERTIFICATE::"
+                },
+                {
+                    "name": "SSL_CERTIFICATE_PRIVATE_KEY",
+                    "valueFrom": "${SECRETS}:SSL_CERTIFICATE_PRIVATE_KEY::"
+                },
+                {
+                    "name": "EMAIL_URL",
+                    "valueFrom": "${SECRETS}:EMAIL_URL::"
+                },
+                {
+                    "name": "FRONTEND_URL_DEV",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEV::"
+                },
+                {
+                    "name": "FRONTEND_URL_DEMO",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
+                },
+                {
+                    "name": "FRONTEND_URL_STAGING",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
+                },
+                {
+                    "name": "WEB2SMS_API_KEY",
+                    "valueFrom": "${SECRETS}:WEB2SMS_API_KEY::"
+                },
+                {
+                    "name": "WEB2SMS_SECRET_KEY",
+                    "valueFrom": "${SECRETS}:WEB2SMS_SECRET_KEY::"
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "static_files",
+                    "containerPath": "/usr/src/app/staticfiles"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                  "awslogs-region": "eu-central-1",
+                  "awslogs-group": "${APP}-${ENVIRONMENT}",
+                  "awslogs-stream-prefix": "${TASK_DEFINITION}-${TAG}",
+                  "awslogs-create-group": "true"
+                }
+              }
+        },
+        {
+            "name": "celery",
+            "image": "${IMAGE_NAME}",
+            "repositoryCredentials": {
+                "credentialsParameter": "${DOCKER_CREDENTIALS}"
+            },
+            "essential": false,
+            "privileged": false,
+            "user": "docker_user",
+            "cpu": 30,
+            "memory": 500,
+            "command": ["celery", "-A", "edualert.celery.app", "worker" , "-E", "-l", "debug", "--without-heartbeat", "--beat", "--schedule", "celerybeat_schedule"],
+            "memoryReservation": 100,
+            "environment": [
+                {
+                    "name": "ENVIRONMENT",
+                    "value": "${ENVIRONMENT}"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "DJANGO_SETTINGS_MODULE",
+                    "valueFrom": "${SECRETS}:DJANGO_SETTINGS_MODULE::"
+                },
+                {
+                    "name": "DJANGO_SECRET_KEY",
+                    "valueFrom": "${SECRETS}:DJANGO_SECRET_KEY::"
+                },
+                {
+                    "name": "CACHE_URL",
+                    "valueFrom": "${SECRETS}:CACHE_URL::"
+                },
+                {
+                    "name": "DATABASE_URL",
+                    "valueFrom": "${SECRETS}:DATABASE_URL::"
+                },
+                {
+                    "name": "EMAIL_URL",
+                    "valueFrom": "${SECRETS}:EMAIL_URL::"
+                },
+                {
+                    "name": "FRONTEND_URL_DEV",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEV::"
+                },
+                {
+                    "name": "FRONTEND_URL_DEMO",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
+                },
+                {
+                    "name": "FRONTEND_URL_STAGING",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
+                },
+                {
+                    "name": "WEB2SMS_API_KEY",
+                    "valueFrom": "${SECRETS}:WEB2SMS_API_KEY::"
+                },
+                {
+                    "name": "WEB2SMS_SECRET_KEY",
+                    "valueFrom": "${SECRETS}:WEB2SMS_SECRET_KEY::"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                  "awslogs-region": "eu-central-1",
+                  "awslogs-group": "${APP}-celery-${ENVIRONMENT}",
+                  "awslogs-stream-prefix": "${TASK_DEFINITION}-${TAG}",
+                  "awslogs-create-group": "true"
+                }
+              }
+        }
+    ]
+  }

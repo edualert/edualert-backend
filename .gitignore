@@ -1,0 +1,22 @@
+*.pc
+*.pyc
+*.pyo
+__pycache__/
+*.out
+*.err
+*.log
+tmpcron
+env/
+venv/
+*.DS_Store
+.idea/
+staticfiles/
+media/*
+.vscode/
+
+# Environment variables
+local.env
+ssh_key
+
+# Apiary
+apiary.apib

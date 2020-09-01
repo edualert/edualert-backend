@@ -1,0 +1,50 @@
+[
+  {
+    "model": "schools.SchoolUnitProfile",
+    "pk": 1,
+    "fields": {
+      "name": "Artistic",
+      "category": 15
+    }
+  },
+  {
+    "model": "schools.SchoolUnitProfile",
+    "pk": 2,
+    "fields": {
+      "name": "Sportiv",
+      "category": 15
+    }
+  },
+  {
+    "model": "schools.SchoolUnitProfile",
+    "pk": 3,
+    "fields": {
+      "name": "Pedagogic",
+      "category": 15
+    }
+  },
+  {
+    "model": "schools.SchoolUnitProfile",
+    "pk": 4,
+    "fields": {
+      "name": "Ordine și Securitate Publică",
+      "category": 15
+    }
+  },
+  {
+    "model": "schools.SchoolUnitProfile",
+    "pk": 5,
+    "fields": {
+      "name": "Militar",
+      "category": 15
+    }
+  },
+  {
+    "model": "schools.SchoolUnitProfile",
+    "pk": 6,
+    "fields": {
+      "name": "Teologic",
+      "category": 15
+    }
+  }
+]

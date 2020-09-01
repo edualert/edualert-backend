@@ -1,0 +1,1149 @@
+[
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 1,
+    "fields": {
+      "name": "Real - Specializarea Matematică-Informatică",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 2,
+    "fields": {
+      "name": "Real - Specializarea Științe ale Naturii",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 3,
+    "fields": {
+      "name": "Umanist - Specializarea Filologie",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 4,
+    "fields": {
+      "name": "Umanist - Specializarea Științe Sociale",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 5,
+    "fields": {
+      "name": "Real - Special - Specializarea Matematică-Informatică",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 6,
+    "fields": {
+      "name": "Real - Special - Specializarea Științe ale Naturii",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 7,
+    "fields": {
+      "name": "Umanist - Special - Specializarea Filologie",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 8,
+    "fields": {
+      "name": "Umanist - Special - Specializarea Științe Sociale",
+      "category": 14
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 9,
+    "fields": {
+      "name": "Specializarea Muzică",
+      "category": 15,
+      "academic_profile": 1
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 10,
+    "fields": {
+      "name": "Specializarea Coregrafie",
+      "category": 15,
+      "academic_profile": 1
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 11,
+    "fields": {
+      "name": "Specializarea Arta Actorului",
+      "category": 15,
+      "academic_profile": 1
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 12,
+    "fields": {
+      "name": "Specializarea Arhitectură",
+      "category": 15,
+      "academic_profile": 1
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 13,
+    "fields": {
+      "name": "Specializarea Arte Ambientale și Design",
+      "category": 15,
+      "academic_profile": 1
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 14,
+    "fields": {
+      "name": "Specializarea Arte Plastice și Decorative",
+      "category": 15,
+      "academic_profile": 1
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 15,
+    "fields": {
+      "name": "Specializarea Conservare-Restaurare Bunuri Culturale",
+      "category": 15,
+      "academic_profile": 1
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 16,
+    "fields": {
+      "name": "Alpinism / Escaladă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 17,
+    "fields": {
+      "name": "Atletism",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 18,
+    "fields": {
+      "name": "Badminton",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 19,
+    "fields": {
+      "name": "Baschet",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 20,
+    "fields": {
+      "name": "Baseball",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 21,
+    "fields": {
+      "name": "Box",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 22,
+    "fields": {
+      "name": "Canotaj",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 23,
+    "fields": {
+      "name": "Ciclism",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 24,
+    "fields": {
+      "name": "Culturism",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 25,
+    "fields": {
+      "name": "Dans Sportiv",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 26,
+    "fields": {
+      "name": "Fotbal",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 27,
+    "fields": {
+      "name": "Gimnastică Artistică Sportivă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 28,
+    "fields": {
+      "name": "Gimnastică Ritmică Sportivă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 29,
+    "fields": {
+      "name": "Go",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 30,
+    "fields": {
+      "name": "Haltere",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 31,
+    "fields": {
+      "name": "Handbal",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 32,
+    "fields": {
+      "name": "Hochei pe Gheață",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 33,
+    "fields": {
+      "name": "Hochei pe Iarbă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 34,
+    "fields": {
+      "name": "Înot",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 35,
+    "fields": {
+      "name": "Judo",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 36,
+    "fields": {
+      "name": "Kaiac-canoe",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 37,
+    "fields": {
+      "name": "Karate",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 38,
+    "fields": {
+      "name": "Lupte Greco-romane",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 39,
+    "fields": {
+      "name": "Lupte Libere",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 40,
+    "fields": {
+      "name": "Oină",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 41,
+    "fields": {
+      "name": "Orientare Sportivă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 42,
+    "fields": {
+      "name": "Patinaj Artistic",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 43,
+    "fields": {
+      "name": "Patinaj Sincron",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 44,
+    "fields": {
+      "name": "Patinaj Viteză",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 45,
+    "fields": {
+      "name": "Polo pe Apă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 46,
+    "fields": {
+      "name": "Rugby",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 47,
+    "fields": {
+      "name": "Sanie",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 48,
+    "fields": {
+      "name": "Sărituri în Apă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 49,
+    "fields": {
+      "name": "Schi Alpin",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 50,
+    "fields": {
+      "name": "Schi Biatlon",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 51,
+    "fields": {
+      "name": "Schi - Combinata Nordică",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 52,
+    "fields": {
+      "name": "Schi Fond",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 53,
+    "fields": {
+      "name": "Schi Orientare Turistică",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 54,
+    "fields": {
+      "name": "Schi Sărituri",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 55,
+    "fields": {
+      "name": "Scrimă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 56,
+    "fields": {
+      "name": "Softball",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 57,
+    "fields": {
+      "name": "Sport aerobic",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 58,
+    "fields": {
+      "name": "Șah",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 59,
+    "fields": {
+      "name": "Taekwondo WTF",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 60,
+    "fields": {
+      "name": "Tenis de Câmp",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 61,
+    "fields": {
+      "name": "Tenis de Masă",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 62,
+    "fields": {
+      "name": "Tir cu Arcul",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 63,
+    "fields": {
+      "name": "Tir cu Pușcă / Pistol",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 64,
+    "fields": {
+      "name": "Volei",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 65,
+    "fields": {
+      "name": "Yachting",
+      "category": 15,
+      "academic_profile": 2
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 66,
+    "fields": {
+      "name": "Specializarea Învățător/ Educatoare",
+      "category": 15,
+      "academic_profile": 3
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 67,
+    "fields": {
+      "name": "Specializarea Bibliotecar-Documentarist",
+      "category": 15,
+      "academic_profile": 3
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 68,
+    "fields": {
+      "name": "Specializarea Instructor-Animator",
+      "category": 15,
+      "academic_profile": 3
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 69,
+    "fields": {
+      "name": "Specializarea Instructor pentru Activități Extrașcolare",
+      "category": 15,
+      "academic_profile": 3
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 70,
+    "fields": {
+      "name": "Specializarea Pedagog Școlar",
+      "category": 15,
+      "academic_profile": 3
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 71,
+    "fields": {
+      "name": "Specializarea Educator-Puericultor",
+      "category": 15,
+      "academic_profile": 3
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 72,
+    "fields": {
+      "name": "Specializarea Mediator Școlar",
+      "category": 15,
+      "academic_profile": 3
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 73,
+    "fields": {
+      "name": "Specializarea Științe Sociale",
+      "category": 15,
+      "academic_profile": 4
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 74,
+    "fields": {
+      "name": "Specializarea Matematică-Informatică",
+      "category": 15,
+      "academic_profile": 5
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 75,
+    "fields": {
+      "name": "Specializarea Științe Sociale",
+      "category": 15,
+      "academic_profile": 5
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 76,
+    "fields": {
+      "name": "Specializarea Teologie Ortodoxă",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 77,
+    "fields": {
+      "name": "Specializarea Muzică Bisericească",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 78,
+    "fields": {
+      "name": "Specializarea Patrimoniu Cultural",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 79,
+    "fields": {
+      "name": "Specializarea Teologie Romano-Catolică (de limba română)",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 80,
+    "fields": {
+      "name": "Specializarea Teologie Romano-Catolică (de limba maghiară)",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 81,
+    "fields": {
+      "name": "Specializarea Teologie Greco-Catolică",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 82,
+    "fields": {
+      "name": "Specializarea Teologie Reformată",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 83,
+    "fields": {
+      "name": "Specializarea Teologie Penticostală",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 84,
+    "fields": {
+      "name": "Specializarea Teologie Baptistă",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 85,
+    "fields": {
+      "name": "Specializarea Teologie Unitariană",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 86,
+    "fields": {
+      "name": "Specializarea Teologie Adventistă",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 87,
+    "fields": {
+      "name": "Specializarea Teologie Musulmană",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 88,
+    "fields": {
+      "name": "Specializarea Ghid Turism Religios (cult ortodox)",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 89,
+    "fields": {
+      "name": "Specializarea Ghid Turism Religios (cult greco-catolic)",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 90,
+    "fields": {
+      "name": "Specializarea Ghid Turism Religios (cult romano-catolic, de limba maghiară)",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 91,
+    "fields": {
+      "name": "Specializarea Ghid Turism Religios (cult romano-catolic, de limba română)",
+      "category": 15,
+      "academic_profile": 6
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 92,
+    "fields": {
+      "name": "Tehnic - Mecanică",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 93,
+    "fields": {
+      "name": "Tehnic - Electromecanică",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 94,
+    "fields": {
+      "name": "Tehnic - Electronică Automatizări",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 95,
+    "fields": {
+      "name": "Tehnic - Electric",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 96,
+    "fields": {
+      "name": "Tehnic - Chimie Industrială",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 97,
+    "fields": {
+      "name": "Tehnic - Materiale de Construcții",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 98,
+    "fields": {
+      "name": "Tehnic - Construcții, Instalații și Lucrări Publice",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 99,
+    "fields": {
+      "name": "Tehnic - Industrie Textilă și Pielărie",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 100,
+    "fields": {
+      "name": "Tehnic - Fabricarea Produselor din Lemn",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 101,
+    "fields": {
+      "name": "Tehnic - Tehnice Poligrafice",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 102,
+    "fields": {
+      "name": "Tehnic - Producție Media",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 103,
+    "fields": {
+      "name": "Tehnic - Transporturi",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 104,
+    "fields": {
+      "name": "Tehnic - Special - Mecanică",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 105,
+    "fields": {
+      "name": "Tehnic - Special - Electromecanică",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 106,
+    "fields": {
+      "name": "Tehnic - Special - Electronică Automatizări",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 107,
+    "fields": {
+      "name": "Tehnic - Special - Electric",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 108,
+    "fields": {
+      "name": "Tehnic - Special - Chimie Industrială",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 109,
+    "fields": {
+      "name": "Tehnic - Special - Materiale de Construcții",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 110,
+    "fields": {
+      "name": "Tehnic - Special - Construcții, Instalații și Lucrări Publice",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 111,
+    "fields": {
+      "name": "Tehnic - Special - Industrie Textilă și Pielărie",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 112,
+    "fields": {
+      "name": "Tehnic - Special - Fabricarea Produselor din Lemn",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 113,
+    "fields": {
+      "name": "Tehnic - Special - Tehnice Poligrafice",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 114,
+    "fields": {
+      "name": "Tehnic - Special - Producție Media",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 115,
+    "fields": {
+      "name": "Servicii - Comerț",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 116,
+    "fields": {
+      "name": "Servicii - Economic",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 117,
+    "fields": {
+      "name": "Servicii - Turism și Alimentație",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 118,
+    "fields": {
+      "name": "Servicii - Administrativ",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 119,
+    "fields": {
+      "name": "Servicii - Estetica și Igiena Corpului Omenesc",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 120,
+    "fields": {
+      "name": "Servicii - Special - Comerț",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 121,
+    "fields": {
+      "name": "Servicii - Special - Economic",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 122,
+    "fields": {
+      "name": "Servicii - Special - Turism și Alimentație",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 123,
+    "fields": {
+      "name": "Servicii - Special - Administrativ",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 124,
+    "fields": {
+      "name": "Servicii - Special - Estetica și Igiena Corpului Omenesc",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 125,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Agricultură",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 126,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Industrie Alimentară",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 127,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Silvicultură",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 128,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Protecția Mediului",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 129,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Chimie Industrială",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 130,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Special - Agricultură",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 131,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Special - Industrie Alimentară",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 132,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Special - Silvicultură",
+      "category": 16
+    }
+  },
+  {
+    "model": "academic_programs.GenericAcademicProgram",
+    "pk": 133,
+    "fields": {
+      "name": "Resurse Naturale și Protecția Mediului - Special - Protecția Mediului",
+      "category": 16
+    }
+  }
+]

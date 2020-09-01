@@ -1,0 +1,2 @@
+from .generic_academic_program import GenericAcademicProgram
+from .academic_program import AcademicProgram

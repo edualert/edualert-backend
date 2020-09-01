@@ -1,0 +1,863 @@
+# Group Statistics
+
+Endpoints for retrieving statistics.
+
+
+## Institutions enrollment statistics [/api/v1/institutions-enrollment-statistics/]
+
+### Get statistics [GET /api/v1/institutions-enrollment-statistics{?month}/]
+
+This endpoint is allowed only for ORS users. <br>
+Returns a non paginated list of daily institutions enrollment statistics for a month (by default the current month).
+
++ Parameters
+    + month: 1 (number, optional)
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array)
+        + (object)
+            + day: 1 (number)
+            + weekday: Lu (string)
+            + count: 1 (number)
+        + (object)
+            + day: 2 (number)
+            + weekday: Ma (string)
+            + count: 3 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Institutions at risk [/api/v1/institutions-at-risk/]
+
+### Get institutions [GET /api/v1/institutions-at-risk{?page,page_size}/]
+
+This endpoint is allowed only for ORS users. <br>
+Returns a paginated list of institutions that are currently at risk, ordered by students at risk count DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - registered school unit ID
+                + name: `Liceul nr. 1`
+                + `students_at_risk_count`: 23
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Inactive institutions [/api/v1/inactive-institutions/]
+
+### Get institutions [GET /api/v1/inactive-institutions{?page,page_size}/]
+
+This endpoint is allowed only for ORS users. <br>
+Returns a paginated list of institutions that are currently inactive, ordered by last change DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - registered school unit ID
+                + name: `Liceul nr. 1`
+                + `last_change_in_catalog`: `23-01-2020`
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Institutions averages [/api/v1/institutions-averages/]
+
+### Get institutions [GET /api/v1/institutions-averages{?page,page_size}/]
+
+This endpoint is allowed only for ORS users. <br>
+Returns a paginated list of institutions averages, ordered average DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + school_unit_name: `Liceul nr. 1`
+                + avg_sem1: `9.78` (string)
+                + avg_annual: `9.78` (string)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Institutions absences [/api/v1/institutions-absences/]
+
+### Get institutions [GET /api/v1/institutions-absences{?page,page_size}/]
+
+This endpoint is allowed only for ORS users. <br>
+Returns a paginated list of institutions unfounded absences average, ordered average DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + school_unit_name: `Liceul nr. 1`
+                + unfounded_abs_avg_sem1: 25 (number)
+                + unfounded_abs_avg_annual: 40 (string)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Programs at risk [/api/v1/programs-at-risk/]
+
+### Get programs [GET /api/v1/programs-at-risk{?page,page_size}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a paginated list of own school unit's academic programs (from current academic year)
+that are currently at risk, ordered by students at risk count DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - academic program ID
+                + name: `Real - Matematica-Informatica`
+                + `students_at_risk_count`: 23
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Programs averages [/api/v1/programs-averages/]
+
+### Get programs [GET /api/v1/programs-averages{?page,page_size}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a paginated list of own school unit's academic programs averages (from current academic year),
+ordered by average DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - academic program ID
+                + name: `Real - Matematica-Informatica`
+                + avg_sem1: `8.72` (string)
+                + avg_annual: `8.9` (string)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Programs absences [/api/v1/programs-absences/]
+
+### Get programs [GET /api/v1/programs-absences{?page,page_size}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a paginated list of own school unit's academic programs absences average (from current academic year),
+ordered by average DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - academic program ID
+                + name: `Real - Matematica-Informatica`
+                + unfounded_abs_avg_sem1: 10 (number)
+                + unfounded_abs_avg_avg_annual: 20 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Study classes at risk [/api/v1/study-classes-at-risk/]
+
+### Get study classes [GET /api/v1/study-classes-at-risk{?page,page_size}/]
+
+This endpoint is allowed only for School Principal and Teacher users. <br>
+Returns a paginated list of own school unit's study classes (from current academic year)
+that are currently at risk, ordered by students at risk count DESC. <br>
+For teachers, the list contains only classes that have the teacher assigned.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - study class ID
+                + class_grade: IX
+                + class_letter: A
+                + `students_at_risk_count`: 23
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Study classes averages [/api/v1/study-classes-averages/]
+
+### Get study classes [GET /api/v1/study-classes-averages{?page,page_size}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a paginated list of own school unit's study classes averages (from current academic year),
+ordered by average DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - study class ID
+                + class_grade: IX
+                + class_letter: A
+                + avg_sem1: `8.72` (string)
+                + avg_annual: `8.9` (string)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Study classes absences [/api/v1/study-classes-absences/]
+
+### Get study classes [GET /api/v1/study-classes-absences{?page,page_size}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a paginated list of own school unit's study classes absences average (from current academic year),
+ordered by average DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - study class ID
+                + class_grade: IX
+                + class_letter: A
+                + unfounded_abs_avg_sem1: 10 (number)
+                + unfounded_abs_avg_avg_annual: 20 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Inactive teachers [/api/v1/inactive-teachers/]
+
+### Get teachers [GET /api/v1/inactive-teachers{?page,page_size}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a paginated list of teachers that are currently inactive, ordered by last change DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (UserProfileBase)
+                + `last_change_in_catalog`: `23-01-2020`
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Students risk evolution [/api/v1/students-risk-evolution/]
+
+### Get evolution [GET /api/v1/students-risk-evolution{?month,school_unit}/]
+
+This endpoint is allowed only for ORS, School Principal and Teacher users. <br>
+Returns a non paginated list of daily students at risk count for a month (by default the current month). <br>
+The ORS can filter only by institution (by default they receive an overall situation). <br>
+The School Principal receives the situation by own school unit. <br>
+The Teacher receives statistics for mastering study class. <br>
+
++ Parameters
+    + month: 1 (number, optional)
+    + school_unit: 23 (number, optional) - school unit ID, allowed only for ORS user
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array)
+        + (object)
+            + day: 1 (number)
+            + weekday: Lu (string)
+            + count: 1 (number)
+        + (object)
+            + day: 2 (number)
+            + weekday: Ma (string)
+            + count: 3 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Students at risk for school [/api/v1/school-students-at-risk/]
+
+### Get students [GET /api/v1/school-students-at-risk{?page,page_size}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a paginated list of own school unit's students that are currently at risk,
+ordered by students name ASC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[SchoolStudentAtRisk])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own students at risk [/api/v1/own-students-at-risk/]
+
+### Get students [GET /api/v1/own-students-at-risk{?page,page_size}/]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns a paginated list of students from own Coordination class (the class where the user is class master)
+that are currently at risk, ordered by students name ASC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[StudentAtRisk])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own students averages [/api/v1/own-students-averages/]
+
+### Get students [GET /api/v1/own-students-averages{?page,page_size}/]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns a paginated list of own study class' students averages, ordered by average DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 12 (number) - student catalog per year ID
+                + student (UserProfileBase)
+                + avg_sem1: `9.78` (string)
+                + avg_final: `9.79` (string)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own students absences [/api/v1/own-students-absences/]
+
+### Get students [GET /api/v1/own-students-absences{?page,page_size}/]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns a paginated list of own study class' students unfounded absences count, ordered by count DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 12 (number) - student catalog per year ID
+                + student (UserProfileBase)
+                + unfounded_abs_count_sem1: 2 (number)
+                + unfounded_abs_count_annual: 5 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own students behavior grades [/api/v1/own-students-behavior-grades/]
+
+### Get students [GET /api/v1/own-students-behavior-grades{?page,page_size}/]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns a paginated list of students' behavior grades from own Coordination class (the class where the user is class master),
+ordered by grade DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 12 (number) - student catalog per year ID
+                + student (UserProfileBase)
+                + behavior_grade_sem1: 7 (number)
+                + behavior_grade_annual: 7 (number)
+                + behavior_grade_limit: 8 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Inactive parents [/api/v1/inactive-parents/]
+
+### Get parents [GET /api/v1/inactive-parents{?page,page_size}/]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns a paginated list of parents of coordination class students that are currently inactive, ordered by last change DESC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array)
+            + (object)
+                + id: 1 (number) - parent ID
+                + full_name: `John Doe` (string)
+                + children (array[UserProfileBase])
+                + last_online: `01-01-2020` (string)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own child statistics [/api/v1/own-child-statistics/{child_id}/]
+
++ Parameters
+    + child_id: 1 (number) - child (student) user profile ID
+
+### Get statistics [GET]
+
+This endpoint is allowed only for Parent users. <br>
+Returns own child's averages and absences statistics.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudentStatistics)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own child activity history [/api/v1/own-child-activity-history/{child_id}/]
+
++ Parameters
+    + child_id: 1 (number) - child (student) user profile ID
+
+### Get activity [GET]
+
+This endpoint is allowed only for Parent users. <br>
+Returns a list of child's activity from the last 15 days, ordered by date DESC.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[ActivityItem])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own child subjects at risk [/api/v1/own-child-subjects-at-risk/{child_id}/]
+
++ Parameters
+    + child_id: 1 (number) - child (student) user profile ID
+
+### Get subjects [GET /api/v1/own-child-subjects-at-risk/{child_id}{?page,page_size}/]
+
+This endpoint is allowed only for Parent users. <br>
+Returns a paginated list of own child's subject classes that are currently at risk, ordered by subject names ASC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[SubjectAtRisk])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own child absences evolution [/api/v1/own-child-absences-evolution/{child_id}/]
+
++ Parameters
+    + child_id: 1 (number) - child (student) user profile ID
+
+### Get evolution [GET /api/v1/own-child-absences-evolution/{child_id}{?month,by_category}/]
+
+This endpoint is allowed only for Parent users. <br>
+Returns a non paginated list of daily child's absences count for a month (by default the current month). <br>
+
++ Parameters
+    + month: 1 (number, optional)
+    + by_category: false (boolean, optional) - if this is true, then returns the absences count by each category (founded / unfounded), else returns the total count
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array)
+        + (object)
+            + day: 1 (number)
+            + weekday: Lu (string)
+            + total_count: 1 (number)
+        + (object)
+            + day: 2 (number)
+            + weekday: Ma (string)
+            + founded_count: 3 (number)
+            + unfounded_count: 3 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own statistics [/api/v1/own-statistics/]
+
+### Get statistics [GET]
+
+This endpoint is allowed only for Student users. <br>
+Returns own averages and absences statistics.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudentStatistics)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own activity history [/api/v1/own-activity-history/]
+
+### Get activity [GET]
+
+This endpoint is allowed only for Student users. <br>
+Returns a list of student's activity from the last 15 days, ordered by date DESC.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[ActivityItem])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own subjects at risk [/api/v1/own-subjects-at-risk/]
+
+### Get subjects [GET /api/v1/own-subjects-at-risk{?page,page_size}/]
+
+This endpoint is allowed only for Student users. <br>
+Returns a paginated list of own subject classes that are currently at risk, ordered by subject names ASC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[SubjectAtRisk])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own absences evolution [/api/v1/own-absences-evolution/]
+
+### Get evolution [GET /api/v1/own-absences-evolution{?month,by_category}/]
+
+This endpoint is allowed only for Student users. <br>
+Returns a non paginated list of daily student's absences count for a month (by default the current month). <br>
+
++ Parameters
+    + month: 1 (number, optional)
+    + by_category: true (boolean, optional) - if this is true, then returns the absences count by each category (founded / unfounded), else returns the total count
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array)
+        + (object)
+            + day: 1 (number)
+            + weekday: Lu (string)
+            + total_count: 1 (number)
+        + (object)
+            + day: 2 (number)
+            + weekday: Ma (string)
+            + founded_count: 3 (number)
+            + unfounded_count: 3 (number)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

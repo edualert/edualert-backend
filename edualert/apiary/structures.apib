@@ -1,0 +1,914 @@
+# Data Structures
+
+
+## AuthToken (object)
++ scope: `read_write` (string)
++ access_token: POZ2mIytt3Z7BBhF0qHvOpAjjyGYF8 (string)
++ refresh_token: 9ybWr7DQyf6UwsuMuy2I8i62KiLrg7 (string)
++ token_type: Bearer (string)
++ expires_in: 36000 (number)
+
+
+## Label (object)
++ id: 1 (number) - label ID
++ text: abc (string)
+
+
+## UserProfileBase (object)
++ id: 1 (number) - user profile ID
++ full_name: `John Doe` (string)
+
+
+## UserProfileBaseWithUsername (UserProfileBase)
++ username: `johndoe@test.com` (string)
+
+
+## UserProfileWithTaughtSubjects (UserProfileBase)
++ taught_subjects: 1, 2, 3 (array[number])
+
+
+## UserProfileWithLabels (UserProfileBase)
++ labels (array[Label])
++ risk_description: `1-3 absențe nemotivate` (string) - for students who have the risk 1/2 label
+
+
+## StudentParent (UserProfileBase)
++ phone_number: `0740123456` (string)
++ email: `johndoe@test.com` (string)
++ address: `Strada Campul Painii 3-5` (string)
+
+
+## UserProfileListItem (UserProfileBase)
++ user_role (UserRole)
++ is_active: true (boolean)
++ last_online: `01-01-2020T20:20:20` (string)
++ labels: `Exmatriculat`, `ORS program` (array[string])
++ school_unit (SchoolUnitBase) - only for school principals
++ assigned_study_classes (array[AssignedStudyClass]) - only for teachers
++ risk_description: `1-3 absențe nemotivate` (string) - for students who have the risk 1/2 label
+
+
+## DeactivateUser (object)
++ new_school_principal: 12 (number) - the ID of the new school principal, only for school principals
++ new_teachers (array) - only when deactivating a teacher
+    + (object)
+        + id: 12 (number) - teacher class through ID
+        + teacher: 42 (number) - new teacher profile ID
+
+
+## UserProfileDetailBase (UserProfileBase)
++ user_role (UserRole)
++ email: `johndoe@test.com` (string)
++ phone_number: `0740123456` (string)
++ use_phone_as_username: false (boolean)
++ is_active: true (boolean)
++ last_online: `01-01-2020T20:20:20` (string)
+
+
+## UserProfileDetail (object)
++ ors (UserProfileDetailBase)
++ school_principal (UserProfileDetailBase)
+    + labels (array[Label])
+    + school_unit (SchoolUnitBase)
++ teacher (UserProfileDetailBase)
+    + labels (array[Label])
+    + taught_subjects (array[SubjectBase])
+    + assigned_study_classes (array[AssignedStudyClass])
++ parent (UserProfileDetailBase)
+    + labels (array[Label])
+    + address: `Strada Campul Painii 3-5` (string)
++ student (UserProfileDetailBase)
+    + labels (array[Label])
+    + student_in_class (StudyClassBase)
+    + address: `Strada Campul Painii 3-5` (string)
+    + personal_id_number: `1990125111222` (string)
+    + birth_date: `25-01-1999` (string)
+    + parents (array[StudentParent])
+    + educator_full_name: `Jane Doe` (string)
+    + educator_email: `janedoe@test.com` (string)
+    + educator_phone_number: `0740123456` (string)
+    + risk_description: `1-3 absențe nemotivate` (string) - for students who have the risk 1/2 label
+    + risk_alerts (object)
+        + dates: `20-01-2020`, `20-02-2020` (array[string]) - the dates when the alerts were sent
+        + alerted_users (array)
+            + (object)
+                + id: 132 (number) - alerted user profile ID
+                + user_role (UserRole)
+                + full_name: `John Doe` (string)
+                + email: `johndoe@test.com` (string)
+                + phone_number: `0740123456` (string)
+
+
+## UserProfileCreateUpdateBase (object)
++ full_name: `John Doe` (string)
++ email: `johndoe@test.com` (string)
++ phone_number: `0740123456` (string)
++ use_phone_as_username: false (boolean)
++ password: `password` (string)
++ user_role (UserRole)
+
+
+## UserProfileCreateUpdate (object)
++ ors (UserProfileCreateUpdateBase)
++ school_principal (UserProfileCreateUpdateBase)
+    + labels: 1, 2, 3 (array[number]) - labels IDs
++ teacher (UserProfileCreateUpdateBase)
+    + labels: 1, 2, 3 (array[number]) - labels IDs
+    + taught_subjects: 1, 2, 3 (array[number]) - subjects IDs
+    + new_teachers (array) - required when removing any taught subject for which the teacher has assigned classes
+        + (object)
+            + id: 12 (number) - teacher class through ID
+            + teacher: 42 (number) - new teacher profile ID
++ parent (UserProfileCreateUpdateBase)
+    + labels: 1, 2, 3 (array[number]) - labels IDs
+    + address: `Strada Campul Painii 3-5` (string)
++ student (UserProfileCreateUpdateBase)
+    + labels: 1, 2, 3 (array[number]) - labels IDs
+    + address: `Strada Campul Painii 3-5` (string)
+    + personal_id_number: `1990125111222` (string)
+    + birth_date: `25-01-1999` (string)
+    + parents: 1, 2 (array[number]) - parents IDs
+    + educator_full_name: `Jane Doe` (string)
+    + educator_email: `janedoe@test.com` (string)
+    + educator_phone_number: `0740123456` (string)
+
+
+## MyAccountBase (UserProfileBase)
++ user_role (UserRole)
++ email: `johndoe@test.com` (string)
++ phone_number: `0740123456` (string)
++ use_phone_as_username: false (boolean)
++ email_notifications_enabled: true (boolean)
++ sms_notifications_enabled: false (boolean)
++ push_notifications_enabled: true (boolean)
++ school_unit: 1 (number) - school unit ID
+
+
+## MyAccount (object)
++ ors (MyAccountBase)
++ school_principal (MyAccountBase)
++ teacher (MyAccountBase)
++ parent (MyAccountBase)
+    + address: `Strada Campul Painii 3-5` (string)
+    + children (array[UserProfileBase])
++ student (MyAccountBase)
+    + class_grade: `XI` (string)
+    + class_letter: `A` (string)
+    + address: `Strada Campul Painii 3-5` (string)
+    + personal_id_number: `1990125111222` (string)
+    + birth_date: `25-01-1999` (string)
+
+
+## MyAccountUpdateBase (object)
++ use_phone_as_username: false (boolean)
++ current_password: `oldPass` (string)
++ new_password: `newPass` (string)
++ full_name: `John Doe` (string)
++ email: `johndoe@test.com` (string)
++ phone_number: `0740123456` (string)
++ email_notifications_enabled: true (boolean)
++ sms_notifications_enabled: false (boolean)
++ push_notifications_enabled: true (boolean)
+
+
+## MyAccountUpdate (object)
++ ors (MyAccountUpdateBase)
++ school_principal (MyAccountUpdateBase)
++ teacher (MyAccountUpdateBase)
++ parent (MyAccountUpdateBase)
+    + address: `Strada Campul Painii 3-5` (string)
++ student (MyAccountUpdateBase)
+    + address: `Strada Campul Painii 3-5` (string)
+    + personal_id_number: `1990125111222` (string)
+    + birth_date: `25-01-1999` (string)
+
+
+## AcademicYearCalendarReqData (object)
++ first_semester (SemesterCalendar)
++ second_semester (SemesterCalendar)
++ events (array[SchoolEvent])
+
+
+## AcademicYearCalendar (AcademicYearCalendarReqData)
++ academic_year: 2019 (number)
+
+
+## SemesterCalendar (object)
++ id: 1 (number)
++ starts_at: `09-09-2020` (string)
++ ends_at: `12-12-2020` (string)
++ events (array[SchoolEvent])
+
+
+## SchoolEvent (object)
++ id: 123 (number) - for update, if the id is present, it means the event it's being edited, else it means that it's a new event
++ event_type (enum[string])
+    + Members
+        + SECOND_SEMESTER_END_VIII_GRADE - Final semestrul II clasa a VIII-a
+        + SECOND_SEMESTER_END_XII_XIII_GRADE - Final semestrul II clasa a XII-a & a XIII-a seral & frecvență redusă
+        + SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA - Final semestrul II clasele IX-XI, Filieră Tehnologică
+        + I_IV_GRADES_AUTUMN_HOLIDAY - Vacanță de toamnă clasele I-IV
+        + WINTER_HOLIDAY - Vacanță de iarnă
+        + SPRING_HOLIDAY - Vacanță de primăvară
+        + LEGAL_PUBLIC_HOLIDAY - Sărbătoare legală
+        + CORIGENTE - Corigențe
+        + DIFERENTE - Diferențe
++ starts_at: `28-10-2020` (string)
++ ends_at: `01-11-2020` (string)
+
+
+## SchoolUnitCategory (object)
++ id: 1 (number)
++ name: `Scoala primara` (string)
++ category_level (CategoryLevel)
+
+
+## SchoolUnitProfile (object)
++ id: 1 (number)
++ name: `Artistic` (string)
+
+
+## UnregisteredSchoolUnit (object)
++ id: 2 (number) - unregistered school unit ID
++ name: `Scoala de Muzica "Sigismund Toduta"` (string)
++ district: Cluj (string)
++ city: `Cluj-Napoca` (string)
+
+
+## SchoolUnitBase (object)
++ id: 1 (number)
++ name: `Scoala de Muzica "Sigismund Toduta"` (string)
+
+
+## SchoolUnitNamesList (SchoolUnitBase)
++ city: `Cluj-Napoca` (string)
+
+
+## SchoolUnitListItem (SchoolUnitNamesList)
++ categories (array[SchoolUnitCategory])
++ academic_profile (SchoolUnitProfile)
++ is_active: true (boolean)
++ district: Cluj (string)
+
+
+## SchoolUnitUpdate (object)
++ categories: 1, 23 (array[number]) - the categories IDs
++ academic_profile: 43 (number) - the academic profile ID
++ address: `Strada Paris 60` (string)
++ phone_number: `0712345678` (string)
++ email: `email@test.com`
++ school_principal: 31 (number) - the school principal's user profile ID
+
+
+## SchoolUnitCreate (SchoolUnitUpdate)
++ district: Cluj (string)
++ city: `Cluj-Napoca` (string)
++ name: `Scoala de Muzica "Sigismund Toduta"` (string)
+
+
+## SchoolUnit (SchoolUnitCreate)
++ id: 1 (number)
++ is_active: true (boolean)
++ categories (array[SchoolUnitCategory])
++ academic_profile (SchoolUnitProfile)
++ school_principal (UserProfileBase)
+
+
+## AcademicProgramBase (object)
++ id: 1 (number)
++ name: `Real - Matematica-Informatica` (string)
+
+
+## AcademicProgramListItem (AcademicProgramBase)
++ classes_count: 30 (number)
+
+
+## AcademicProgram (AcademicProgramListItem)
++ academic_year: 2020 (number)
++ core_subject: 42 (number) - subject ID
++ optional_subjects_weekly_hours (object)
+    + IX: 10 (number)
+    + X: 8 (number)
+    + XI: 6 (number)
+    + XII: 6 (number)
+    + XIII: 6 (number)
++ subjects (object) - a dictionary having the classes grades as keys
+    + IX (object)
+        + mandatory_subjects (array[ProgramSubjectThrough])
+        + optional_subjects (array[ProgramSubjectThrough])
+
+
+## UnregisteredAcademicProgram (object)
++ id: 1 (number) - academic program ID
++ optional_subjects_weekly_hours (object)
+    + IX: 10 (number)
+    + X: 8 (number)
+    + XI: 6 (number)
+    + XII: 6 (number)
+    + XIII: 6 (number)
++ subjects (object) - dictionary of mandatory subjects grouped by class grade
+    + IX (array[ProgramSubjectThrough])
+
+
+## SubjectThrough (object)
++ subject_id: 321 (number) - subject ID
++ subject_name: `Matematica` (string)
++ is_mandatory: true (boolean)
+
+
+## ProgramSubjectThrough (object)
++ id: 123 (number) - program subject through ID
++ subject_id: 321 (number) - subject ID
++ subject_name: `Matematica` (string)
++ weekly_hours_count: 10 (number)
+
+
+## ProgramSubjectThroughReqData (object)
++ class_grade: `IX` (string)
++ subject: `Some subject name` (string)
++ weekly_hours_count: 10 (number)
+
+
+## AcademicProgramCreate (object)
++ generic_academic_program: 123 (number) - the unregistered academic program ID
++ core_subject: 42 (number) - subject ID
++ optional_subjects (array[ProgramSubjectThroughReqData])
+
+
+## AcademicProgramUpdate (object)
++ core_subject: 42 (number) - subject ID
++ optional_subjects (array[ProgramSubjectThroughReqData])
+
+
+## StudyClassList (object)
++ VII (array)
+    + (object)
+        + id: 12 (number) - study class ID
+        + class_grade: `VII` (string)
+        + class_letter: `A` (string)
+        + has_previous_catalog_data: true (boolean)
++ IX (array)
+    + (object)
+        + id: 12 (number) - study class ID
+        + class_grade: `IX` (string)
+        + class_letter: `A` (string)
+        + academic_program_name: `Real - Matematica-Informatica` (string)
+        + has_previous_catalog_data: false (boolean)
+
+
+## StudyClassBase (object)
++ id: 1 (number) - study class ID
++ class_grade: `IX` (string)
++ class_letter: `A` (string)
+
+
+## StudyClassCounts (object)
++ `total_count`: 30 (number)
++ `emails_count`: 30 (number) - how many students/parents have emails
++ `phone_numbers_count`: 30 (number) - how many students/parents have phone numbers
+
+
+## StudyClass (StudyClassBase)
++ academic_year: 2020 (number)
++ academic_program: 3 (number) - academic program ID
++ academic_program_name: `Real - Matematica-Informatica`
++ class_master (UserProfileBase)
++ teachers_class_through (array[TeacherClassThrough]) - sorted by subject name ASC
++ students (array[UserProfileBase]) - sorted by name ASC
++ has_previous_catalog_data: true (boolean)
+
+
+## StudyClassCreateUpdate (object)
++ class_grade: `IX` (string)
++ class_letter: `A` (string)
++ academic_program: 1 (number) - academic program ID
++ class_master: 23 (number) - class master (user profile) ID
++ teachers_class_through (array[TeacherClassThroughCreateUpdate])
++ students: 1, 2, 3 (array[number]) - student IDs
+
+
+## StudyClassPartiallyUpdate (object)
++ class_master: 23 (number) - class master (user profile) ID
++ updated_teachers (array)
+    + (object)
+        + id: 12 (number) - teacher class through ID
+        + teacher: 42 (number) - new teacher profile ID
++ new_students: 4, 5 (array[number]) - student IDs
++ deleted_students: 1, 2, 3 (array[number]) - student IDs
+
+
+## StudyClassClone (object)
++ class_grade: `X` (string)
++ class_letter: `A` (string)
++ academic_program: 1 (number) - academic program ID
++ academic_program_name: `Real - Matematica-Informatica`
++ class_master (UserProfileBase)
++ subjects (array[SubjectThrough])
++ students (array[UserProfileBase]) - sorted by name ASC
+
+
+## AssignedStudyClass (object)
++ id: 12 (number) - teacher class through ID
++ study_class_id: 22 (number) - study class ID
++ class_grade: `VII` (string)
++ class_letter: `A` (string)
++ subject_id: 432 (number) - subject ID
++ subject_name: `Matematica` (string)
++ is_optional_subject: false (boolean)
+
+
+## OwnStudyClassList (object)
++ class_master (array)
+    + (object)
+        + id: 12 (number) - teacher class through ID
+        + study_class_id: 22 (number) - study class ID
+        + class_grade: `VII` (string)
+        + class_letter: `A` (string)
+        + academic_program_name: null (string, nullable)
+        + subjects (array[SubjectBase])
+        + is_class_master: true (boolean)
++ IX (array)
+    + (object)
+        + id: 12 (number) - teacher class through ID
+        + study_class_id: 22 (number) - study class ID
+        + class_grade: `IX` (string)
+        + class_letter: `A` (string)
+        + academic_program_name: `Real - Matematica-Informatica` (string)
+        + subjects (array[SubjectBase])
+        + is_class_master: true (boolean)
+
+
+## OwnStudyClassDetail (StudyClassBase)
++ academic_year: 2020 (number)
++ academic_program_name: `Real - Matematica-Informatica`
++ class_master (UserProfileBase)
++ taught_subjects (array[SubjectWithSettings]) - taught subjects
++ is_class_master: true (boolean)
+
+
+## OwnStudyClassPupil (object)
++ id: 1 (number) - student catalog per year ID
++ student (UserProfileWithLabels)
++ avg_sem1: `9.78` (string)
++ avg_sem2: `9.8` (string)
++ avg_annual: `9.79` (string)
++ avg_final: `7.3` (string)
++ abs_count_sem1: 12 (number)
++ abs_count_sem2: 20 (number)
++ abs_count_annual: 32 (number)
++ founded_abs_count_sem1: 5 (number)
++ founded_abs_count_sem2: 10 (number)
++ founded_abs_count_annual: 15 (number)
++ unfounded_abs_count_sem1: 7 (number)
++ unfounded_abs_count_sem2: 10 (number)
++ unfounded_abs_count_annual: 17 (number)
+
+
+## OwnStudyClassSubject (object)
++ id: 1 (number) - student catalog per subject ID
++ student (UserProfileWithLabels)
++ avg_sem1: `9.78` (string)
++ avg_sem2: `9.8` (string)
++ avg_annual: `9.79` (string)
++ avg_after_2nd_examination: `7.3` (string)
++ avg_limit: 5 (number)
++ abs_count_sem1: 12 (number)
++ abs_count_sem2: 20 (number)
++ abs_count_annual: 32 (number)
++ founded_abs_count_sem1: 5 (number)
++ founded_abs_count_sem2: 10 (number)
++ founded_abs_count_annual: 15 (number)
++ unfounded_abs_count_sem1: 7 (number)
++ unfounded_abs_count_sem2: 10 (number)
++ unfounded_abs_count_annual: 17 (number)
++ third_of_hours_count_sem1: 25 (number)
++ third_of_hours_count_sem2: 25 (number)
++ third_of_hours_count_annual: 25 (number)
++ grades_sem1 (array[SubjectGrade])
++ grades_sem2 (array[SubjectGrade])
++ second_examination_grades (array[ExaminationGrade])
++ difference_grades_sem1 (array[ExaminationGrade])
++ difference_grades_sem2 (array[ExaminationGrade])
++ abs_sem1 (array[SubjectAbsence])
++ abs_sem2 (array[SubjectAbsence])
++ wants_thesis: true (boolean) - whether or not this student has / will have a thesis grade for this subject
++ is_exempted: true (boolean) - whether or not this student is exempted
++ is_coordination_subject: false (boolean)
+
+
+## CatalogPerSubject (object)
++ id: 21 (number) - student catalog per subject ID
++ subject_name: `Matematica` (string)
++ teacher (UserProfileBase)
++ avg_sem1: `9.78` (string)
++ avg_sem2: `9.8` (string)
++ avg_annual: `9.79` (string)
++ avg_after_2nd_examination: `7.3` (string)
++ avg_limit: 5 (number)
++ grades_sem1 (array[SubjectGrade])
++ grades_sem2 (array[SubjectGrade])
++ second_examination_grades (array[ExaminationGrade])
++ difference_grades_sem1 (array[ExaminationGrade])
++ difference_grades_sem2 (array[ExaminationGrade])
++ abs_count_sem1: 12 (number)
++ abs_count_sem2: 20 (number)
++ abs_count_annual: 32 (number)
++ founded_abs_count_sem1: 5 (number)
++ founded_abs_count_sem2: 10 (number)
++ founded_abs_count_annual: 15 (number)
++ unfounded_abs_count_sem1: 7 (number)
++ unfounded_abs_count_sem2: 10 (number)
++ unfounded_abs_count_annual: 17 (number)
++ third_of_hours_count_sem1: 25 (number)
++ third_of_hours_count_sem2: 25 (number)
++ third_of_hours_count_annual: 25 (number)
++ abs_sem1 (array[SubjectAbsence])
++ abs_sem2 (array[SubjectAbsence])
++ wants_thesis: true (boolean) - whether or not this student has / will have a thesis grade for this subject
++ is_exempted: true (boolean) - whether or not this student is exempted
++ is_coordination_subject: false (boolean)
+
+
+## OwnStudyClassPupilCatalog (object)
++ id: 1 (number) - student profile ID
++ full_name: `Johnny Doe` (string)
++ parents (array[UserProfileBase])
++ labels (array[Label])
++ risk_description: `1-3 absențe nemotivate` (string) - for students who have the risk 1/2 label
++ study_class (StudyClassBase)
++ catalogs_per_subject (array[CatalogPerSubject])
+
+
+## OwnStudyClassSettingsUpdate (object)
++ id: 1 (number) - student catalog per subject ID
++ wants_level_testing_grade: true (boolean)
++ wants_thesis: true (boolean)
++ wants_simulation: true (boolean)
++ is_exempted: false (boolean)
++ is_enrolled: true (boolean)
+
+
+## OwnStudyClassSettings (OwnStudyClassSettingsUpdate)
++ student (UserProfileBase)
+
+
+## SubjectGradeUpdate (object)
++ grade: 10 (number)
++ taken_at: `20-01-2020` (string)
+
+
+## SubjectGradeCreate (SubjectGradeUpdate)
++ grade_type (GradeType)
+
+
+## SubjectGrade (SubjectGradeCreate)
++ id: 76 (number) - grade ID
++ created: `20-01-2020T12:00:00` (string)
+
+
+## BulkGrades (object)
++ taken_at: `20-01-2020` (string)
++ student_grades (array)
+    + (object)
+        + student: 1 (number) - student ID
+        + grade: 10 (number)
+
+
+## ExaminationGradeUpdate (object)
++ taken_at: `20-01-2020` (string)
++ grade1: 7 (number)
++ grade2: 6 (number)
+
+
+## ExaminationGradeCreate (ExaminationGradeUpdate)
++ examination_type (ExaminationType)
++ grade_type (ExaminationGradeType)
++ semester: 1 (number) - only for DIFFERENCE grades
+
+
+## ExaminationGrade (object)
++ id: 84 (number) - 2nd exam grade ID
++ examination_type (ExaminationType)
++ taken_at: `20-01-2020` (string)
++ grade1: 7 (number)
++ grade2: 6 (number)
++ created: `20-01-2020T12:00:00` (string)
+
+
+## SubjectAbsenceCreate (object)
++ taken_at: `20-01-2020` (string)
++ is_founded: true (boolean) - whether or not the absence is authorized
+
+
+## SubjectAbsence (SubjectAbsenceCreate)
++ id: 82 (number) - absence ID
++ created: `20-01-2020T12:00:00` (string)
+
+
+## BulkAbsences (object)
++ taken_at: `20-01-2020` (string)
++ student_absences (array)
+    + (object)
+        + student: 1 (number) - student ID
+        + is_founded: true (boolean) - whether or not the absence is authorized
+
+
+## Remark (object)
++ remarks: `some text` (string)
+
+
+## TeacherClassThroughCreateUpdate (object)
++ teacher: 123 (number) - teacher ID
++ subject: 321 (number) - subject ID
+
+
+## TeacherClassThrough (object)
++ id: 1 (number) - teacher class through ID
++ teacher (UserProfileBase)
++ subject_id: 321 (number) - subject ID
++ subject_name: `Matematica` (string)
+
+
+## SubjectBase (object)
++ id: 1 (number) - subject ID
++ name: `Matematica` (string)
+
+
+## SubjectWithSettings (SubjectBase)
++ is_coordination: false (boolean) - Whether or not the subject is 'Dirigentie'
++ allows_exemption: false (boolean) - Whether or not the subject allows the students to be exempted
++ is_optional: false (boolean) - Whether or not the subject is optional
+
+
+## SentMessageBase (object)
++ id: 1 (number) - message ID
++ title: `Message title` (string)
++ created: `24-02-2020T19:20:00` (string)
++ send_sms: false (boolean)
++ status (object):
+    + sent_to_count: 30 (number) - receiver students count
+    + read_by_count: 12 (number) - how many students have read the message
++ receiver_type (MessageReceiverType)
++ target_users_role (UserRole)
+
+
+## SentMessageForClass (SentMessageBase)
++ target_study_class (StudyClassBase)
+
+
+## SentMessageForStudent (SentMessageBase)
++ target_study_class (StudyClassBase)
++ target_user_through (object)
+    + user_profile: 12 (number) - student profile ID
+    + user_profile_full_name: `Johnny Doe` (string)
+
+
+## SentMessageForParent (SentMessageBase)
++ target_user_through (object)
+    + user_profile: 12 (number) - parent profile ID
+    + user_profile_full_name: `John Doe` (string)
+    + children (array)
+        + (UserProfileBase)
+            + study_class (StudyClassBase)
+
+
+## SentMessageDetail (object)
++ id: 1 (number) - message ID
++ title: `Message title` (string)
++ created: `24-02-2020T19:20:00` (string)
++ send_sms: false (boolean)
++ receiver_type (MessageReceiverType)
++ target_users_role (UserRole)
++ target_study_class (StudyClassBase) - for all except for single parent target
++ target_user_through (object) - populated if the target is a single parent / student
+    + user_profile: 12 (number) - parent profile ID
+    + user_profile_full_name: `John Doe` (string)
+    + children (array) - only for single parent target
+        + (UserProfileBase)
+            + study_class (StudyClassBase)
++ status (object):
+    + sent_to_count: 30 (number) - receiver students count
+    + read_by_count: 12 (number) - how many students have read the message
++ body: `Message body` (string)
+
+
+## SentMessageReqData (object)
++ title: `Message title` (string)
++ send_sms: false (boolean)
++ receiver_type (MessageReceiverType)
++ target_study_class: 41 (number) - study class ID (ONLY for entire class students/parents target)
++ target_user: 134 (number) - student / parent profile ID (ONLY if the target is a single parent / student)
++ body: `Message body` (string)
+
+
+## ReceivedMessageBase (object)
++ id: 1 (number) - target user through ID
++ title: `Message title` (string)
++ created: `24-02-2020T19:20:00` (string) - message creation date time
++ from_user: 12 (number) - sender profile ID
++ from_user_full_name: `John Doe` (string)
++ from_user_role (UserRole)
++ from_user_subjects: Matematica, Fizica (array[string])
+
+
+## ReceivedMessage (ReceivedMessageBase)
++ is_read: true (boolean)
+
+
+## ReceivedMessageDetail (ReceivedMessage)
++ body: `Message body` (string)
+
+
+## StudentAtRisk (object)
++ id: 1 (number) - student catalog per year ID
++ student (UserProfileBase)
++ avg_sem1: `9.78` (string)
++ avg_final: `9.79` (string)
++ unfounded_abs_count_sem1: 7 (number)
++ unfounded_abs_count_annual: 17 (number)
++ second_examinations_count: 13 (number)
++ behavior_grade_sem1: 4 (number)
++ behavior_grade_annual: `5.5` (number)
++ behavior_grade_limit: 6 (number)
+
+
+## SchoolStudentAtRisk (StudentAtRisk)
++ study_class (StudyClassBase)
+
+
+## StudentStatistics (object)
++ behavior_grade_sem1: 4 (number)
++ behavior_grade_annual: `5.5` (string)
++ behavior_grade_limit: 6 (number)
++ avg_sem1: `10` (string)
++ avg_final: `8.5` (string)
++ abs_count_sem1: 12 (number)
++ abs_count_annual: 32 (number)
++ founded_abs_count_sem1: 5 (number)
++ founded_abs_count_annual: 15 (number)
++ unfounded_abs_count_sem1: 7 (number)
++ unfounded_abs_count_annual: 17 (number)
++ class_place_by_avg_sem1: 23 (number)
++ class_place_by_avg_annual: 23 (number)
++ school_place_by_avg_sem1: 230 (number)
++ school_place_by_avg_annual: 230 (number)
++ class_place_by_abs_sem1: 23 (number)
++ class_place_by_abs_annual: 23 (number)
++ school_place_by_abs_sem1: 230 (number)
++ school_place_by_abs_annual: 230 (number)
+
+
+## SubjectAtRisk (object)
++ id: 1 (number) - student catalog per subject ID
++ subject_name: `Matematica` (string)
++ avg_sem1: 7 (number)
++ avg_final: `6.5` (string)
++ avg_limit: 5 (number)
++ unfounded_abs_count_sem1: 7 (number)
++ unfounded_abs_count_annual: 17 (number)
++ third_of_hours_count_sem1: 25 (number)
++ third_of_hours_count_annual: 25 (number)
+
+
+## PupilStatistics (object)
++ id: 1 (number) - student catalog per year ID
++ student (UserProfileBase)
++ avg_sem1: `9.78` (string)
++ avg_sem2: `9.78` (string)
++ avg_final: `9.78` (string)
++ second_examinations_count: 13 (number)
++ unfounded_abs_count_sem1: 7 (number)
++ unfounded_abs_count_sem2: 10 (number)
++ unfounded_abs_count_annual: 17 (number)
++ behavior_grade_sem1: 4 (number)
++ behavior_grade_sem2: 7 (number)
++ behavior_grade_annual: `5.5` (number)
++ behavior_grade_limit: 6 (number)
++ labels (array[Label])
++ risk_description: `1-3 absențe nemotivate` (string) - for students who have the risk 1/2 label
++ student_in_class (StudyClassBase)
++ academic_program_name: `Real - Matematica-Informatica` (string)
+
+
+## PupilSchoolSituation (UserProfileBase)
++ study_class (object)
+    + id: 23 (number) - study class ID
+    + class_grade: `IX` (string)
+    + class_letter: `A` (string)
+    + academic_program_name: `Real - Matematica-Informatica` (string)
+    + class_master (UserProfileBase)
++ labels (array[Label])
++ risk_description: `1-3 absențe nemotivate` (string) - for students who have the risk 1/2 label
++ catalogs_per_subjects (array[CatalogPerSubject])
+
+
+# ActivityItem (object)
++ date: `20-02-2020` (string)
++ subject_name: `Matematica` (string)
++ event_type (StudentActivityType)
++ event: `Nota 10` (string)
++ is_coordination_subject: false (boolean)
++ behavior_grade_limit: 8 (number) - only for behavior grades
++ grade_limit: 5 (number) - only for averages (second examination / difference)
+
+
+## CatalogCSVImport (object)
++ Nume: `Popescu` (string) - Student full_name
++ Etichete: `good student; very good` (string) - Student labels
++ Note sem. I: `24-02-2020: 10; 10.03: 9` (string)
++ Teză sem. I: `20-03-2020: 4` (string)
++ Note sem. II: `24-02-2020: 10; 10.03: 9` (string)
++ Teză sem. II: `20-03-2020: 4` (string)
++ Diferență Sem. I Oral Prof. I: `20-03-2020: 10` (string)
++ Diferență Sem. I Oral Prof. II: `20-03-2020: 10` (string)
++ Diferență Sem. I Scris Prof. I: `20-03-2020: 10` (string)
++ Diferență Sem. I Scris Prof. II: `20-03-2020: 10` (string)
++ Diferență Sem. II Oral Prof. I: `20-03-2020: 10` (string)
++ Diferență Sem. II Oral Prof. II: `20-03-2020: 10` (string)
++ Diferență Sem. II Scris Prof. I: `20-03-2020: 10` (string)
++ Diferență Sem. II Scris Prof. II: `20-03-2020: 10` (string)
++ Diferență anuală Oral Prof. I: `20-03-2020: 10` (string)
++ Diferență anuală Oral Prof. II: `20-03-2020: 10` (string)
++ Diferență anuală Scris Prof. I: `20-03-2020: 10` (string)
++ Diferență anuală Scris Prof. II: `20-03-2020: 10` (string)
++ Corigență Oral Prof. I: `20-03-2020: 10` (string)
++ Corigență Oral Prof. II: `20-03-2020: 10` (string)
++ Corigență Scris Prof. I: `20-03-2020: 10` (string)
++ Corigență Scris Prof. II: `20-03-2020: 10` (string)
++ Absențe motivate sem. I: `24-02-2020; 20.02` (string) - Absence dates
++ Absențe nemotivate sem. I: `24-02-2020; 20.02` (string) - Absence dates
++ Absențe motivate sem. II: `24-02-2020; 20.02` (string) - Absence dates
++ Absențe nemotivate sem. II: `24-02-2020; 20.02` (string) - Absence dates
++ Observații: `good guy` (string) - Remarks
++ Teste inițiale / finale: `Da` (string) - Da/Nu
++ Teză: `Nu` (string) - Da/Nu
++ Simulări: `Nu` (string) - Da/Nu
++ Scutit: `Nu` (string) - Da/Nu
++ Înregistrat opțional: `Da` (string) - Da/Nu
+
+## CatalogCSVExport(CatalogCSVImport):
++ Clasă: `X E` (string) - Class grade and letter
++ Medie sem. I: `10` (string)
++ Medie sem. II: `10` (number)
++ Medie anuală: `10` (string)
+
+## StandardError (object)
++ message: an error has occurred (string) - A description of the error
+
+
+## PaginatedList (object)
++ count: 1 (number) - the total number of results
++ next (string, nullable) - The link to the next page
+    + Default: null
++ previous (string, nullable) - The link to the previous page
+    + Default: null
+
+
+## CategoryLevel (enum[string])
++ PRIMARY_SCHOOL - Primary school
++ SECONDARY_SCHOOL - Secondary school
++ HIGHSCHOOL - Highschool
+
+
+## UserRole (enum[string])
++ ADMINISTRATOR - Administrator
++ SCHOOL_PRINCIPAL - School Principal
++ TEACHER - Teacher
++ PARENT - Parent
++ STUDENT - Student
+
+
+## GradeType (enum[string])
++ REGULAR - Regular
++ THESIS - Thesis
+
+
+## ExaminationType (enum[string])
++ WRITTEN - Written
++ ORAL - Oral
+
+
+## ExaminationGradeType (enum[string])
++ SECOND_EXAMINATION - Corigență
++ DIFFERENCE - Diferență
+
+
+## MessageReceiverType (enum[string])
++ CLASS_STUDENTS - Class students
++ CLASS_PARENTS - Class parents
++ ONE_STUDENT - One student
++ ONE_PARENT - One parent
+
+
+## StudentActivityType (enum[string])
++ ABSENCE_AUTHORIZATION - ABSENCE_AUTHORIZATION
++ NEW_AUTHORIZED_ABSENCE - NEW_AUTHORIZED_ABSENCE
++ NEW_UNAUTHORIZED_ABSENCE - NEW_UNAUTHORIZED_ABSENCE
++ NEW_GRADE - NEW_GRADE
++ SECOND_EXAMINATION_AVERAGE - SECOND_EXAMINATION_AVERAGE
++ DIFFERENCE_AVERAGE - DIFFERENCE_AVERAGE
+
+
+## ImportErrors (object)
++ full_name: `This Field cannot be empty` (string)
++ educator_phone_number: `Invalid Phone number` (string)

@@ -1,0 +1,353 @@
+# Group School units
+
+Endpoints for managing the school units.
+Can be accessed only by ORS users.
+
+
+## Districts list [/api/v1/districts/]
+
+### Get districts list [GET /api/v1/districts{?registered_schools,search}/]
+
+Returns a non paginated list of districts, depending on the registered_schools query param.
+
++ Parameters
+    + `registered_schools`: true (boolean, optional) - if this parameter is present and true,
+    the list will contain only the districts that have schools registered into EduAlert program,
+    otherwise the list will contain all the districts from Romania.
+    + search: Cl (string, optional) - search by district name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[string])
+        + Bihor
+        + Cluj
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Cities list [/api/v1/cities/{district}/]
+
+### Get cities list by district [GET /api/v1/cities/{district}{?registered_schools,search}/]
+
+Returns a non paginated list of cities, filtered by district and depending on the registered_schools query param.
+
++ Parameters
+    + district: Cluj (string)
+    + `registered_schools`: true (boolean, optional) - if this parameter is present and true,
+    the list will contain only the cities from the district that have schools registered into EduAlert program,
+    otherwise the list will contain all the cities from the district where there is at least one school unit.
+    + search: Cl (string, optional) - search by city name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[string])
+        + `Cluj-Napoca`
+        + Dej
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## School units categories list [/api/v1/school-units-categories/]
+
+### Get school units categories list [GET]
+
+Returns a non paginated list of all school units categories.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[SchoolUnitCategory])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## School units profiles list [/api/v1/school-units-profiles/]
+
+### Get school units profiles list [GET /api/v1/school-units-profiles{?search,category}/]
+
+Returns a non paginated list of school units profiles.
+
++ Parameters
+    + search: `abc123` (string, optional) - Searching can be performed on profile name
+    + category: 12 (number, optional) - Filter by category ID. Can be sent multiple times with different IDs.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[SchoolUnitProfile])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## School units names list [/api/v1/school-units-names/]
+
+### Get names list [GET /api/v1/school-units-names{?search,is_active}/]
+
+This is a public endpoint. <br>
+Returns a non paginated list of registered school units names. <br>
+
++ Parameters
+    + search: `abc123` (string, optional) - Searching can be performed on school name
+    + `is_active`: true (boolean, optional) - Filter the active/deactivated school units
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (SchoolUnitNamesList)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## School units list [/api/v1/school-units/]
+
+### Get school units [GET /api/v1/school-units{?page,page_size,search,district,city,categories,academic_profile}/]
+
+Returns a paginated list of registered school units. <br>
+The active schools are first. Both active and deactivated schools are sorted by school name ASC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+    + search: `abc123` (string, optional) - Searching can be performed on school name
+    + district: Cluj (string, optional) - Filter by district
+    + city: `Cluj-Napoca` (string, optional) - Filter by district
+    + categories: 123 (number, optional) - Filter by category ID
+    + `academic_profile`: 432 (number, optional) - Filter by academic profile ID
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[SchoolUnitListItem])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Register school unit [POST]
+
+Registers a new school unit into EduAlert program.
+
++ Request (application/json)
+    + Attributes (SchoolUnitCreate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (SchoolUnit)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Unregistered school units list [/api/v1/unregistered-school-units/]
+
+### Get unregistered school units list [GET /api/v1/unregistered-school-units{?district,city,search}/]
+
+Returns a non paginated list of all school units that are not yet registered into EduAlert program.
+
++ Parameters
+    + district: Cluj (string, optional) - filter by district
+    + city: `Cluj-Napoca` (string, optional) - filter by city
+    + search: Sigismund (string, optional) - search by school name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[UnregisteredSchoolUnit])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## School unit detail [/api/v1/school-units/{id}/]
+
++ Parameters
+    + id: 1 (number) - school unit ID
+
+### Get school unit detail [GET]
+
+Returns information about the requested school unit.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (SchoolUnit)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update school unit [PUT]
+
+Updates data for the requested school unit.
+
++ Request (application/json)
+    + Attributes (SchoolUnitUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (SchoolUnit)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Activate school unit [/api/v1/school-units/{id}/activate/]
+
++ Parameters
+    + id: 1 (number) - school unit ID
+
+### Activate school unit [POST]
+
+Sets the requested school unit as active.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (SchoolUnit)
+
++ Response 400
+    Possible cause: The school unit is already active.
+
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Deactivate school unit [/api/v1/school-units/{id}/deactivate/]
+
++ Parameters
+    + id: 1 (number) - school unit ID
+
+### Deactivate school unit [POST]
+
+Sets the requested school unit as inactive.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (SchoolUnit)
+
++ Response 400
+    Possible cause: The school unit is already inactive.
+
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## My school unit [/api/v1/my-school-unit/]
+
+### Get own school unit detail [GET]
+
+Only for School Principal users. <br>
+Returns information about the user's school unit.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (SchoolUnit)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

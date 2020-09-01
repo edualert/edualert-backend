@@ -1,0 +1,398 @@
+# Group Users
+
+Endpoints for managing the users.
+
+
+## Labels list [/api/v1/labels/]
+
+### Get labels list [GET /api/v1/labels{?user_role}/]
+
+Can be accessed by ORS and School Principal users. <br>
+Returns a non paginated list of labels (filtered by user role), ordered by name ASC.
+
++ Parameters
+    + `user_role`: 1 (number, optional) - Filter by user role
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[Label])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Users list [/api/v1/users/]
+
+### Get users list [GET /api/v1/users{?page,page_size,search,user_role,is_active}/]
+
+Can be accessed by ORS and School Principal users. <br>
+For ORS users, returns a paginated list of ORS and School principal users. <br>
+For School Principal users, returns a paginated list of School Teacher, Parent and Student users from his school unit. <br>
+Sorting:
+- First are the active users with `last_online` NOT NULL
+- Second are the active users with `last_online` NULL
+- Last are the deactivated users
+
+In each category, users are sorted by name ASC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+    + search: `abc123` (string, optional) - Searching can be performed on user's name
+    + `user_role`: 1 (number, optional) - Filter by user role
+    + `is_active`: true (boolean, optional) - Filter the active/deactivated users
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[UserProfileListItem])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Create user [POST]
+
+Can be accessed by ORS and School Principal users. <br>
+ORS users can create only ORS and School principal users. <br>
+School Principal users can create School Teacher, Parent and Student users (and adds them to his school unit). <br>
+This request/response structure is defined for all types of roles,
+so the actual request/response data will be just the object corresponding to the request user's role.
+
++ Request (application/json)
+    + Attributes (UserProfileCreateUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (UserProfileDetail)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## User detail [/api/v1/users/{id}/]
+
++ Parameters
+    + id: 1 (number) - user profile ID
+
+### Get user detail [GET /api/v1/users/{id}{?include_risk_alerts}/]
+
+Can be accessed by all users. <br>
+**ORS** users can only get information about ORS and School principal users. <br>
+**School Principal** users can only get information about School Teacher, Parent and Student users from his school unit. <br>
+**School Teacher** users can only get information about School Teacher, Parent and Student users from his school unit. <br>
+**Parent** users can only get information about School Teachers and School Principal his school unit. <br>
+**Student** users can only get information about School Teachers and School Principal his school unit. <br>
+This response structure is defined for all types of roles,
+so the actual response data will be just the object corresponding to the request user's role.
+
++ Parameters
+    + `include_risk_alerts`: false (boolean, optional) - If this query parameter is sent and true, the response will also contain risk alerts for students.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (UserProfileDetail)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update user [PUT]
+
+Can be accessed by ORS and School Principal users. <br>
+ORS users can only edit ORS and School principal users. <br>
+School Principal users can edit School Teacher, Parent and Student users from his school unit. <br>
+This request/response structure is defined for all types of roles,
+so the actual request/response data will be just the object corresponding to the request user's role.
+
++ Request (application/json)
+    + Attributes (UserProfileCreateUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (UserProfileDetail)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+### Delete user [DELETE]
+
+Can be accessed by ORS and School Principal users. <br>
+ORS users can delete only ORS and School principal users. <br>
+School Principal users can delete School Teacher, Parent and Student users from his school unit. <br>
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 204
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Activate user [/api/v1/users/{id}/activate/]
+
++ Parameters
+    + id: 1 (number) - user profile ID
+
+### Activate user [POST]
+
+Can be accessed by ORS and School Principal users. <br>
+ORS users can activate only ORS and School principal users. <br>
+School Principal users can activate School Teacher, Parent and Student users from his school unit. <br>
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (UserProfileDetail)
+
++ Response 400
+    Possible cause: The user is already active.
+
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Deactivate user [/api/v1/users/{id}/deactivate/]
+
++ Parameters
+    + id: 1 (number) - user profile ID
+
+### Deactivate user [POST]
+
+Can be accessed by ORS and School Principal users. <br>
+ORS users can deactivate only ORS and School principal users. <br>
+School Principal users can deactivate School Teacher, Parent and Student users from his school unit. <br>
+Cannot deactivate a School Principal who is still assigned to a school or
+a School Teacher who is still assigned to study classes.
+
++ Request(application/json)
+    + Attributes (DeactivateUser)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (UserProfileDetail)
+
++ Response 400
+    Possible cause: The user is already inactive.
+
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## School principals list [/api/v1/school-principals/]
+
+### Get school principals list [GET /api/v1/school-principals{?has_school,search}/]
+
+Can be accessed only by ORS users. <br>
+Returns a non paginated list of all school principals.
+
++ Parameters
+    + `has_school`: false (boolean, optional) - If this parameter is present and false,
+    the list will contain only the school principals that don't have a school assigned yet
+    + search: John (string, optional) - search by school principal name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[UserProfileBaseWithUsername])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Teachers list [/api/v1/teachers/]
+
+### Get teachers list [GET /api/v1/teachers{?is_class_master,search}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a non paginated list of teachers from the principal's school unit.
+
++ Parameters
+    + `is_class_master`: false (boolean, optional) - If this parameter is present and false,
+    the list will contain only the teachers that are not class masters
+    + search: `John` (string, optional) - search by name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[UserProfileWithTaughtSubjects])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Parents list [/api/v1/parents/]
+
+### Get parents list [GET /api/v1/parents{?search}/]
+
+This endpoint is allowed only for School Principal & Teacher users. <br>
+For school principals, it returns a non paginated list of all active parents from the principal's school unit. <br>
+For teachers, it returns a non paginated list of all active parents for whose children the current user is a teacher.
+
++ Parameters
+    + search: `John` (string, optional) - search by name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[UserProfileBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Students list [/api/v1/students/]
+
+### Get students list [GET /api/v1/students{?has_class,search}/]
+
+This endpoint is allowed only for School Principal & Teacher users. <br>
+For school principals, it returns a non paginated list of all active students from the principal's school unit. <br>
+For teachers, it returns a non paginated list of all active students for who the current user is a teacher.
+
++ Parameters
+    + `has_class`: false (boolean, optional) - If this parameter is present and false,
+    the list will contain only the students that are not part of a class yet
+    + search: `John` (string, optional) - search by name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[UserProfileBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Import users [/api/v1/import-users/]
+
+### Import user profiles [POST]
+
+This endpoint is allowed only for School Principal & Administrator users. <br>
+Imports user profiles from a CSV file. <br>
+The same validations are applied as for normal create/update.<br>
+The response will contain the number of successful saves and a dictionary of errors, where the key is the row number, and
+the value is another dictionary, with field names as keys and errors as values.
+
++ Request
+    + Attributes (object)
+        + file - Multipart encoded file
+
+    + Headers
+
+            Content-Type: multipart/form-data; boundary=boundary
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + report: `9 out of 10 users created successfully.` (string) - Reports about the creation.
+        + errors (object)
+            + 10 (ImportErrors)
+
++ Response 400 (application/json)
+    Possible causes: The file is invalid or missing.
+
+    + Attributes (StandardError)
+
++ Response 415 (application/json)
+    Raised when there are issues with the request content type
+
+    + Attributes (StandardError)
+
++ Response 500 (application/json)
+    + Attributes (StandardError)

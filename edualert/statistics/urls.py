@@ -1,0 +1,36 @@
+from django.urls import path
+from . import views
+
+app_name = 'statistics'
+urlpatterns = [
+    path('pupils-statistics/', views.PupilsStatistics.as_view(), name='pupils-statistics'),
+    path('own-child-school-situation/<int:id>/', views.OwnChildSchoolSituation.as_view(), name='own-child-school-situation'),
+    path('own-school-situation/', views.OwnSchoolSituation.as_view(), name='own-school-situation'),
+    path('own-child-statistics/<int:id>/', views.OwnChildStatistics.as_view(), name='own-child-statistics'),
+    path('own-statistics/', views.OwnStatistics.as_view(), name='own-statistics'),
+    path('own-child-subjects-at-risk/<int:id>/', views.OwnChildSubjectsAtRisk.as_view(), name='own-child-subjects-at-risk'),
+    path('own-subjects-at-risk/', views.OwnSubjectsAtRisk.as_view(), name='own-subjects-at-risk'),
+    path('own-child-activity-history/<int:id>/', views.OwnChildActivityHistory.as_view(), name='own-child-activity-history'),
+    path('own-activity-history/', views.OwnActivityHistory.as_view(), name='own-activity-history'),
+    path('own-child-absences-evolution/<int:id>/', views.OwnChildAbsencesEvolution.as_view(), name='own-child-absences-evolution'),
+    path('own-absences-evolution/', views.OwnAbsencesEvolution.as_view(), name='own-absences-evolution'),
+    path('school-students-at-risk/', views.SchoolStudentsAtRisk.as_view(), name='school-students-at-risk'),
+    path('students-risk-evolution/', views.StudentsRiskEvolution.as_view(), name='students-risk-evolution'),
+    path('own-students-at-risk/', views.OwnStudentsAtRisk.as_view(), name='own-students-at-risk'),
+    path('own-students-averages/', views.OwnStudentsAverages.as_view(), name='own-students-averages'),
+    path('own-students-absences/', views.OwnStudentsAbsences.as_view(), name='own-students-absences'),
+    path('own-students-behavior-grades/', views.OwnStudentsBehaviorGrades.as_view(), name='own-students-behavior-grades'),
+    path('institutions-averages/', views.SchoolUnitsAverages.as_view(), name='institution-averages'),
+    path('institutions-absences/', views.SchoolUnitsAbsences.as_view(), name='institution-absences'),
+    path('institutions-at-risk/', views.SchoolUnitsAtRisk.as_view(), name='school-units-at-risk'),
+    path('institutions-enrollment-statistics/', views.InstitutionsEnrollmentStats.as_view(), name='institutions-enrollment-stats'),
+    path('inactive-institutions/', views.InactiveSchoolUnits.as_view(), name='inactive-school-units'),
+    path('inactive-teachers/', views.InactiveTeachers.as_view(), name='inactive-teachers'),
+    path('inactive-parents/', views.InactiveParents.as_view(), name='inactive-parents'),
+    path('programs-averages/', views.AcademicProgramsAverages.as_view(), name='program-averages'),
+    path('programs-absences/', views.AcademicProgramsAbsences.as_view(), name='program-absences'),
+    path('programs-at-risk/', views.AcademicProgramsAtRisk.as_view(), name='programs-at-risk'),
+    path('study-classes-averages/', views.StudyClassesAverages.as_view(), name='study-classes-averages'),
+    path('study-classes-absences/', views.StudyClassesAbsences.as_view(), name='study-classes-absences'),
+    path('study-classes-at-risk/', views.StudyClassesAtRisk.as_view(), name='study-classes-at-risk'),
+]

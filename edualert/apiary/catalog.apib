@@ -1,0 +1,664 @@
+# Group Catalog
+
+Endpoints for managing pupils data.
+
+
+## Own study class pupils list [/api/v1/own-study-classes/{id}/pupils/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+
+### Get own study class pupils list [GET /api/v1/own-study-classes/{id}/pupils{?ordering}/]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns class' pupils general averages and absences counts for the requested study class of the current class master.
+
++ Parameters
+    + `ordering`: `student_name` (string, optional) - Sort by a single option. For DESC, add `-` prefix.
+        Options: `student_name`, `avg_sem1`, `avg_sem2`, `avg_final`, `abs_count_sem1`, `abs_count_sem2`, `abs_count_annual`.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[OwnStudyClassPupil])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own study class pupil detail [/api/v1/own-study-classes/{id}/pupils/{pupil_id}/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+    + pupil_id: 3 (number) - student profile ID
+
+### Get own study class pupil detail [GET]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns class' pupil catalog for all subjects for the requested study class of the current class master.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassPupilCatalog)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own study class subject catalog [/api/v1/own-study-classes/{id}/subjects/{subject_id}/catalogs/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+    + subject_id: 1 (number) - subject ID
+
+### Get catalog by subject [GET /api/v1/own-study-classes/{id}/subjects/{subject_id}/catalogs{?ordering}/]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns class' pupils grades and absences for the requested subject and study class of the current user.
+
++ Parameters
+    + `ordering`: `student_name` (string, optional) - Sort by a single option. For DESC, add `-` prefix.
+        Options: `student_name`, `avg_sem1`, `avg_sem2`, `avg_final`, `abs_count_sem1`, `abs_count_sem2`, `abs_count_annual`, `grades_count`, `last_grade_date`.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[OwnStudyClassSubject])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## New grade [/api/v1/catalogs/{id}/grades/]
+
++ Parameters
+    + id: 1 (number) - student catalog per subject ID
+
+### Add grade to catalog per subject [POST]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can add grades in a catalog only for own study classes & for taught subjects.
+
++ Request (application/json)
+    + Attributes (SubjectGradeCreate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Grade detail [/api/v1/grades/{id}/]
+
++ Parameters
+    + id: 1 (number) - grade ID
+
+### Update grade [PUT]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can edit grades in a catalog only for own study classes & for taught subjects, at maximum 2h after grade creation.
+
++ Request (application/json)
+    + Attributes (SubjectGradeUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Delete grade [DELETE]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can delete grades in a catalog only for own study classes & for taught subjects, at maximum 2h after creation.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## New absence [/api/v1/catalogs/{id}/absences/]
+
++ Parameters
+    + id: 1 (number) - student catalog per subject ID
+
+### Add absence to catalog per subject [POST]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can add absences in a catalog only for own study classes & for taught subjects.
+
++ Request (application/json)
+    + Attributes (SubjectAbsenceCreate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Authorize absence [/api/v1/absences/{id}/authorize/]
+
++ Parameters
+    + id: 1 (number) - absence ID
+
+### Authorize absence [POST]
+
+This endpoint is allowed only for School Teacher users. <br>
+A teacher can authorize absences in a catalog only for own study classes & for taught subjects, at maximum 2h after grade creation. <br>
+A class master can authorize absences in a catalog only for own study class, for unlimited time. <br>
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Delete absence [/api/v1/absences/{id}/]
+
++ Parameters
+    + id: 1 (number) - absence ID
+
+### Delete absence [DELETE]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can delete absences in a catalog only for own study classes & for taught subjects, at maximum 2h after creation.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Catalog per subject remarks [/api/v1/catalogs-per-subject/{id}/remarks/]
+
++ Parameters
+    + id: 1 (number) - student catalog per subject ID
+
+### Get remarks [GET]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can view remarks only for own study classes & for taught subjects.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (Remark)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update remarks [PUT]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can edit remarks only for own study classes & for taught subjects.
+
++ Request (application/json)
+    + Attributes (Remark)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (Remark)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Catalog per year remarks [/api/v1/catalogs-per-year/{id}/remarks/]
+
++ Parameters
+    + id: 1 (number) - student catalog per year ID
+
+### Get remarks [GET]
+
+This endpoint is allowed only for School Teacher users. <br>
+These remarks can be viewed only by the study class' master.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (Remark)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update remarks [PUT]
+
+This endpoint is allowed only for School Teacher users. <br>
+These remarks can be edited only by the study class' master.
+
++ Request (application/json)
+    + Attributes (Remark)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (Remark)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Add grades in bulk [/api/v1/own-study-classes/{id}/subjects/{subject_id}/bulk-grades/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+    + subject_id: 1 (number) - subject ID
+
+### Add grades for study class [POST]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can add grades in a catalog only for own study classes & for taught subjects.
+
++ Request (application/json)
+    + Attributes (BulkGrades)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + catalogs (array[OwnStudyClassSubject])
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Add absences in bulk [/api/v1/own-study-classes/{id}/subjects/{subject_id}/bulk-absences/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+    + subject_id: 1 (number) - subject ID
+
+### Add absences for study class [POST]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can add absences in a catalog only for own study classes & for taught subjects.
+
++ Request (application/json)
+    + Attributes (BulkAbsences)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + catalogs (array[OwnStudyClassSubject])
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own study class settings [/api/v1/own-study-classes/{id}/subjects/{subject_id}/settings/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+    + subject_id: 1 (number) - subject ID
+
+### Get students settings [GET]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns class' pupils settings for the requested subject.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[OwnStudyClassSettings])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update students settings [PUT]
+
+This endpoint is allowed only for School Teacher users. <br>
+Updates class' pupils settings for the requested subject.
+
++ Request (application/json)
+    + Attributes (array[OwnStudyClassSettingsUpdate])
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[OwnStudyClassSettings])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## New examination grade [/api/v1/catalogs/{id}/examination-grades/]
+
++ Parameters
+    + id: 1 (number) - student catalog per subject ID
+
+### Add grade [POST]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can add grades in a catalog only for own study classes & for taught subjects.
+
++ Request (application/json)
+    + Attributes (ExaminationGradeCreate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Examination grade detail [/api/v1/examination-grades/{id}/]
+
++ Parameters
+    + id: 1 (number) - examination grade ID
+
+### Update grade [PUT]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can edit grades in a catalog only for own study classes & for taught subjects, at maximum 2h after grade creation.
+
++ Request (application/json)
+    + Attributes (ExaminationGradeUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Delete grade [DELETE]
+
+This endpoint is allowed only for School Teacher users. <br>
+A user can delete grades in a catalog only for own study classes & for taught subjects, at maximum 2h after creation.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassSubject)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Export catalog [/api/v1/own-study-classes/{study_class_id}/subjects/{subject_id}/export/]
+
++ Parameters
+    + study_class_id: 1 (number) - The study class' ID
+    + subject_id: 1 (number) - The subject's ID
+
+### Export catalog [GET]
+
+This endpoint is allowed only for School Teacher users. <br>
+Export the catalogs for a given subject for all the students in the given study class in a CSV file.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (text/csv)
+    + Attributes (CatalogCSVExport)
+    + Headers
+
+                Content-Disposition: text/csv; filename="file.csv"
+
++ Response 401
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Import catalogs [/api/v1/own-study-classes/{study_class_id}/subjects/{subject_id}/import/]
+
++ Parameters
+    + study_class_id: 1 (number) - The study class' ID
+    + subject_id: 1 (number) - The subject's ID
+
+### Import catalogs [POST]
+
+This endpoint is allowed only for School Teacher users. <br>
+Upload a CSV file containing catalog data for a class for a given subject and import it.
+The request data must be multipart form data, with a single file sent under the `file` key
+
++ Request
+    + Attributes (CatalogCSVImport)
+
+    + Headers
+
+            Content-Type: multipart/form-data; boundary=boundary
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + report: `9 out of 10 users created successfully.` (string) - Reports about the creation.
+        + errors (object)
+            + 10 (ImportErrors)
+
++ Response 400 (application/json)
+    Possible causes: The file is invalid or missing.
+
+    + Attributes (StandardError)
+
++ Response 415 (application/json)
+    Raised when there are issues with the request content type
+
+    + Attributes (StandardError)
+
++ Response 500 (application/json)
+    + Attributes (StandardError)

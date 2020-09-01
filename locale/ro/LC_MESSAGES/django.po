@@ -1,0 +1,2301 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-28 13:45+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
+
+#: edualert/academic_calendars/constants.py:6
+msgid "Semester II end for VIII grade"
+msgstr "Final semestrul II clasa a VIII-a"
+
+#: edualert/academic_calendars/constants.py:8
+msgid "Semester II end for XII & XIII grade ('seral & frecvență redusă')"
+msgstr "Final semestrul II clasa a XII-a & a XIII-a seral & frecvență redusă"
+
+#: edualert/academic_calendars/constants.py:10
+msgid "Semester II end for IX-XI grades, profile 'Filieră Tehnologică'"
+msgstr "Final semestrul II clasele IX-XI, Filieră Tehnologică"
+
+#: edualert/academic_calendars/constants.py:11
+msgid "I-IV grades autumn holiday"
+msgstr "Vacanță de toamnă clasele I-IV"
+
+#: edualert/academic_calendars/constants.py:12
+msgid "Winter holiday"
+msgstr "Vacanță de iarnă"
+
+#: edualert/academic_calendars/constants.py:13
+msgid "Spring holiday"
+msgstr "Vacanță de primăvară"
+
+#: edualert/academic_calendars/constants.py:14
+msgid "Legal/Public holiday"
+msgstr "Sărbătoare legală"
+
+#: edualert/academic_calendars/constants.py:15
+msgid "Corigente"
+msgstr "Corigențe"
+
+#: edualert/academic_calendars/constants.py:16
+msgid "Diferente"
+msgstr "Diferențe"
+
+#: edualert/academic_calendars/serializers.py:38
+#: edualert/academic_calendars/serializers.py:58
+msgid "The start date must be before the end date."
+msgstr "Data de început trebuie să fie înainte de data de final."
+
+#: edualert/academic_calendars/serializers.py:62
+msgid "{} events cannot be inside semesters."
+msgstr "Evenimentele de tip '{}' nu pot fi în interiorul semestrelor."
+
+#: edualert/academic_calendars/serializers.py:84
+msgid ""
+"Second semester end for Filiera Tehnologica must be between the second "
+"semester's start and the end of the current academic year."
+msgstr ""
+"Finalul semestrului 2 pentru Filiera Tehnologică trebuie să fie între data "
+"de început a semestrului 2 și data de final a anului școlar."
+
+#: edualert/academic_calendars/serializers.py:129
+msgid "Second semester must start after the end of the first semester."
+msgstr "Semestrul al doilea trebuie să înceapă după finalul semestrului întâi."
+
+#: edualert/academic_calendars/serializers.py:135
+msgid "Semester dates cannot overlap."
+msgstr "Datele semestrelor nu se pot suprapune."
+
+#: edualert/academic_calendars/serializers.py:137
+msgid "The events must belong to this academic year."
+msgstr "Evenimentele trebuie să aparțină acestui an școlar."
+
+#: edualert/academic_calendars/serializers.py:151
+msgid "{} must belong to a semester."
+msgstr "Evenimentele de tip '{}' trebuie să aparțină unui semestru."
+
+#: edualert/academic_calendars/serializers.py:156
+msgid ""
+"{} must be between the second semester end date and the end of the current "
+"year."
+msgstr ""
+"Evenimentele de tip '{}' trebuie să fie între finalul semestrului 2 și "
+"finalul anului școlar."
+
+#: edualert/academic_calendars/serializers.py:163
+msgid "The semester must belong to the academic year."
+msgstr "Semestrul trebuie să aparțină acestui an școlar."
+
+#: edualert/academic_calendars/serializers.py:169
+msgid "{} must belong to the second semester."
+msgstr ""
+"Evenimentele de tip '{}' trebuie să aparțină celui de-al doilea semestru."
+
+#: edualert/academic_calendars/serializers.py:181
+msgid "All events must be between the semester's start and end dates."
+msgstr ""
+"Toate evenimentele trebuie să fie cuprinse între data de început și data de "
+"final a semestrului."
+
+#: edualert/academic_calendars/serializers.py:185
+msgid "Events cannot overlap."
+msgstr "Datele evenimentelor nu se pot suprapune."
+
+#: edualert/academic_programs/serializers.py:65
+msgid "You already defined this program this year."
+msgstr "Acest program este deja definit în acest an școlar."
+
+#: edualert/academic_programs/serializers.py:70
+msgid "Invalid generic academic program."
+msgstr "Profil invalid."
+
+#: edualert/academic_programs/serializers.py:75
+msgid "This academic program must have a core subject."
+msgstr "Acest profil trebuie să aibă o disciplină de specialitate."
+
+#: edualert/academic_programs/serializers.py:77
+msgid "Invalid core subject."
+msgstr "Disciplină de specialitate invalidă."
+
+#: edualert/academic_programs/serializers.py:80
+msgid "This academic program does not have a core subject."
+msgstr "Acest profil nu are o disciplină de specialitate."
+
+#: edualert/academic_programs/serializers.py:92
+msgid "Subjects must be unique per class grade."
+msgstr "Materiile trebiue să fie unice pentru fiecare clasă."
+
+#: edualert/academic_programs/serializers.py:100
+msgid "This program does not accept optionals for this class grade."
+msgstr "Acest profil nu acceptă opționale pentru această clasă."
+
+#: edualert/academic_programs/serializers.py:102
+msgid "Each optional's weekly hours should not be greater than {}."
+msgstr ""
+"Numărul de ore pe săptămână al fiecărui opțional nu trebuie să fie mai mare "
+"de {}."
+
+#: edualert/academic_programs/views/academic_programs.py:72
+#: edualert/academic_programs/views/academic_programs.py:125
+msgid "Invalid year, must be the current academic year."
+msgstr "Anul școlar trebuie să fie cel curent."
+
+#: edualert/academic_programs/views/academic_programs.py:113
+msgid ""
+"Cannot delete an academic program that still has study classes assigned."
+msgstr "Un profil care are clase nu poate fi șters."
+
+#: edualert/academic_programs/views/academic_programs.py:150
+msgid "grade query param is missing."
+msgstr ""
+
+#: edualert/catalogs/constants.py:6
+msgid "Regular"
+msgstr "Normală"
+
+#: edualert/catalogs/constants.py:7
+msgid "Thesis"
+msgstr "Teză"
+
+#: edualert/catalogs/constants.py:11
+msgid "Written"
+msgstr "Scrisă"
+
+#: edualert/catalogs/constants.py:12
+msgid "Oral"
+msgstr "Orală"
+
+#: edualert/catalogs/constants.py:16
+msgid "Second examination"
+msgstr "Corigență"
+
+#: edualert/catalogs/constants.py:17
+msgid "Difference"
+msgstr "Diferență"
+
+#: edualert/catalogs/models/examination_grade.py:24
+msgid "Only for Difference grades."
+msgstr "Doar pentru notele tip Diferență."
+
+#: edualert/catalogs/models/student_catalog_per_subject.py:25
+msgid ""
+"Represents either the average after 2nd examination (if there is one) or the "
+"annual average."
+msgstr ""
+
+#: edualert/catalogs/models/student_catalog_per_year.py:16
+msgid ""
+"Represents either the average after 2nd examinations (if any) or the annual "
+"average."
+msgstr ""
+
+#: edualert/catalogs/serializers/catalog_settings.py:30
+#, python-brace-format
+msgid "Invalid pk \"{catalog_id}\" - object does not exist."
+msgstr ""
+
+#: edualert/catalogs/serializers/catalog_settings.py:34
+msgid "This subject doesn't allow exemption."
+msgstr "Această materie nu permite scutirea."
+
+#: edualert/catalogs/serializers/catalog_settings.py:36
+msgid "This subject is not optional."
+msgstr "Această materie nu este opțională."
+
+#: edualert/catalogs/serializers/common.py:18
+msgid "The date cannot be in the future."
+msgstr "Data nu poate fi în viitor."
+
+#: edualert/catalogs/serializers/common.py:22
+msgid "The date cannot be in the first semester."
+msgstr "Data nu poate fi în primul semestru."
+
+#: edualert/catalogs/serializers/common.py:38
+#, python-brace-format
+msgid "Invalid pk \"{student.id}\" - object does not exist."
+msgstr ""
+
+#: edualert/catalogs/serializers/common.py:40
+#, python-brace-format
+msgid ""
+"Invalid pk \"{student.id}\" - student is exempted and cannot have grades."
+msgstr ""
+"Id invalid \"{student.id}\" - elevul este scutit și nu poate avea note."
+
+#: edualert/catalogs/serializers/examination_grades.py:23
+msgid "Can't create grades at this time."
+msgstr "Nu se pot crea note în acest moment."
+
+#: edualert/catalogs/serializers/examination_grades.py:28
+msgid ""
+"Can't add difference grades in semesters where there are regular grades."
+msgstr "Nu se pot adăuga diferențe în semestre care au deja note."
+
+#: edualert/catalogs/serializers/examination_grades.py:31
+msgid "Can't add difference grades in catalogs where there are regular grades."
+msgstr "Nu se pot adăuga diferențe într-un catalog care are deja note."
+
+#: edualert/catalogs/serializers/examination_grades.py:34
+msgid "Can't add grades in the future."
+msgstr "Nu se pot adăuga note în viitor."
+
+#: edualert/catalogs/serializers/examination_grades.py:38
+#: edualert/catalogs/serializers/examination_grades.py:103
+#: edualert/catalogs/serializers/grades.py:20
+#: edualert/catalogs/serializers/grades.py:111
+#: edualert/catalogs/utils/importer.py:682
+msgid "Grade must be between 1 and 10."
+msgstr "Notele trebuie să fie între 1 și 10."
+
+#: edualert/catalogs/serializers/examination_grades.py:41
+msgid "This field can be added only to difference grades."
+msgstr "Acest câmp este doar pentru diferențe."
+
+#: edualert/catalogs/serializers/examination_grades.py:46
+#: edualert/catalogs/serializers/examination_grades.py:61
+#: edualert/catalogs/serializers/examination_grades.py:69
+msgid "You already added a grade with this examination type."
+msgstr "Deja există o nota cu acest tip de examinare."
+
+#: edualert/catalogs/serializers/examination_grades.py:54
+msgid "Invalid value."
+msgstr "Valoare invalidă."
+
+#: edualert/catalogs/serializers/examination_grades.py:58
+msgid ""
+"You cannot add difference grades for a semester because you have difference "
+"grades for the whole year in this catalog."
+msgstr "Deja există diferențe pentru întreg anul."
+
+#: edualert/catalogs/serializers/examination_grades.py:66
+msgid ""
+"You cannot add difference grades for the whole year because you have "
+"difference grades for a semester in this catalog."
+msgstr "Deja există diferențe pentru un semestru."
+
+#: edualert/catalogs/serializers/examination_grades.py:99
+msgid "Can't set grade dates in the future."
+msgstr "Datele notelor nu pot fi în viitor."
+
+#: edualert/catalogs/serializers/grades.py:23
+msgid "Can't set grade date in the future."
+msgstr "Data notei nu poate fi în viitor."
+
+#: edualert/catalogs/serializers/grades.py:28
+msgid "Can't set date in the first semester."
+msgstr "Data nu poate fi în primul semestru."
+
+#: edualert/catalogs/serializers/grades.py:52
+msgid "You cannot add a thesis grade for this student."
+msgstr "Acest elev nu poate avea teză."
+
+#: edualert/catalogs/serializers/grades.py:59
+msgid "There can be only one thesis grade per subject per semester."
+msgstr "Este permisă doar o singură notă de teză pe semestru."
+
+#: edualert/catalogs/utils/importer.py:127
+msgid "A student with this name doesn't exist yet."
+msgstr "Nu există un student cu acest nume."
+
+#: edualert/catalogs/utils/importer.py:139
+msgid "A catalog for this student and subject doesn't exist yet."
+msgstr "Nu exista catalog pentru acest student la această materie."
+
+#: edualert/catalogs/utils/importer.py:235
+msgid "An error occurred while creating the catalog"
+msgstr "A apărut o eroare în timp ce se adăuga catalogul."
+
+#: edualert/catalogs/utils/importer.py:255 edualert/common/fields.py:8
+#: edualert/notifications/serializers.py:99
+#: edualert/notifications/serializers.py:106
+#: edualert/profiles/import_user_profiles.py:145
+#: edualert/profiles/serializers/my_account.py:26
+#: edualert/profiles/serializers/my_account.py:28
+#: edualert/profiles/serializers/users.py:271
+#: edualert/profiles/serializers/users.py:273
+#: edualert/profiles/serializers/users.py:506
+#: edualert/profiles/serializers/users.py:512
+#: edualert/profiles/views/my_account.py:56
+#: edualert/profiles/views/my_account.py:103
+#: edualert/study_classes/serializers.py:167
+#: env/lib/python3.7/site-packages/django/forms/fields.py:53
+msgid "This field is required."
+msgstr "Acest câmp este obligatoriu."
+
+#: edualert/catalogs/utils/importer.py:304
+msgid "Must be either \"Da\" or \"Nu\"."
+msgstr "Acest câmp este una dintre următoarele opțiuni: 'da' sau 'nu'."
+
+#: edualert/catalogs/utils/importer.py:314
+msgid "Must be inside the first semester."
+msgstr "Data trebuie să fie în primul semestru."
+
+#: edualert/catalogs/utils/importer.py:315
+msgid "Must be inside the second semester."
+msgstr "Data trebuie să fie în al doilea semestru."
+
+#: edualert/catalogs/utils/importer.py:320
+msgid "Labels must exist, be unique, and be for the student user role."
+msgstr "Etichetele trebuie să existe, să fie unice, și să fie pentru studenți."
+
+#: edualert/catalogs/utils/importer.py:326
+msgid "Only one grade allowed."
+msgstr "O singură notă este permisă."
+
+#: edualert/catalogs/utils/importer.py:330
+msgid "This field is not allowed for coordination subjects."
+msgstr "Acest câmp nu este permis pentru materia Dirigenție."
+
+#: edualert/catalogs/utils/importer.py:332
+msgid "Maximum one grade per semester allowed for coordination grades."
+msgstr "Cel mult o notă pe semestru este permisă la dirigenție."
+
+#: edualert/catalogs/utils/importer.py:361
+msgid "Cannot add difference unless all fields for this semester are provided."
+msgstr ""
+"Nu se pot adăuga diferențe dacă nu sunt adăugate toate câmpurile de "
+"diferență pentru acest semestru."
+
+#: edualert/catalogs/utils/importer.py:378
+msgid ""
+"Cannot have difference grades if there already are grades for this semester."
+msgstr ""
+"Nu se pot adăuga note pentru diferență dacă deja exista note in semestrul "
+"acela."
+
+#: edualert/catalogs/utils/importer.py:383
+msgid "Cannot have difference grades if there already are grades this year."
+msgstr "Nu se pot adăuga diferențe daca există note anul acesta."
+
+#: edualert/catalogs/utils/importer.py:393
+msgid "Must be during the examination event."
+msgstr "Nota trebuie să fie în timpul evenimentului de examinare."
+
+#: edualert/catalogs/utils/importer.py:412
+msgid "Maximum 500 characters allowed."
+msgstr "Sunt permise cel mult 500 de caractere."
+
+#: edualert/catalogs/utils/importer.py:416
+msgid "Thesis grades are not allowed if the user doesn't want thesis."
+msgstr "Notele pentru teză nu sunt permise dacă elevul nu dorește teză."
+
+#: edualert/catalogs/utils/importer.py:425
+msgid "This field cannot be false if the student already has thesis grades."
+msgstr ""
+"Acest câmp nu poate sa fie 'Nu' dacă studentul are deja note pentru teză."
+
+#: edualert/catalogs/utils/importer.py:429
+msgid "The subject does not allow exemption."
+msgstr "Această materie nu permite scutirea."
+
+#: edualert/catalogs/utils/importer.py:432
+msgid "Must be enrolled to all mandatory subjects."
+msgstr "Elevul trebuie să fie înrolat la toate materiile obligatorii."
+
+#: edualert/catalogs/utils/importer.py:686
+msgid "Must be in the format DD-MM-YYYY: grade."
+msgstr "Trebuie să fie in formatul ZZ-LL-AAAA: notă."
+
+#: edualert/catalogs/utils/importer.py:695
+msgid "Date must be in the past."
+msgstr "Data de naștere trebuie să fie in trecut."
+
+#: edualert/catalogs/utils/importer.py:699
+msgid "Date must be in the format DD-MM-YYYY"
+msgstr "Data trebuie să fie in formatul ZZ-LL-AAAA."
+
+#: edualert/catalogs/utils/importer.py:708
+msgctxt "catalogs"
+msgid "{} out of {} {} saved successfully."
+msgstr "{} din {} {} au fost importate cu succes."
+
+#: edualert/catalogs/utils/importer.py:709
+msgid "catalog"
+msgstr "catalog"
+
+#: edualert/catalogs/utils/importer.py:709
+msgid "catalogs"
+msgstr "cataloage"
+
+#: edualert/catalogs/views/absences.py:67
+msgid "This absence is already authorized."
+msgstr "Această absență este deja motivată."
+
+#: edualert/catalogs/views/absences.py:75
+msgid "You can't authorize this absence anymore."
+msgstr "Această absență nu mai poate fi motivată."
+
+#: edualert/catalogs/views/absences.py:108
+msgid "You can't delete this absence anymore."
+msgstr "Această absență nu mai poate fi ștearsă"
+
+#: edualert/catalogs/views/absences.py:123
+msgid "Can't add absences at this time."
+msgstr "Nu se pot adăuga absențe în acest moment."
+
+#: edualert/catalogs/views/examination_grades.py:59
+#: edualert/catalogs/views/grades.py:79
+#: edualert/study_classes/views/study_classes.py:178
+msgid "delete"
+msgstr "șterge"
+
+#: edualert/catalogs/views/examination_grades.py:59
+#: edualert/catalogs/views/grades.py:79
+#: edualert/study_classes/views/study_classes.py:164
+#: edualert/study_classes/views/study_classes.py:171
+msgid "update"
+msgstr "edita"
+
+#: edualert/catalogs/views/examination_grades.py:61
+#: edualert/catalogs/views/grades.py:82
+msgid "Cannot {} a grade that was created more than 2 hours ago."
+msgstr "Nu se poate {} o notă care a fost creată cu mai mult de 2 ore în urmă."
+
+#: edualert/catalogs/views/examination_grades.py:65
+msgid "Cannot {} grades at this time."
+msgstr "Notele nu se pot {} în acest moment."
+
+#: edualert/catalogs/views/grades.py:45
+msgid "Can't add grades for an exempted student."
+msgstr "Nu se pot adăuga note pentru un elev scutit."
+
+#: edualert/catalogs/views/grades.py:48 edualert/catalogs/views/grades.py:119
+msgid "Can't add grades for coordination subject."
+msgstr "Nu se pot adăuga alte note la purtare."
+
+#: edualert/catalogs/views/grades.py:98
+msgid "Can't delete coordination subject grade."
+msgstr "Nu se pot șterge notele de la purtare."
+
+#: edualert/catalogs/views/grades.py:114
+msgid "Can't add grades at this time."
+msgstr "Nu se pot adăuga note în acest moment."
+
+#: edualert/common/fields.py:9
+#, python-brace-format
+msgid "Invalid pk \"{pk_value}\" - object does not exist."
+msgstr ""
+
+#: edualert/common/fields.py:10
+#, python-brace-format
+msgid "Incorrect type. Expected pk value, received {data_type}."
+msgstr ""
+
+#: edualert/common/permissions.py:21
+msgid "allowed_user_roles must be a tuple."
+msgstr ""
+
+#: edualert/common/serializers.py:19
+msgid "File must be csv."
+msgstr "Fișierul trebuie să fie csv."
+
+#: edualert/common/serializers.py:32
+msgid "Invalid file encoding."
+msgstr "Codarea fișierului este invalidă."
+
+#: edualert/common/validators.py:20
+msgid "Invalid format. Must be minimum 10, maximum 20 digits or +."
+msgstr ""
+"Format incorect. Scrieți minim 10, maxim 20 caractere: doar cifre și semnul "
+"'+' sunt acceptate, fără spații."
+
+#: edualert/common/validators.py:25
+msgid "Invalid format. Must be 13 digits, no spaces allowed."
+msgstr "Format incorect. Scrieți 13 caractere, fără spații."
+
+#: edualert/common/validators.py:30
+msgid "Invalid file name."
+msgstr "Nume fișier invalid."
+
+#: edualert/common/validators.py:35
+msgid ""
+"Invalid format. Must be 150 characters at most and in the format "
+"username@domain.domainextension"
+msgstr ""
+"Format incorect. Scrieți maxim 150 caractere în formatul: "
+"numeutilizator@numedomeniu.extensiedomeniu"
+
+#: edualert/common/validators.py:40
+msgid ""
+"Invalid format. Must be minimum 6, maximum 128 characters, no spaces allowed."
+msgstr "Format incorect. Scrieți minim 6, maxim 128 caractere, fără spații."
+
+#: edualert/notifications/constants.py:8
+msgid "Class students"
+msgstr "Studenți"
+
+#: edualert/notifications/constants.py:9
+msgid "Class parents"
+msgstr "Părinți"
+
+#: edualert/notifications/constants.py:10
+msgid "One student"
+msgstr "Elev"
+
+#: edualert/notifications/constants.py:11
+msgid "One parent"
+msgstr "Părinte"
+
+#: edualert/notifications/models/notification.py:19
+msgid "Concatenated list of sender's taught subjects."
+msgstr ""
+
+#: edualert/notifications/models/notification.py:29
+msgid ""
+"For all receiver types except for one parent (who can have children in "
+"different study classes)."
+msgstr ""
+
+#: edualert/notifications/models/target_user_through.py:44
+msgid "Only if the target is one parent."
+msgstr ""
+
+#: edualert/notifications/serializers.py:101
+#: edualert/notifications/serializers.py:104
+msgid "This field is incompatible with the receiver type."
+msgstr "Această valoare este incompatibilă cu tipul destinatarului."
+
+#: edualert/notifications/serializers.py:108
+msgid "This user must be a student."
+msgstr "Acest utilizator trebuie să fie un student."
+
+#: edualert/notifications/serializers.py:110
+msgid "This user must be a parent."
+msgstr "Acest utilizator trebuie să fie un părinte."
+
+#: edualert/notifications/serializers.py:117
+msgid "Maximum characters numbers was exceeded."
+msgstr "Numărul maxim de caractere a fost depășit."
+
+#: edualert/profiles/constants.py:6
+msgid "Administrator"
+msgstr "Administrator"
+
+#: edualert/profiles/constants.py:7
+msgid "School Principal"
+msgstr "Director de Școală"
+
+#: edualert/profiles/constants.py:8
+msgid "Teacher"
+msgstr "Profesor"
+
+#: edualert/profiles/constants.py:9
+msgid "Parent"
+msgstr "Părinte"
+
+#: edualert/profiles/constants.py:10
+msgid "Student"
+msgstr "Elev"
+
+#: edualert/profiles/import_user_profiles.py:133
+msgid "An error occurred while creating the user."
+msgstr "A apărut o eroare în timp ce se adăuga utilizatorul."
+
+#: edualert/profiles/import_user_profiles.py:149
+msgid ""
+"Must be one of the following options: Administrator, Principal, Teacher, "
+"Parent or Student."
+msgstr ""
+"Acest câmp este una dintre următoarele opțiuni: 'Administrator', 'Director "
+"de Scoala', 'Profesor', 'Parinte' sau 'Elev'."
+
+#: edualert/profiles/import_user_profiles.py:159
+#: edualert/profiles/serializers/users.py:443
+msgid "Either email or phone number is required for the educator."
+msgstr ""
+"Este obligatoriu să completați cel puțin unul dintre câmpuri pentru pedagog: "
+"numărul de telefon sau adresa de email."
+
+#: edualert/profiles/import_user_profiles.py:169
+msgid "Invalid date format. Must be DD-MM-YYYY."
+msgstr "Format incorect. Scrieți data în formatul zz-ll-aaaa."
+
+#: edualert/profiles/import_user_profiles.py:186
+msgid "Must be either yes or no."
+msgstr "Acest câmp este una dintre următoarele opțiuni: 'da' sau 'nu'."
+
+#: edualert/profiles/import_user_profiles.py:229
+msgid "Write maximum {} characters."
+msgstr "Acest câmp are maxim {} de caractere."
+
+#: edualert/profiles/import_user_profiles.py:248
+msgctxt "users"
+msgid "{} out of {} {} saved successfully."
+msgstr "{} din {} {} au fost importați cu succes."
+
+#: edualert/profiles/import_user_profiles.py:249
+msgid "user"
+msgstr "utilizator"
+
+#: edualert/profiles/import_user_profiles.py:249
+msgid "users"
+msgstr "utilizatori"
+
+#: edualert/profiles/models/label.py:10
+msgid "Only user profiles with this role can be assigned to this label."
+msgstr ""
+"Această etichetă poate fi asignată doar utilizatorilor care au acest rol pe "
+"profil."
+
+#: edualert/profiles/models/user_profile.py:21
+msgid "Same username as auth User."
+msgstr ""
+
+#: edualert/profiles/models/user_profile.py:33
+msgid "Only for teachers and school principals."
+msgstr "Doar pentru profesori și directori de școală."
+
+#: edualert/profiles/models/user_profile.py:35
+msgid "Only for teachers."
+msgstr "Doar pentru profesori."
+
+#: edualert/profiles/models/user_profile.py:38
+#: edualert/profiles/models/user_profile.py:39
+#: edualert/profiles/models/user_profile.py:40
+#: edualert/profiles/models/user_profile.py:41
+#: edualert/profiles/models/user_profile.py:42
+#: edualert/profiles/models/user_profile.py:44
+#: edualert/profiles/models/user_profile.py:46
+#: edualert/profiles/models/user_profile.py:48
+#: edualert/profiles/models/user_profile.py:49
+msgid "Only for students."
+msgstr "Doar pentru elevi."
+
+#: edualert/profiles/models/user_profile.py:43
+msgid "Only for students and parents."
+msgstr "Doar pentru părinți și elevi."
+
+#: edualert/profiles/serializers/my_account.py:31
+msgid "Does not match the user's current password."
+msgstr "Parolă greșită."
+
+#: edualert/profiles/serializers/users.py:23
+msgid "Birth date must be in the past."
+msgstr "Data de naștere trebuie să fie in trecut."
+
+#: edualert/profiles/serializers/users.py:24
+msgid "This username is already associated with another account."
+msgstr ""
+"Acest nume de utilizator este deja asociat unui alt cont de utilizator."
+
+#: edualert/profiles/serializers/users.py:25
+msgid "You don't have permission to create a user with this role."
+msgstr "Nu aveți permisiunea sa creați un utilizator cu acest rol."
+
+#: edualert/profiles/serializers/users.py:138
+msgid "Cannot change user role."
+msgstr "Nu se poate schimba rolul utilizatorului."
+
+#: edualert/profiles/serializers/users.py:148
+msgid "Invalid role transition."
+msgstr "Modificare de rol invalidă."
+
+#: edualert/profiles/serializers/users.py:281
+msgid "Labels do not correspond to the created user role."
+msgstr "Etichetele nu corespund cu rolul utilizatorului."
+
+#: edualert/profiles/serializers/users.py:369
+msgid "There must be provided teachers for all classes for this subject."
+msgstr ""
+"Trebuie să adăugați profesori înlocuitori pentru toate clasele pentru "
+"această materie."
+
+#: edualert/profiles/serializers/users.py:372
+#: edualert/profiles/serializers/users.py:518
+msgid "No duplicates allowed."
+msgstr "Nu sunt permise duplicatele."
+
+#: edualert/profiles/serializers/users.py:378
+#: edualert/profiles/serializers/users.py:528
+#: edualert/study_classes/serializers.py:189
+#: edualert/study_classes/serializers.py:349
+msgid "At least one teacher is invalid."
+msgstr "Cel puțin un profesor este invalid."
+
+#: edualert/profiles/serializers/users.py:386
+#: edualert/profiles/serializers/users.py:537
+#: edualert/study_classes/serializers.py:193
+#: edualert/study_classes/serializers.py:363
+msgid "Teacher {} does not teach {}."
+msgstr "Profesorul {} nu predă materia {}."
+
+#: edualert/profiles/serializers/users.py:394
+msgid "This field is incompatible with the request data."
+msgstr "Acest câmp este incompatibil cu restul datelor."
+
+#: edualert/profiles/serializers/users.py:461
+msgid "Parents must belong to the user's school unit."
+msgstr "Părinții trebuie să aparțină școlii."
+
+#: edualert/profiles/serializers/users.py:521
+msgid "There must be provided teachers for all classes and subjects."
+msgstr ""
+"Trebuie să adăugați profesori înlocuitori pentru toate clasele și materiile "
+"predate."
+
+#: edualert/profiles/serializers/users.py:539
+msgid "Invalid class master."
+msgstr "Diriginte invalid."
+
+#: edualert/profiles/views/manage_users.py:143
+msgid "This user cannot be deleted because it's either active or has data."
+msgstr ""
+"Acest utilizator nu poate fi șters pentru ca fie e activ, fie are date."
+
+#: edualert/profiles/views/manage_users.py:158
+msgid "This user is already active."
+msgstr "Acest utilizator este deja activ."
+
+#: edualert/profiles/views/manage_users.py:179
+msgid "This user is already inactive."
+msgstr "Acest utilizator este deja inactiv."
+
+#: edualert/profiles/views/my_account.py:54
+msgid "There is no account for this username."
+msgstr "Acest nume de utilizator nu este asociat unui cont de utilizator."
+
+#: edualert/profiles/views/my_account.py:92
+msgid "Invalid access key."
+msgstr "Token invalid."
+
+#: edualert/schools/constants.py:6
+msgid "Primary school"
+msgstr "Școală primară"
+
+#: edualert/schools/constants.py:7
+msgid "Secondary school"
+msgstr "Școală generală"
+
+#: edualert/schools/constants.py:8
+msgid "Highschool"
+msgstr "Liceu"
+
+#: edualert/schools/serializers.py:77
+msgid "This school is already registered."
+msgstr "Această școală este deja înregistrată."
+
+#: edualert/schools/serializers.py:83
+msgid "Cannot have multiple categories for the same school level."
+msgstr "Nu se pot adăuga mai multe categorii de același nivel."
+
+#: edualert/schools/serializers.py:89
+msgid "The academic profile does not correspond with the school category."
+msgstr "Acest profil academic nu corespunde cu categoria școlii."
+
+#: edualert/schools/serializers.py:95 edualert/study_classes/serializers.py:163
+#: edualert/study_classes/serializers.py:343
+msgid "Invalid user."
+msgstr "Utilizator invalid."
+
+#: edualert/schools/serializers.py:99
+msgid "This school principal already has a school assigned."
+msgstr "Acest director are deja o școală."
+
+#: edualert/schools/views/school_units.py:70
+msgid "This school unit is already active."
+msgstr "Această școală este deja activă."
+
+#: edualert/schools/views/school_units.py:90
+msgid "This school unit is already inactive."
+msgstr "Această școală este deja inactivă."
+
+#: edualert/statistics/views/activity_history.py:77
+msgid "Authorized absence from {}"
+msgstr "Motivare absență din {}"
+
+#: edualert/statistics/views/activity_history.py:85
+msgid "Authorized absence"
+msgstr "Absență motivată"
+
+#: edualert/statistics/views/activity_history.py:85
+msgid "Unauthorized absence"
+msgstr "Absență nemotivată"
+
+#: edualert/statistics/views/activity_history.py:107
+msgid "Grade {}"
+msgstr "Notă {}"
+
+#: edualert/statistics/views/activity_history.py:108
+msgid "Thesis grade {}"
+msgstr "Notă teză {}"
+
+#: edualert/statistics/views/activity_history.py:154
+msgid "Second examination average {}"
+msgstr "Medie corigență {}"
+
+#: edualert/statistics/views/activity_history.py:165
+msgid "Difference average {} for class {}"
+msgstr "Medie diferențe {} pentru clasa {}"
+
+#: edualert/statistics/views/activity_history.py:175
+msgid "Difference average {} for class {}, semester 1"
+msgstr "Medie diferențe {} pentru clasa {}, semestrul 1"
+
+#: edualert/statistics/views/activity_history.py:185
+msgid "Difference average {} for class {}, semester 2"
+msgstr "Medie diferențe {} pentru clasa {}, semestrul 2"
+
+#: edualert/study_classes/models/study_class.py:17
+#: edualert/study_classes/models/teacher_class_through.py:13
+msgid "The roman number of the class."
+msgstr ""
+
+#: edualert/study_classes/serializers.py:148
+#: edualert/subjects/serializers.py:19
+msgid "Invalid class grade."
+msgstr "Clasă invalidă."
+
+#: edualert/study_classes/serializers.py:150
+msgid ""
+"Cannot change the class grade for a class that has previous catalog data."
+msgstr ""
+"Nu se poate schimba nivelul clasei pentru o clasă care are date în anii "
+"precedenți."
+
+#: edualert/study_classes/serializers.py:156
+msgid "This study class already exists."
+msgstr "Această clasă există deja."
+
+#: edualert/study_classes/serializers.py:170
+msgid "Invalid academic program."
+msgstr "Profil invalid."
+
+#: edualert/study_classes/serializers.py:173
+msgid ""
+"Cannot change the academic program for a class that has previous catalog "
+"data."
+msgstr ""
+"Nu se poate schimba profilul unei clase care are date în anii precedenți."
+
+#: edualert/study_classes/serializers.py:182
+msgid "The subjects do not correspond with the academic program subjects."
+msgstr "Materiile nu corespund cu profilul."
+
+#: edualert/study_classes/serializers.py:197
+#: edualert/study_classes/serializers.py:369
+#: edualert/study_classes/serializers.py:373
+msgid "At least one student is invalid."
+msgstr "Cel puțin un elev este invalid."
+
+#: edualert/study_classes/serializers.py:354
+#: edualert/study_classes/serializers.py:358
+#, python-brace-format
+msgid "Invalid pk \"{instance_id}\" - object does not exist."
+msgstr ""
+
+#: edualert/study_classes/views/study_classes.py:108
+#: edualert/study_classes/views/study_classes.py:153
+msgid "No academic calendar defined."
+msgstr "Nu este definit calendarul școlar."
+
+#: edualert/study_classes/views/study_classes.py:111
+msgid "A new study class can be added only for the current academic year."
+msgstr "O clasă poate fi adăugată doar în anul școlar curent."
+
+#: edualert/study_classes/views/study_classes.py:157
+msgid "Cannot {} a study class from a previous year."
+msgstr "Nu se poate {} o clasă din ani precedenți."
+
+#: edualert/study_classes/views/study_classes.py:184
+msgid "Cannot delete the study class."
+msgstr "Nu se poate șterge această clasă."
+
+#: edualert/study_classes/views/study_classes.py:205
+msgid "Can only clone study classes from previous academic year."
+msgstr "Se pot clona clase doar din anul precedent."
+
+#: edualert/study_classes/views/study_classes.py:207
+msgid "This study class cannot be cloned."
+msgstr "Această clasă nu poate fi clonată."
+
+#: edualert/study_classes/views/study_classes.py:264
+#: edualert/study_classes/views/study_classes.py:391
+msgid "Cannot move students to a class from another grade."
+msgstr "Elevii nu se pot muta într-o clasă din alt nivel."
+
+#: edualert/study_classes/views/study_classes.py:266
+#: edualert/study_classes/views/study_classes.py:393
+msgid "Cannot move students to a class from another year."
+msgstr "Elevii nu se pot muta într-o clasă din alt an."
+
+#: edualert/study_classes/views/study_classes.py:389
+msgid "The student is already in this study class."
+msgstr "Elevul este deja în această clasă."
+
+#: edualert/study_classes/views/study_classes.py:411
+msgid "This student doesn't have the required average for this study class."
+msgstr "Elevul nu are media generală necesară pentru această clasă."
+
+#: edualert/subjects/serializers.py:22
+msgid "The number of hours must be greater than 0."
+msgstr "Numărul de ore pe săptămână să fie mai mare ca 0."
+
+#: env/lib/python3.7/site-packages/botocore/docs/bcdoc/textwriter.py:469
+#, python-format
+msgid "[image: %s]"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/botocore/docs/bcdoc/textwriter.py:470
+msgid "[image]"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/contrib/messages/apps.py:7
+msgid "Messages"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/contrib/sitemaps/apps.py:7
+msgid "Site Maps"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/contrib/staticfiles/apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/contrib/syndication/apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/paginator.py:45
+msgid "That page number is not an integer"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/paginator.py:47
+msgid "That page number is less than 1"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/paginator.py:52
+msgid "That page contains no results"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:32
+msgid "Enter a valid value."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:103
+#: env/lib/python3.7/site-packages/django/forms/fields.py:659
+msgid "Enter a valid URL."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:155
+msgid "Enter a valid integer."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:166
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: env/lib/python3.7/site-packages/django/core/validators.py:240
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:247
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:256
+#: env/lib/python3.7/site-packages/django/core/validators.py:276
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:261
+#: env/lib/python3.7/site-packages/django/core/validators.py:277
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:271
+#: env/lib/python3.7/site-packages/django/core/validators.py:275
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:305
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:311
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:343
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:352
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:362
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:377
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:396
+#: env/lib/python3.7/site-packages/django/forms/fields.py:291
+#: env/lib/python3.7/site-packages/django/forms/fields.py:326
+msgid "Enter a number."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:398
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:403
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:408
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:470
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/core/validators.py:522
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/base.py:1181
+#: env/lib/python3.7/site-packages/django/forms/models.py:759
+msgid "and"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/base.py:1183
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:104
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:105
+msgid "This field cannot be null."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:106
+msgid "This field cannot be blank."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:107
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
+#. Eg: "Title must be unique for pub_date year"
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:111
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:130
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:937
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:938
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:940
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:981
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1045
+msgid "Comma-separated integers"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1094
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1096
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1239
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1099
+msgid "Date (without time)"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1237
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1241
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1245
+msgid "Date (with time)"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1393
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1395
+msgid "Decimal number"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1534
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1537
+msgid "Duration"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1587
+msgid "Email address"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1610
+msgid "File path"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1676
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1678
+msgid "Floating point number"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1716
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1718
+msgid "Integer"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1801
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1817
+msgid "IPv4 address"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1848
+msgid "IP address"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1928
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1929
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1931
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1966
+msgid "Positive integer"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1979
+msgid "Positive small integer"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1993
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2025
+msgid "Small integer"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2032
+msgid "Text"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2060
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2062
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2065
+msgid "Time"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2191
+msgid "URL"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2213
+msgid "Raw binary data"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2278
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2280
+msgid "Universally unique identifier"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/files.py:221
+msgid "File"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/files.py:360
+msgid "Image"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/related.py:778
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/related.py:780
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/related.py:1012
+msgid "One-to-one relationship"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/related.py:1066
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/related.py:1067
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/db/models/fields/related.py:1109
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: env/lib/python3.7/site-packages/django/forms/boundfield.py:149
+msgid ":?.!"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:246
+msgid "Enter a whole number."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:397
+#: env/lib/python3.7/site-packages/django/forms/fields.py:1127
+msgid "Enter a valid date."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:421
+#: env/lib/python3.7/site-packages/django/forms/fields.py:1128
+msgid "Enter a valid time."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:443
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:472
+msgid "Enter a valid duration."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:473
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:533
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:534
+msgid "No file was submitted."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:535
+msgid "The submitted file is empty."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:537
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:540
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:601
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:763
+#: env/lib/python3.7/site-packages/django/forms/fields.py:853
+#: env/lib/python3.7/site-packages/django/forms/models.py:1275
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:854
+#: env/lib/python3.7/site-packages/django/forms/fields.py:969
+#: env/lib/python3.7/site-packages/django/forms/models.py:1274
+msgid "Enter a list of values."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:970
+msgid "Enter a complete value."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/fields.py:1186
+msgid "Enter a valid UUID."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: env/lib/python3.7/site-packages/django/forms/forms.py:81
+msgid ":"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/forms.py:207
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/formsets.py:93
+msgid "ManagementForm data is missing or has been tampered with"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/formsets.py:345
+#, python-format
+msgid "Please submit %d or fewer forms."
+msgid_plural "Please submit %d or fewer forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/forms/formsets.py:352
+#, python-format
+msgid "Please submit %d or more forms."
+msgid_plural "Please submit %d or more forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/forms/formsets.py:379
+#: env/lib/python3.7/site-packages/django/forms/formsets.py:386
+msgid "Order"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/formsets.py:391
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_confirm_delete.html:13
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:38
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorized-token-delete.html:7
+msgid "Delete"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/models.py:754
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/models.py:758
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/models.py:764
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/models.py:773
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/models.py:1094
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/models.py:1161
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/models.py:1277
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/utils.py:162
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/widgets.py:395
+msgid "Clear"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/widgets.py:396
+msgid "Currently"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/widgets.py:397
+msgid "Change"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/widgets.py:709
+msgid "Unknown"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/widgets.py:710
+msgid "Yes"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/forms/widgets.py:711
+msgid "No"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:788
+msgid "yes,no,maybe"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:817
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:834
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:836
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:838
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:840
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:842
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/template/defaultfilters.py:844
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dateformat.py:62
+msgid "p.m."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dateformat.py:63
+msgid "a.m."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dateformat.py:68
+msgid "PM"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dateformat.py:69
+msgid "AM"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dateformat.py:150
+msgid "midnight"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dateformat.py:152
+msgid "noon"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:6
+msgid "Monday"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:6
+msgid "Tuesday"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:6
+msgid "Wednesday"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:6
+msgid "Thursday"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:6
+msgid "Friday"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:7
+msgid "Saturday"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:7
+msgid "Sunday"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:10
+msgid "Mon"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:10
+msgid "Tue"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:10
+msgid "Wed"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:10
+msgid "Thu"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:10
+msgid "Fri"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:11
+msgid "Sat"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:11
+msgid "Sun"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:14
+msgid "January"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:14
+msgid "February"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:14
+msgid "March"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:14
+msgid "April"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:14
+msgid "May"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:14
+msgid "June"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:15
+msgid "July"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:15
+msgid "August"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:15
+msgid "September"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:15
+msgid "October"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:15
+msgid "November"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:16
+msgid "December"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:19
+msgid "jan"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:19
+msgid "feb"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:19
+msgid "mar"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:19
+msgid "apr"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:19
+msgid "may"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:19
+msgid "jun"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:20
+msgid "jul"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:20
+msgid "aug"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:20
+msgid "sep"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:20
+msgid "oct"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:20
+msgid "nov"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:20
+msgid "dec"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:23
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:24
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:25
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:26
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:27
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:28
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:29
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:30
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:31
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:32
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:33
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:34
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:37
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:38
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:39
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:40
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:41
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:42
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:43
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:44
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:45
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:46
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:47
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/dates.py:48
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/text.py:69
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/text.py:235
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: env/lib/python3.7/site-packages/django/utils/text.py:254
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:83
+msgid ", "
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:9
+#, python-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:10
+#, python-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:11
+#, python-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:12
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:13
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:14
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: env/lib/python3.7/site-packages/django/utils/timesince.py:72
+msgid "0 minutes"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:110
+msgid "Forbidden"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:111
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:115
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:120
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:124
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
+"\" …> for links to third-party sites."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:132
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:137
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/csrf.py:142
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:41
+msgid "No year specified"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:61
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:111
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:208
+msgid "Date out of range"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:90
+msgid "No month specified"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:142
+msgid "No day specified"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:188
+msgid "No week specified"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:338
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:367
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:589
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/dates.py:623
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/detail.py:54
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/list.py:67
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/list.py:72
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/generic/list.py:154
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/static.py:40
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/static.py:42
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/static.py:80
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:7
+msgid "Django: the Web framework for perfectionists with deadlines."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:346
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:368
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:369
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
+"\">DEBUG=True</a> is in your settings file and you have not configured any "
+"URLs."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:384
+msgid "Django Documentation"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:385
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:396
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:397
+msgid "Get started with Django"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:408
+msgid "Django Community"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:409
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/kombu/transport/qpid.py:1301
+#, python-format
+msgid "Attempting to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/kombu/transport/qpid.py:1306
+#, python-format
+msgid "Connected to qpid with SASL mechanism %s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/kombu/transport/qpid.py:1324
+#, python-format
+msgid "Unable to connect to qpid with SASL mechanism %s"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:45
+msgid "Confidential"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:46
+msgid "Public"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:54
+msgid "Authorization code"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:55
+msgid "Implicit"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:56
+msgid "Resource owner password-based"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:57
+msgid "Client credentials"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:71
+msgid "Allowed URIs list, space separated"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:147
+#, python-brace-format
+msgid "Unauthorized redirect scheme: {scheme}"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/models.py:152
+#, python-brace-format
+msgid "redirect_uris cannot be empty with grant_type {grant_type}"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/oauth2_validators.py:166
+msgid "The access token is invalid."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/oauth2_validators.py:171
+msgid "The access token has expired."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/oauth2_validators.py:176
+msgid "The access token is valid but does not have enough scope."
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_confirm_delete.html:6
+msgid "Are you sure to delete the application"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_confirm_delete.html:12
+msgid "Cancel"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:10
+msgid "Client id"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:15
+msgid "Client secret"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:20
+msgid "Client type"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:25
+msgid "Authorization Grant Type"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:30
+msgid "Redirect Uris"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:36
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_form.html:35
+msgid "Go Back"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_detail.html:37
+msgid "Edit"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_form.html:9
+msgid "Edit application"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_list.html:6
+msgid "Your applications"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_list.html:16
+msgid "No applications defined"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_list.html:16
+msgid "Click here"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_list.html:16
+msgid "if you want to register a new one"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/application_registration_form.html:5
+msgid "Register a new application"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorize.html:8
+msgid "Authorize"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorize.html:17
+msgid "Application requires following permissions"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorized-oob.html:12
+msgid "Success"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorized-oob.html:14
+msgid "Please return to your application and enter this code:"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorized-token-delete.html:6
+msgid "Are you sure you want to delete this token?"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorized-tokens.html:6
+msgid "Tokens"
+msgstr ""
+
+#: env/lib/python3.7/site-packages/oauth2_provider/templates/oauth2_provider/authorized-tokens.html:19
+msgid "There are no authorized tokens yet."
+msgstr ""
+
+#~ msgid ""
+#~ "Academic programs must be created before 15th of september of the current "
+#~ "year."
+#~ msgstr ""
+#~ "Profilele trebuie create înainte de 15 septembrie în anul școlar curent."
+
+#~ msgid ""
+#~ "Academic programs must be updated before 15th of September of the current "
+#~ "year."
+#~ msgstr ""
+#~ "Profilele pot fi editate doar înainte de 15 septembrie în anul școlar "
+#~ "curent."
+
+#~ msgid "Can't delete absences at this time."
+#~ msgstr "Nu se pot șterge absențe în acest moment."
+
+#~ msgid "Cannot create a study class anymore."
+#~ msgstr "Nu se mai pot crea clase."
+
+#~ msgid "Cannot {} the study class."
+#~ msgstr "Nu se poate {} această clasă."

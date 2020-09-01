@@ -1,0 +1,60 @@
+# Group Academic year calendar
+
+Endpoints for managing the study year calendar.
+Can be accessed only by ORS users.
+
+
+## Current academic year calendar [/api/v1/current-academic-year-calendar/]
+
+### Get current academic year calendar [GET]
+
+Retrieve information about the current study year calendar,
+containing the first and second semesters with their events.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (AcademicYearCalendar)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update current academic year calendar [PUT]
+
+Updates the current study year calendar.
+
++ Request (application/json)
+    + Attributes (AcademicYearCalendarReqData)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (AcademicYearCalendar)
+
++ Response 400
+    Possible causes: <br>
+    The dates of the semesters are out of range. <br>
+    The end date of a semester / event is before its start date. <br>
+    Events dates out of their semester's dates. <br>
+    Overlapping events / semesters. <br>
+
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

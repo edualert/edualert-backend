@@ -1,0 +1,120 @@
+# Group Auth
+
+Auth related endpoints.
+
+## Login [/oauth2/token/]
+
+### Request token [POST]
+
++ Request (application/x-www-form-urlencoded)
+    + grant_type: password (string)
+    + client_id: 20pXYRpXeicuPTU93Oc26rEMV1hcFCbyMXI7oct4 (string)
+    + client_secret: 8EkFbvzeD0xSKszFh4n0bGGGuYzoQy979r4KnNlj0Avp4nQPrnMwSsEe5WVEx9EY4BTiIzIVb9XKYFpvI2tdzxB6ocY75ekXdT6nSuHZqLPU512fnqaUVgtXAII6rksn (string)
+    + username: username (string)
+    + password: pass (string)
+    + Body
+
+            grant_type=password&client_id=20pXYRpXeicuPTU93Oc26rEMV1hcFCbyMXI7oct4&username=username&password=pass&client_secret=8EkFbvzeD0xSKszFh4n0bGGGuYzoQy979r4KnNlj0Avp4nQPrnMwSsEe5WVEx9EY4BTiIzIVb9XKYFpvI2tdzxB6ocY75ekXdT6nSuHZqLPU512fnqaUVgtXAII6rksn
+
++ Response 200 (application/json)
+    + Attributes (AuthToken)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Request refresh token [POST]
+
++ Request (application/x-www-form-urlencoded)
+    + grant_type: refresh_token (string)
+    + client_id: 20pXYRpXeicuPTU93Oc26rEMV1hcFCbyMXI7oct4 (string)
+    + client_secret: 8EkFbvzeD0xSKszFh4n0bGGGuYzoQy979r4KnNlj0Avp4nQPrnMwSsEe5WVEx9EY4BTiIzIVb9XKYFpvI2tdzxB6ocY75ekXdT6nSuHZqLPU512fnqaUVgtXAII6rksn (string)
+    + refresh_token: 9ybWr7DQyf6UwsuMuy2I8i62KiLrg7 (string)
+    + Body
+
+            grant_type=refresh_token&client_id=20pXYRpXeicuPTU93Oc26rEMV1hcFCbyMXI7oct4&client_secret=8EkFbvzeD0xSKszFh4n0bGGGuYzoQy979r4KnNlj0Avp4nQPrnMwSsEe5WVEx9EY4BTiIzIVb9XKYFpvI2tdzxB6ocY75ekXdT6nSuHZqLPU512fnqaUVgtXAII6rksn&refresh_token=9ybWr7DQyf6UwsuMuy2I8i62KiLrg7
+
++ Response 200 (application/json)
+    + Attributes (AuthToken)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Logout [/oauth2/revoke_token/]
+
+### Revoke token [POST]
+
++ Request (application/x-www-form-urlencoded)
+    + token: 9ybWr7DQyf6UwsuMuy2I8i62KiLrg7 (string)
+    + client_id: 20pXYRpXeicuPTU93Oc26rEMV1hcFCbyMXI7oct4 (string)
+    + client_secret: 8EkFbvzeD0xSKszFh4n0bGGGuYzoQy979r4KnNlj0Avp4nQPrnMwSsEe5WVEx9EY4BTiIzIVb9XKYFpvI2tdzxB6ocY75ekXdT6nSuHZqLPU512fnqaUVgtXAII6rksn (string)
+    + Body
+
+            token=9ybWr7DQyf6UwsuMuy2I8i62KiLrg7&client_id=V20pXYRpXeicuPTU93Oc26rEMV1hcFCbyMXI7oct4&client_secret=8EkFbvzeD0xSKszFh4n0bGGGuYzoQy979r4KnNlj0Avp4nQPrnMwSsEe5WVEx9EY4BTiIzIVb9XKYFpvI2tdzxB6ocY75ekXdT6nSuHZqLPU512fnqaUVgtXAII6rksn
+
++ Response 200
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Forgot password [/api/v1/forgot-password/]
+
+### Forgot password [POST]
+
+Sends email / SMS with reset password link.
+
++ Request (application/json)
+    + Attributes (object)
+        + username: `user@test.com`
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Set password [/api/v1/set-password/{access_key}/]
+
++ Parameters
+    + access_key: `OUCErWl4DXJ0IsIobpIfYXJyfF7C9S` (string) - token received on forgot password request
+
+### Set password [POST]
+
+Changes user's password and deletes tokens.
+
++ Request (application/json)
+    + Attributes (object)
+        + `new_password`: `passwd`
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

@@ -1,0 +1,50 @@
+{
+    "family": "${APP}-redis",
+    "requiresCompatibilities": [
+      "EC2"
+    ],
+    "networkMode":  "host",
+    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}_task_role",
+    "volumes": [{
+      "name": "redis_data",
+      "dockerVolumeConfiguration": {
+        "scope": "shared",
+        "autoprovision": true,
+        "driver": "local"
+      }
+    }],
+    "containerDefinitions": [
+      {
+        "name": "redis_db",
+        "image": "redis:5.0-alpine",
+        "essential": true,
+        "stopTimeout": 60,
+        "privileged": false,
+        "cpu": 10,
+        "memory": 300,
+        "memoryReservation": 150,
+        "mountPoints": [
+          {
+            "sourceVolume": "redis_data",
+            "containerPath": "/data"
+          }
+        ],
+        "portMappings": [
+            {
+                "containerPort": 5432,
+                "hostPort": 5432
+            }
+        ],
+        "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                  "awslogs-region": "eu-central-1",
+                  "awslogs-group": "${APP}-${ENVIRONMENT}",
+                  "awslogs-stream-prefix": "${TASK_DEFINITION}-${TAG}",
+                  "awslogs-create-group": "true"
+                }
+        }
+      }
+    ]
+  }
+  

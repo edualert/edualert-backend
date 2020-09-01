@@ -1,0 +1,60 @@
+# Group Subjects
+
+Endpoints for managing the subjects.
+
+
+## Subjects list [/api/v1/subjects/]
+
+### Get subjects list [GET /api/v1/subjects{?search}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a non paginated list containing all subjects.
+
++ Parameters
+    + search: `Mate` (string, optional) - search by subject name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[SubjectBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Subjects by academic program and grade [/api/v1/academic-programs/{id}/subjects/]
+
++ Parameters
+    + id: 1 (number) - academic program ID
+
+### Get subjects by academic program and grade [GET /api/v1/academic-programs/{id}/subjects{?grade}/]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a non paginated list of all subjects (both mandatory and optional), filtered by class grade,
+linked to the requested academic program (which must belong to the current user's school unit).
+
++ Parameters
+    + grade: `IX` (string) - class grade
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[SubjectThrough])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

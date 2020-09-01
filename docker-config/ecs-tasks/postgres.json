@@ -1,0 +1,60 @@
+{
+    "family": "${APP}-postgres",
+    "requiresCompatibilities": [
+      "EC2"
+    ],
+    "networkMode":  "host",
+    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}_task_role",
+    "volumes": [
+      {
+        "name": "postgres_data",
+        "dockerVolumeConfiguration": {
+          "scope": "shared",
+          "autoprovision": true,
+          "driver": "local"
+        }
+      }
+    ],
+    "containerDefinitions": [
+        {
+            "name": "db",
+            "image": "postgres:10.7-alpine",
+            "essential": true,
+            "stopTimeout": 60,
+            "privileged": false,
+            "cpu": 10,
+            "memory": 300,
+            "memoryReservation": 150,
+            "secrets": [
+                {
+                    "name": "POSTGRES_USER",
+                    "valueFrom": "${SECRETS}:POSTGRES_USER::"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "valueFrom": "${SECRETS}:POSTGRES_PASSWORD::"
+                },
+                {
+                    "name": "POSTGRES_DB",
+                    "valueFrom": "${SECRETS}:POSTGRES_DB::"
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "postgres_data",
+                    "containerPath": "/var/lib/postgresql/data"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                  "awslogs-region": "eu-central-1",
+                  "awslogs-group": "${APP}-${ENVIRONMENT}",
+                  "awslogs-stream-prefix": "${TASK_DEFINITION}-${TAG}",
+                  "awslogs-create-group": "true"
+                }
+              }
+        }
+    ]
+  }
+  

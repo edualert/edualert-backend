@@ -1,0 +1,203 @@
+# Group Messages
+
+Endpoints for managing the messages.
+
+
+## Study class receivers counts [/api/v1/study-classes/{id}/receivers-counts/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+
+### Get counts [GET /api/v1/study-classes/{id}/receivers-counts{?receiver_type}/]
+
+Can be accessed by School Principal and School Teacher users. <br>
+School Principal users can access all study classes from his/her school unit. <br>
+Teachers can only access own study classes.
+
++ Parameters
+    + `receiver_type`: `CLASS_STUDENTS` (MessageReceiverType, optional) - can only take values `CLASS_STUDENTS` & `CLASS_PARENTS`. Defaults to `CLASS_STUDENTS`.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudyClassCounts)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Sent messages list [/api/v1/my-sent-messages/]
+
+### Get sent messages list [GET /api/v1/my-sent-messages{?page,page_size,search,created}/]
+
+Can be accessed by School Principal and School Teacher users. <br>
+Returns a paginated list of the current user's sent messages.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+    + search: abc (string, optional) - Search by message title and receiver's name
+    + created: `24-02-2020` (string, optional) - Filter by created date
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array) - the examples are for different kind of receivers: the 1st one is for a single student, the 2nd one is for a single parent, the 3rd one is for a class (students/parents).
+            + (SentMessageForStudent)
+            + (SentMessageForParent)
+            + (SentMessageForClass)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Create message [POST]
+
+Can be accessed by School Principal and School Teacher users. <br>
+If `send_sms` is true, it also sends an SMS to target(s).
+
++ Request (application/json)
+    + Attributes (SentMessageReqData)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (SentMessageDetail)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Sent message detail [/api/v1/my-sent-messages/{id}/]
+
++ Parameters
+    + id: 1 (number) - message ID
+
+### Get sent message detail [GET]
+
+Can be accessed by School Principal and School Teacher users. <br>
+Returns details about the requested sent message of the current user.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (SentMessageDetail)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Received messages list [/api/v1/my-received-messages/]
+
+### Get received messages list [GET /api/v1/my-received-messages{?page,page_size,search,created}/]
+
+Can be accessed by Parent and Student users. <br>
+Returns a paginated list of the current user's received messages.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+    + search: abc (string, optional) - Search by message title and sender's name
+    + created: `24-02-2020` (string, optional) - Filter by created date
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[ReceivedMessage])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Received message detail [/api/v1/my-received-messages/{id}/]
+
++ Parameters
+    + id: 1 (number) - target user through ID
+
+### Get received message detail [GET]
+
+Can be accessed by Parent and Student users. <br>
+Returns details about the requested received message of the current user.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (ReceivedMessageDetail)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Mark message as read [/api/v1/my-received-messages/{id}/mark-as-read/]
+
++ Parameters
+    + id: 1 (number) - target user through ID
+
+### Mark received message as read [POST]
+
+Can be accessed by Parent and Student users. <br>
+Marks the requested received message of the current user as read.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (ReceivedMessageDetail)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

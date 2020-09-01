@@ -1,0 +1,364 @@
+# Group Study classes
+
+Endpoints for managing the study classes.
+
+
+## Study classes names list [/api/v1/years/{academic_year}/study-classes-names/]
+
++ Parameters
+    + academic_year: 2020 (number) - the academic year to filter by
+
+### Get study classes names list [GET]
+
+This endpoint is allowed only for School Principal & Teacher users. <br>
+For school principals, it returns a non paginated list of all classes (grade + letter)
+from the principal's school unit. <br>
+For teachers, it returns a non paginated list of all classes (grade + letter)
+where the user is teaching in the requested academic year. <br>
+The classes should be ordered ASC by grade & letter.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[StudyClassBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Study classes list [/api/v1/years/{academic_year}/study-classes/]
+
++ Parameters
+    + academic_year: 2020 (number) - the academic year to filter by
+
+### Get study classes list [GET]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns a dictionary, where:
+- the **keys** represent the class grades present in the principal's school unit (ordered by grade: I, II, ..., XII)
+- the **values** represent the list of study classes of that grade for this school unit (ordered by class letter: VII A, VII B, ...)
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudyClassList)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+### Create study class [POST]
+
+This endpoint is allowed only for School Principal users. <br>
+Creates a study class for the current user's school unit. <br>
+Besides the subjects from the request, subject `Dirigenție` will automatically be created with class master as teacher.
+
++ Request (application/json)
+    + Attributes (StudyClassCreateUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (StudyClass)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Study class detail [/api/v1/study-classes/{id}/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+
+### Get study class detail [GET]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns information about the requested study class,
+which must belong to the current user's school unit.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudyClass)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update study class [PUT]
+
+This endpoint is allowed only for School Principal users. <br>
+The students will be replaced with the new list. <br>
+If the class master is changed, the subject `Dirigenție` will have the new class master as teacher.
+
++ Request (application/json)
+    + Attributes (StudyClassCreateUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudyClass)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Partially update study class [PATCH]
+
+This endpoint is allowed only for School Principal users. <br>
+If the class master is changed, the subject `Dirigenție` will have the new class master as teacher.
+
++ Request (application/json)
+    + Attributes (StudyClassPartiallyUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudyClass)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Delete study class [DELETE]
+
+This endpoint is allowed only for School Principal users. <br>
+Deletes the requested study class, which must belong to the current user's school unit.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 204
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Clone study class to next year [/api/v1/study-classes/{id}/cloned-to-next-year/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+
+### Get study class detail [GET]
+
+This endpoint is allowed only for School Principal users. <br>
+Returns the study class that will be cloned to the next academic year with **the new grade**,
+same letter, **corresponding academic program from this year**, same class master,
+same students (except for the ones that are held back a grade) and **no teachers (just the subjects)**. <br>
+The requested study class must be in the previous academic year and must not be IV / VIII / XII / XIII grade.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudyClassClone)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Move student - classes [/api/v1/students/{student_id}/move-to-study-classes/]
+
++ Parameters
+    + student_id: 1 (number) - the ID of the student who wants to be moved
+
+### Get possible study classes [GET]
+
+This endpoint is only allowed for School Principal users. <br>
+Returns all study classes where this student can be moved.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[StudyClassBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Move student - differences [/api/v1/students/{student_id}/study-classes/{class_id}/differences/]
+
++ Parameters
+    + student_id: 1 (number) - the ID of the student who wants to be moved
+    + class_id: 3 (number) - the ID of the destination study class
+
+### Get difference subjects [GET]
+
+This endpoint is only allowed for School Principal users. <br>
+Returns all subjects from all academic years (from the current school cycle) for which the student needs difference grades.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + `XI` (array[SubjectBase])
+        + `X` (array[SubjectBase])
+        + `IX` (array[SubjectBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Move student [/api/v1/students/{student_id}/study-classes/{class_id}/move/]
+
++ Parameters
+    + student_id: 1 (number) - the ID of the student who wants to be moved
+    + class_id: 3 (number) - the ID of the destination study class
+
+### Move student [POST]
+
+This endpoint is only allowed for School Principal users. <br>
+Moves the student to the destination study class. <br>
+Returns the **source** study class.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (StudyClass)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own study classes list [/api/v1/years/{academic_year}/own-study-classes/]
+
++ Parameters
+    + academic_year: 2020 (number) - the academic year to filter by
+
+### Get own study classes list [GET]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns a dictionary, where:
+- the **keys** represent the class grades assigned to the teacher
+(first `class_master` - if the user is a class master, then the rest ordered by grade: I, II, ..., XII)
+- the **values** represent the list of study classes of that grade (ordered by class letter: VII A, VII B, ...)
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassList)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own study class detail [/api/v1/own-study-classes/{id}/]
+
++ Parameters
+    + id: 1 (number) - study class ID
+
+### Get own study class detail [GET]
+
+This endpoint is allowed only for School Teacher users. <br>
+Returns information about the requested study class of the current user.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (OwnStudyClassDetail)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mesaj EduAlert</title>
+</head>
+<body>
+<div>
+    <div style="width: 75px; height: 80px; margin: 50px auto 0px;">
+        <img src="cid:logo" alt="EduAlert" title="edualert-logo" width="75" height="80"/>
+    </div>
+
+    <hr style="height: 1px; background-color: #EEF1F4; border: 0px; margin-top: 30px;">
+
+    <div style="color: #0077DB; margin-top: 50px; text-align: center; font-size: 20px; font-weight: bold; font-family: Roboto, sans-serif;">
+        {{ title }}
+    </div>
+
+    <div style="color: #44B5B6E; margin-top: 10px; text-align: center; font-size: 15px; font-family: Roboto, sans-serif;">
+        {{ body | linebreaksbr }}
+    </div>
+
+    {% if show_my_account %}
+    <div style="margin-top: 50px; text-align: center;">
+        <a href="{{ frontend_url }}" style="background-color: #0077DB; color: #FFFFFF; font-family: Roboto, sans-serif; font-size: 12px;
+        padding: 7px 25px; border-radius: 10px; box-shadow: 0px 5px 8px #00000029; text-decoration: none;">
+            Contul meu
+        </a>
+    </div>
+    {% endif %}
+
+    <div style="color: #4B5B6E; margin-top: 30px; text-align: center; font-size: 13px; font-family: Roboto, sans-serif;">
+        Echipa EduAlert
+    </div>
+
+    <div style="margin: 50px; background-color: #EDF0F5; border-radius: 10px;">
+        <div style="padding-top: 30px; text-align: center;">
+            <a href="https://www.edualert.ro" style="color: #0077DB; font-size: 12px; font-family: Roboto, sans-serif;
+            font-weight: bold; text-decoration: none; margin-left:10px; margin-right: 20px;">
+                www.edualert.ro
+            </a>
+            <a href="mailto:contact@edualert.ro" style="color: #0077DB; margin-right:10px; font-size: 12px;
+            font-family: Roboto, sans-serif; font-weight: bold; text-decoration: none;">
+                Contactează-ne
+            </a>
+        </div>
+
+        <div style="padding: 10px 10px 30px 10px; color: #929EAC; text-align: center; font-size: 12px; font-family: Roboto, sans-serif;">
+            © 2020 edualert.ro - Toate drepturile rezervate.
+        </div>
+    </div>
+</div>
+</body>
+</html>

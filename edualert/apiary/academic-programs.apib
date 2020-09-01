@@ -1,0 +1,180 @@
+# Group Academic programs
+
+Endpoints for managing the academic programs for a school unit.
+Can be accessed only by School Principal users.
+
+
+## Unregistered academic programs list [/api/v1/unregistered-academic-programs/]
+
+### Get unregistered academic programs list [GET /api/v1/unregistered-academic-programs{?search}/]
+
+Returns a non paginated list of all generic academic programs,
+filtered by current user's school unit's categories and academic profile,
+that were not added to this school unit **in the current year** yet.
+
++ Parameters
+    + search: `Real` (string, optional) - search by program name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[AcademicProgramBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Generic academic program detail [/api/v1/generic-academic-programs/{id}/]
+
++ Parameters
+    + id: 1 (number) - generic academic program ID
+
+### Get generic academic program detail [GET]
+
+Returns the mandatory subjects per grades for the requested generic academic program.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (UnregisteredAcademicProgram)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Academic programs list [/api/v1/years/{academic_year}/academic-programs/]
+
++ Parameters
+    + academic_year: 2020 (number) - the academic year to filter by
+
+### Get academic programs list [GET/api/v1/years/{academic_year}/academic-programs{?page,page_size,search,class_grade}/]
+
+Returns a paginated list of all academic programs belonging to the current user's school unit. <br>
+The programs are sorted by the academic program name ASC.
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+    + search: `Real` (string, optional) - search by program name
+    + class_grade: `IX` (string, optional) - filter by class grade
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array[AcademicProgramListItem])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Create academic program [POST]
+
+Creates an academic program for the current user's school unit.
+
++ Request (application/json)
+    + Attributes (AcademicProgramCreate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 201 (application/json)
+    + Attributes (AcademicProgram)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Academic program detail [/api/v1/academic-programs/{id}/]
+
++ Parameters
+    + id: 1 (number) - academic program ID
+
+### Get academic program detail [GET]
+
+Returns information about the requested academic program,
+which must belong to the current user's school unit.
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (AcademicProgram)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Update academic program detail [PATCH]
+
+Updates the optional subjects for the requested academic program,
+which must belong to the current user's school unit.
+
++ Request (application/json)
+    + Attributes (AcademicProgramUpdate)
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (AcademicProgram)
+
++ Response 400
+    + Attributes (StandardError)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+### Delete academic program [DELETE]
+
+Deletes the requested academic program, which must belong to the current user's school unit. <br>
+
++ Response 204
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)

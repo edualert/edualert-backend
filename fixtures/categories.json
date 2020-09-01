@@ -1,0 +1,130 @@
+[
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 1,
+    "fields": {
+      "name": "Școală primară",
+      "category_level": "PRIMARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 2,
+    "fields": {
+      "name": "Școală primară în limbă minorități naționale",
+      "category_level": "PRIMARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 3,
+    "fields": {
+      "name": "Școală primară în limba română pentru minorități naționale",
+      "category_level": "PRIMARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 4,
+    "fields": {
+      "name": "Școală primară cu program integrat și suplimentar de artă - muzică",
+      "category_level": "PRIMARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 5,
+    "fields": {
+      "name": "Școală primară cu program integrat și suplimentar de coregrafie",
+      "category_level": "PRIMARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 6,
+    "fields": {
+      "name": "Școală primară cu program sportiv integrat",
+      "category_level": "PRIMARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 7,
+    "fields": {
+      "name": "Școală gimnazială",
+      "category_level": "SECONDARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 8,
+    "fields": {
+      "name": "Școală gimnazială în limbă minorități naționale",
+      "category_level": "SECONDARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 9,
+    "fields": {
+      "name": "Școală gimnazială în limba română pentru minorități naționale",
+      "category_level": "SECONDARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 10,
+    "fields": {
+      "name": "Școală gimnazială cu program integrat și suplimentar de artă - muzică",
+      "category_level": "SECONDARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 11,
+    "fields": {
+      "name": "Școală gimnazială cu program integrat și suplimentar de coregrafie",
+      "category_level": "SECONDARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 12,
+    "fields": {
+      "name": "Școală gimnazială cu program integrat și suplimentar de artă - arte vizuale",
+      "category_level": "SECONDARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 13,
+    "fields": {
+      "name": "Școală gimnazială cu program sportiv integrat",
+      "category_level": "SECONDARY_SCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 14,
+    "fields": {
+      "name": "Liceu - Filieră Teoretică",
+      "category_level": "HIGHSCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 15,
+    "fields": {
+      "name": "Liceu - Filieră Vocațională",
+      "category_level": "HIGHSCHOOL"
+    }
+  },
+  {
+    "model": "schools.SchoolUnitCategory",
+    "pk": 16,
+    "fields": {
+      "name": "Liceu - Filieră Tehnologică",
+      "category_level": "HIGHSCHOOL"
+    }
+  }
+]

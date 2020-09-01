@@ -1,0 +1,125 @@
+# Group Students situation
+
+Endpoints for retrieving students situation.
+
+
+## Generic academic programs list [/api/v1/generic-academic-programs/]
+
+### Get generic academic programs list [GET /api/v1/generic-academic-programs{?search}/]
+
+This endpoint is allowed for ORS, School Principal and School Teacher users. <br>
+Returns a non paginated list of all generic academic programs.
+
++ Parameters
+    + search: `Real` (string, optional) - search by program name
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (array[AcademicProgramBase])
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Pupils statistics [/api/v1/pupils-statistics/]
+
+### Get pupils statistics [GET /api/v1/pupils-statistics{?page,page_size,search,academic_year,academic_program,study_class_grade,ordering}/]
+
+This endpoint is allowed for ORS, School Principal and School Teacher users. <br>
+Returns a paginated list of pupils statistics, ordered by students name (or by student code for ORS).
+
++ Parameters
+    + page: 1 (number, optional) - The page to show
+    + page_size: 10 (number, optional) - The number of items per page
+    + search: `abc123` (string, optional) - Search by student name (not for ORS), by label text or by school name (only for ORS)
+    + `academic_year`: 2020 (number, optional) - Filter by academic year (by default the results are filtered by current academic year)
+    + `academic_program`: 1 (number, optional) - Filter by generic academic program
+    + `study_class_grade`: XII (string, optional) - Filter by study class grade
+    + `ordering`: `student_name` (string, optional) - Sort by a single option. For DESC, add `-` prefix.
+        Options: `student_name`, `avg_sem1`, `avg_sem2`, `avg_final`, `unfounded_abs_count_sem1`, `unfounded_abs_count_sem2`, `unfounded_abs_count_annual`, `second_examinations_count`, `behavior_grade_sem1`, `behavior_grade_sem2`, `behavior_grade_annual`.
+
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PaginatedList)
+        + results (array) - the 1st example is for ORS, the 2nd for the other roles
+            + (PupilStatistics)
+                + student: `Elev xxxxx` (string)
+                + school_unit (object)
+                    + id: 1 (number)
+                    + name: `Scoala de Muzica "Sigismund Toduta"` (string)
+            + (PupilStatistics)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own child school situation [/api/v1/own-child-school-situation/{child_id}/]
+
++ Parameters
+    + child_id: 1 (number) - child (student) user profile ID
+
+### Get child school situation [GET /api/v1/own-child-school-situation/{child_id}{?academic_year}/]
+
+This endpoint is allowed only for Parent users.
+
++ Parameters
+    + academic_year: 2020 (number, optional) - Filter by academic year (by default by current year)
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PupilSchoolSituation)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
+
+
+## Own school situation [/api/v1/own-school-situation/]
+
+### Get school situation [GET /api/v1/own-school-situation{?academic_year}/]
+
+This endpoint is allowed only for Student users.
+
++ Parameters
+    + academic_year: 2020 (number, optional) - Filter by academic year (by default by current year)
+
++ Request
+    + Headers
+
+            Authorization: Bearer token
+
++ Response 200 (application/json)
+    + Attributes (PupilSchoolSituation)
+
++ Response 403
+    + Attributes (StandardError)
+
++ Response 404
+    + Attributes (StandardError)
+
++ Response 500
+    + Attributes (StandardError)
