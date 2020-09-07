@@ -26,7 +26,7 @@ CACHES = {
 # ------------------------------------------------------------------------------
 # DATABASE_URL must be given as an environment variable or as a secret, else this will fail
 DATABASES = {
-    'default': env.db_url_config(env('DATABASE_URL'))
+    'default': env.db_url_config(env(DATABASE_URL_KEY))
 }
 DATABASES['default']['CONN_MAX_AGE'] = 500
 

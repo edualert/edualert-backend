@@ -14,6 +14,7 @@ import os
 import environ
 
 env = environ.Env()
+ENVIRONMENT = env.str('ENVIRONMENT', 'local')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_PATH = environ.Path(__file__) - 3
@@ -104,8 +105,9 @@ WSGI_APPLICATION = 'edualert.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+DATABASE_URL_KEY = 'DATABASE_URL_STAGING' if ENVIRONMENT == 'staging' else 'DATABASE_URL_PRODUCTION'
 DATABASES = {
-    'default': env.db('DATABASE_URL', 'postgres://dbadmin:pass@localhost/edualertdb')
+    'default': env.db(DATABASE_URL_KEY, 'postgres://dbadmin:pass@localhost/edualertdb')
 }
 DATABASES['default']['CONN_MAX_AGE'] = 500
 
@@ -209,11 +211,8 @@ SERVER_EMAIL = 'dev-no-reply@rodeapps.com'
 
 
 # Frontend URL
-ENVIRONMENT = env.str('ENVIRONMENT', 'local')
-FRONTEND_URL = env.str('FRONTEND_URL_DEV', 'http://edualert-frontend-dev.herokuapp.com/')
-if ENVIRONMENT == 'demo':
-    FRONTEND_URL = env.str('FRONTEND_URL_DEMO', '')
-elif ENVIRONMENT == 'staging':
+FRONTEND_URL = env.str('FRONTEND_URL_PRODUCTION', 'http://edualert-frontend-dev.herokuapp.com/')
+if ENVIRONMENT == 'staging':
     FRONTEND_URL = env.str('FRONTEND_URL_STAGING', '')
 
 

@@ -3,7 +3,7 @@
     "requiresCompatibilities": [
         "EC2"
     ],
-    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}_task_role",
+    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}",
     "volumes": [{
       "name": "static_files",
       "dockerVolumeConfiguration": {
@@ -16,9 +16,6 @@
         {
             "name": "app",
             "image": "${IMAGE_NAME}",
-            "repositoryCredentials": {
-                "credentialsParameter": "${DOCKER_CREDENTIALS}"
-            },
             "essential": true,
             "privileged": false,
             "user": "docker_user",
@@ -59,8 +56,12 @@
                     "valueFrom": "${SECRETS}:CACHE_URL::"
                 },
                 {
-                    "name": "DATABASE_URL",
-                    "valueFrom": "${SECRETS}:DATABASE_URL::"
+                    "name": "DATABASE_URL_STAGING",
+                    "valueFrom": "${SECRETS}:DATABASE_URL_STAGING::"
+                },
+                {
+                    "name": "DATABASE_URL_PRODUCTION",
+                    "valueFrom": "${SECRETS}:DATABASE_URL_PRODUCTION::"
                 },
                 {
                     "name": "SSL_CERTIFICATE",
@@ -75,16 +76,12 @@
                     "valueFrom": "${SECRETS}:EMAIL_URL::"
                 },
                 {
-                    "name": "FRONTEND_URL_DEV",
-                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEV::"
-                },
-                {
-                    "name": "FRONTEND_URL_DEMO",
-                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
-                },
-                {
                     "name": "FRONTEND_URL_STAGING",
-                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_STAGING::"
+                },
+                {
+                    "name": "FRONTEND_URL_PRODUCTION",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_PRODUCTION::"
                 },
                 {
                     "name": "WEB2SMS_API_KEY",
@@ -114,9 +111,6 @@
         {
             "name": "celery",
             "image": "${IMAGE_NAME}",
-            "repositoryCredentials": {
-                "credentialsParameter": "${DOCKER_CREDENTIALS}"
-            },
             "essential": false,
             "privileged": false,
             "user": "docker_user",
@@ -144,24 +138,24 @@
                     "valueFrom": "${SECRETS}:CACHE_URL::"
                 },
                 {
-                    "name": "DATABASE_URL",
-                    "valueFrom": "${SECRETS}:DATABASE_URL::"
+                    "name": "DATABASE_URL_STAGING",
+                    "valueFrom": "${SECRETS}:DATABASE_URL_STAGING::"
+                },
+                {
+                    "name": "DATABASE_URL_PRODUCTION",
+                    "valueFrom": "${SECRETS}:DATABASE_URL_PRODUCTION::"
                 },
                 {
                     "name": "EMAIL_URL",
                     "valueFrom": "${SECRETS}:EMAIL_URL::"
                 },
-                {
-                    "name": "FRONTEND_URL_DEV",
-                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEV::"
-                },
-                {
-                    "name": "FRONTEND_URL_DEMO",
-                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
-                },
-                {
+               {
                     "name": "FRONTEND_URL_STAGING",
-                    "valueFrom": "${SECRETS}:FRONTEND_URL_DEMO::"
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_STAGING::"
+                },
+                {
+                    "name": "FRONTEND_URL_PRODUCTION",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_PRODUCTION::"
                 },
                 {
                     "name": "WEB2SMS_API_KEY",
