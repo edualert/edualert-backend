@@ -3,7 +3,8 @@ name: build-and-deploy
 on:
   push:
     branches:
-      - '**'
+      - staging
+      - master
 
 jobs:
   build:
@@ -21,7 +22,6 @@ jobs:
           bash docker-config/app/build.sh
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/master'
     needs: build
     steps:
       - uses: actions/checkout@v2
