@@ -4,14 +4,11 @@
         "EC2"
     ],
     "networkMode":  "host",
-    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}_task_role",
+    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}",
     "containerDefinitions": [
         {
             "name": "app",
             "image": "${IMAGE_NAME}",
-            "repositoryCredentials": {
-                "credentialsParameter": "${DOCKER_CREDENTIALS}"
-            },
             "entryPoint": ["python", "manage.py", "collectstatic", "--noinput"],
             "essential": true,
             "stopTimeout": 20,
@@ -34,8 +31,40 @@
                     "valueFrom": "${SECRETS}:CACHE_URL::"
                 },
                 {
-                    "name": "DATABASE_URL",
-                    "valueFrom": "${SECRETS}:DATABASE_URL::"
+                    "name": "DATABASE_URL_STAGING",
+                    "valueFrom": "${SECRETS}:DATABASE_URL_STAGING::"
+                },
+                {
+                    "name": "DATABASE_URL_PRODUCTION",
+                    "valueFrom": "${SECRETS}:DATABASE_URL_PRODUCTION::"
+                },
+                {
+                    "name": "SSL_CERTIFICATE",
+                    "valueFrom": "${SECRETS}:SSL_CERTIFICATE::"
+                },
+                {
+                    "name": "SSL_CERTIFICATE_PRIVATE_KEY",
+                    "valueFrom": "${SECRETS}:SSL_CERTIFICATE_PRIVATE_KEY::"
+                },
+                {
+                    "name": "EMAIL_URL",
+                    "valueFrom": "${SECRETS}:EMAIL_URL::"
+                },
+                {
+                    "name": "FRONTEND_URL_STAGING",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_STAGING::"
+                },
+                {
+                    "name": "FRONTEND_URL_PRODUCTION",
+                    "valueFrom": "${SECRETS}:FRONTEND_URL_PRODUCTION::"
+                },
+                {
+                    "name": "WEB2SMS_API_KEY",
+                    "valueFrom": "${SECRETS}:WEB2SMS_API_KEY::"
+                },
+                {
+                    "name": "WEB2SMS_SECRET_KEY",
+                    "valueFrom": "${SECRETS}:WEB2SMS_SECRET_KEY::"
                 }
             ],
             "logConfiguration": {

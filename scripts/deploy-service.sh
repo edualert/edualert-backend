@@ -32,12 +32,12 @@ export IMAGE_NAME
 
 set -euo pipefail
 
-for variable in APP ACCOUNT_ID CONTAINER_REPO TAG CLUSTER TASK_DEFINITION DOCKER_CREDENTIALS SECRETS ENVIRONMENT; do
+for variable in APP ACCOUNT_ID CONTAINER_REPO TAG TASK_DEFINITION SECRETS ENVIRONMENT STAGING_CLUSTER PRODUCTION_CLUSTER; do
   eval echo >/dev/null "$"${variable}
 done
 
 [[ ${ENVIRONMENT} = 'staging' ]] && export CLUSTER=${STAGING_CLUSTER}
-[[ ${ENVIRONMENT} = 'demo' ]] && export CLUSTER=${DEMO_CLUSTER}
+[[ ${ENVIRONMENT} = 'production' ]] && export CLUSTER=${PRODUCTION_CLUSTER}
 
 # Globals:
 # ==================================================================================================

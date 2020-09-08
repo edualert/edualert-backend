@@ -1,16 +1,14 @@
 # Deploys a single task on ECS (without service)
 
 # Check environment
-if [[ -z ${CONTAINER_REPO} ]] || [[ -z ${TAG} ]] || [[ -z ${CLUSTER} ]] || [[ -z ${TASK_DEFINITION} ]] || [[ -z ${SECRETS} ]] || [[ -z ${APP} ]]; then
-     echo "CONTAINER_REPO, TAG, CLUSTER, TASK_DEFINITION, SECRETS and APP must be set"
+if [[ -z ${CONTAINER_REPO} ]] || [[ -z ${TAG} ]] || [[ -z ${STAGING_CLUSTER} ]] || [[ -z ${PRODUCTION_CLUSTER} ]] || [[ -z ${TASK_DEFINITION} ]] || [[ -z ${SECRETS} ]] || [[ -z ${APP} ]]; then
+     echo "CONTAINER_REPO, TAG, STAGING_CLUSTER, PRODUCTION_CLUSTER, TASK_DEFINITION, SECRETS and APP must be set"
      exit 1
 fi
 
-if [[ ${ENVIRONMENT} = "staging" ]]; then
-  CLUSTER=${STAGING_CLUSTER}
-fi
+
 [[ ${ENVIRONMENT} = 'staging' ]] && export CLUSTER=${STAGING_CLUSTER}
-[[ ${ENVIRONMENT} = 'demo' ]] && export CLUSTER=${DEMO_CLUSTER}
+[[ ${ENVIRONMENT} = 'production' ]] && export CLUSTER=${PRODUCTION_CLUSTER}
 
 [[ -z "${IMAGE_NAME}" ]] && export IMAGE_NAME=${CONTAINER_REPO}:${APP}-${TAG}
 

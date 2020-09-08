@@ -4,7 +4,7 @@
       "EC2"
     ],
     "networkMode":  "host",
-    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}_task_role",
+    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/${APP}",
     "volumes": [{
       "name": "redis_data",
       "dockerVolumeConfiguration": {
