@@ -78,7 +78,7 @@ class StudyClassCreateTestCase(CommonAPITestCase):
         }
         cls.secondary_school_request_data = {
             'class_grade': 'VI',
-            'class_letter': 'A',
+            'class_letter': 'A1',
             'academic_program': cls.academic_program.id,
             "class_master": cls.class_master.id,
             "teachers_class_through": [
@@ -197,6 +197,21 @@ class StudyClassCreateTestCase(CommonAPITestCase):
         response = self.client.post(self.url, self.highschool_request_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['class_grade'], ['Invalid class grade.'])
+
+    @data(
+        'Aa', 'ABa', '1a'
+    )
+    @patch('django.utils.timezone.now')
+    def test_study_class_create_validate_class_letter(self, class_letter, timezone_mock):
+        timezone_mock.return_value = datetime.datetime(self.calendar.academic_year, 9, 14, tzinfo=tz.UTC)
+        self.client.login(username=self.principal.username, password='passwd')
+
+        self.school_unit.categories.remove(self.category1)
+        self.highschool_request_data['class_letter'] = class_letter
+
+        response = self.client.post(self.url, self.highschool_request_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['class_letter'], ['This value can contain only uppercase letters and digits.'])
 
     @patch('django.utils.timezone.now')
     def test_study_class_create_validate_class_already_exists(self, timezone_mock):

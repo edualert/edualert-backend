@@ -16,7 +16,7 @@ class StudyClass(models.Model):
 
     class_grade = models.CharField(max_length=4, help_text=_("The roman number of the class."))
     class_grade_arabic = models.PositiveSmallIntegerField()
-    class_letter = models.CharField(max_length=1)
+    class_letter = models.CharField(max_length=3)
 
     class_master = models.ForeignKey("profiles.UserProfile", related_name="mastering_study_classes",
                                      related_query_name="mastering_study_classes", on_delete=models.PROTECT)

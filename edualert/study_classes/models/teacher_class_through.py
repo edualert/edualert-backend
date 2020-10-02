@@ -11,7 +11,7 @@ class TeacherClassThrough(models.Model):
     academic_year = models.PositiveSmallIntegerField()
 
     class_grade = models.CharField(max_length=4, help_text=_("The roman number of the class."))
-    class_letter = models.CharField(max_length=1)
+    class_letter = models.CharField(max_length=3)
     academic_program_name = models.CharField(max_length=128, null=True, blank=True)
 
     subject_name = models.CharField(max_length=100)
