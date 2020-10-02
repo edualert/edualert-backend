@@ -1,3 +1,5 @@
+import re
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.db.models.functions import Lower
@@ -140,6 +142,7 @@ class StudyClassCreateUpdateSerializer(StudyClassBaseSerializer):
         school_unit = self.context['principal_school']
         academic_year = self.context['academic_year']
         class_grade = attrs['class_grade']
+        class_letter = attrs['class_letter']
         class_master = attrs['class_master']
         has_previous_catalog_data = self.get_has_previous_catalog_data(self.instance) if self.instance else False
 
@@ -149,9 +152,12 @@ class StudyClassCreateUpdateSerializer(StudyClassBaseSerializer):
         if self.instance and class_grade != self.instance.class_grade and has_previous_catalog_data:
             raise serializers.ValidationError({'class_grade': _('Cannot change the class grade for a class that has previous catalog data.')})
 
+        if not bool(re.search(r'^[A-Z0-9]*$', class_letter)):
+            raise serializers.ValidationError({'class_letter': _('This value can contain only uppercase letters and digits.')})
+
         exclude = {'id': self.instance.id} if self.instance else {}
         if StudyClass.objects.filter(school_unit_id=school_unit.id, academic_year=academic_year,
-                                     class_grade=class_grade, class_letter=attrs['class_letter']) \
+                                     class_grade=class_grade, class_letter=class_letter) \
                 .exclude(**exclude).exists():
             raise serializers.ValidationError({'general_errors': _('This study class already exists.')})
 

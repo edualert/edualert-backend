@@ -3,7 +3,7 @@ from copy import copy
 from unittest.mock import patch
 
 from dateutil import tz
-from ddt import data, ddt, unpack
+from ddt import data, ddt
 from django.urls import reverse
 from rest_framework import status
 
@@ -221,6 +221,18 @@ class StudyClassUpdateTestCase(CommonAPITestCase):
         response = self.client.put(url, self.secondary_school_request_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['class_grade'], ['Cannot change the class grade for a class that has previous catalog data.'])
+
+    @patch('django.utils.timezone.now')
+    def test_study_class_update_validate_class_letter(self, timezone_mock):
+        timezone_mock.return_value = datetime.datetime(self.calendar.academic_year, 9, 14, tzinfo=tz.UTC)
+        self.client.login(username=self.principal.username, password='passwd')
+
+        self.highschool_request_data['class_letter'] = 'Aa1'
+
+        url = self.build_url(self.study_class1.id)
+        response = self.client.put(url, self.highschool_request_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['class_letter'], ['This value can contain only uppercase letters and digits.'])
 
     @patch('django.utils.timezone.now')
     def test_study_class_update_validate_class_already_exists(self, timezone_mock):
