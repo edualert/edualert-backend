@@ -3689,21 +3689,16 @@ HIGHSCHOOL_TECHNOLOGICAL_GR_A = {
             'weekly_hours_count': [1, 1, 1, 1, 1]
         },
         {
-            'subject': 'Informatică / Pregătire practică de specialitate',
-            'grades': ['IX', 'X', 'XI', 'XII'],
-            'weekly_hours_count': [9, 10, 10, 9]
-        },
-        {
             'subject': 'Educație antreprenorială',
             'grades': ['X'],
             'weekly_hours_count': [1]
         }
     ],
     "optional_subjects_weekly_hours": {
-        "IX": 0,
-        "X": 0,
-        "XI": 2,
-        "XII": 2
+        "IX": 9,
+        "X": 10,
+        "XI": 12,
+        "XII": 11
     }
 }
 HIGHSCHOOL_TECHNOLOGICAL_GR_B = {
@@ -3774,21 +3769,16 @@ HIGHSCHOOL_TECHNOLOGICAL_GR_B = {
             'weekly_hours_count': [1, 1, 1, 1, 1]
         },
         {
-            'subject': 'Informatică / Pregătire practică de specialitate',
-            'grades': ['IX', 'X', 'XI', 'XII'],
-            'weekly_hours_count': [9, 10, 9, 9]
-        },
-        {
             'subject': 'Educație antreprenorială',
             'grades': ['X'],
             'weekly_hours_count': [1]
         }
     ],
     "optional_subjects_weekly_hours": {
-        "IX": 0,
-        "X": 0,
-        "XI": 2,
-        "XII": 2
+        "IX": 9,
+        "X": 10,
+        "XI": 11,
+        "XII": 11
     }
 }
 HIGHSCHOOL_TECHNOLOGICAL_GR_C = {
@@ -3859,21 +3849,16 @@ HIGHSCHOOL_TECHNOLOGICAL_GR_C = {
             'weekly_hours_count': [1, 1, 1, 1, 1]
         },
         {
-            'subject': 'Informatică / Pregătire practică de specialitate',
-            'grades': ['IX', 'X', 'XI', 'XII'],
-            'weekly_hours_count': [9, 10, 9, 9]
-        },
-        {
             'subject': 'Educație antreprenorială',
             'grades': ['X'],
             'weekly_hours_count': [1]
         }
     ],
     "optional_subjects_weekly_hours": {
-        "IX": 0,
-        "X": 0,
-        "XI": 2,
-        "XII": 2
+        "IX": 9,
+        "X": 10,
+        "XI": 11,
+        "XII": 11
     }
 }
 HIGHSCHOOL_TECHNOLOGICAL_GR_D = {
@@ -3949,21 +3934,16 @@ HIGHSCHOOL_TECHNOLOGICAL_GR_D = {
             'weekly_hours_count': [1, 1, 1, 1, 1]
         },
         {
-            'subject': 'Informatică / Pregătire practică de specialitate',
-            'grades': ['IX', 'X', 'XI', 'XII'],
-            'weekly_hours_count': [9, 10, 9, 9]
-        },
-        {
             'subject': 'Educație antreprenorială',
             'grades': ['X'],
             'weekly_hours_count': [1]
         }
     ],
     "optional_subjects_weekly_hours": {
-        "IX": 0,
-        "X": 0,
-        "XI": 2,
-        "XII": 2
+        "IX": 9,
+        "X": 10,
+        "XI": 11,
+        "XII": 11
     }
 }
 
