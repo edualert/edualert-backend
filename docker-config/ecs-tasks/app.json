@@ -20,7 +20,6 @@
             "privileged": false,
             "user": "docker_user",
             "cpu": 30,
-            "memory": 500,
             "memoryReservation": 150,
             "portMappings": [
                 {
