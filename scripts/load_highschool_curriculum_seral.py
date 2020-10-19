@@ -3,6 +3,7 @@
 from django.db import transaction
 
 from edualert.academic_programs.models import GenericAcademicProgram
+from edualert.schools.models import SchoolUnitCategory
 from edualert.study_classes.constants import CLASS_GRADE_MAPPING
 from edualert.subjects.models import Subject, ProgramSubjectThrough
 
@@ -91,56 +92,57 @@ HIGHSCHOOL_SERAL_HU = {
 
 def run():
     with transaction.atomic():
-        add_data_for_highschool(GenericAcademicProgram.objects.filter(name__in=['Servicii - Seral - Comerț',
-                                                                                'Servicii - Seral - Economic',
-                                                                                'Servicii - Seral - Turism și Alimentație',
-                                                                                'Servicii - Seral - Administrativ',
-                                                                                'Servicii - Seral - Estetica și Igiena Corpului Omenesc',
-                                                                                'Tehnic - Seral - Mecanică',
-                                                                                'Tehnic - Seral - Electromecanică',
-                                                                                'Tehnic - Seral - Electronică Automatizări',
-                                                                                'Tehnic - Seral - Electric',
-                                                                                'Tehnic - Seral - Construcții, Instalații și Lucrări Publice',
-                                                                                'Tehnic - Seral - Industrie Textilă și Pielărie',
-                                                                                'Tehnic - Seral - Fabricarea Produselor din Lemn',
-                                                                                'Tehnic - Seral - Tehnice Poligrafice',
-                                                                                'Tehnic - Seral - Producție Media',
-                                                                                'Tehnic - Seral - Transporturi',
-                                                                                'Tehnic - Seral - Chimie Industrială',
-                                                                                'Tehnic - Seral - Materiale de Construcții',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Chimie Industrială',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Agricultură',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Industrie Alimentară',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Silvicultură',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Protecția Mediului']),
+        add_data_for_highschool(['Servicii - Seral - Comerț',
+                                 'Servicii - Seral - Economic',
+                                 'Servicii - Seral - Turism și Alimentație',
+                                 'Servicii - Seral - Administrativ',
+                                 'Servicii - Seral - Estetica și Igiena Corpului Omenesc',
+                                 'Tehnic - Seral - Mecanică',
+                                 'Tehnic - Seral - Electromecanică',
+                                 'Tehnic - Seral - Electronică Automatizări',
+                                 'Tehnic - Seral - Electric',
+                                 'Tehnic - Seral - Construcții, Instalații și Lucrări Publice',
+                                 'Tehnic - Seral - Industrie Textilă și Pielărie',
+                                 'Tehnic - Seral - Fabricarea Produselor din Lemn',
+                                 'Tehnic - Seral - Tehnice Poligrafice',
+                                 'Tehnic - Seral - Producție Media',
+                                 'Tehnic - Seral - Transporturi',
+                                 'Tehnic - Seral - Chimie Industrială',
+                                 'Tehnic - Seral - Materiale de Construcții',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Chimie Industrială',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Agricultură',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Industrie Alimentară',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Silvicultură',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Protecția Mediului'],
                                 HIGHSCHOOL_SERAL)
-        add_data_for_highschool(GenericAcademicProgram.objects.filter(name__in=['Servicii - Seral - Comerț - Limba Maghiară',
-                                                                                'Servicii - Seral - Economic - Limba Maghiară',
-                                                                                'Servicii - Seral - Turism și Alimentație - Limba Maghiară',
-                                                                                'Servicii - Seral - Administrativ - Limba Maghiară',
-                                                                                'Servicii - Seral - Estetica și Igiena Corpului Omenesc - Limba Maghiară',
-                                                                                'Tehnic - Seral - Mecanică - Limba Maghiară',
-                                                                                'Tehnic - Seral - Electromecanică - Limba Maghiară',
-                                                                                'Tehnic - Seral - Electronică Automatizări - Limba Maghiară',
-                                                                                'Tehnic - Seral - Electric - Limba Maghiară',
-                                                                                'Tehnic - Seral - Construcții, Instalații și Lucrări Publice - Limba Maghiară',
-                                                                                'Tehnic - Seral - Industrie Textilă și Pielărie - Limba Maghiară',
-                                                                                'Tehnic - Seral - Fabricarea Produselor din Lemn - Limba Maghiară',
-                                                                                'Tehnic - Seral - Tehnice Poligrafice - Limba Maghiară',
-                                                                                'Tehnic - Seral - Producție Media - Limba Maghiară',
-                                                                                'Tehnic - Seral - Transporturi - Limba Maghiară',
-                                                                                'Tehnic - Seral - Chimie Industrială - Limba Maghiară',
-                                                                                'Tehnic - Seral - Materiale de Construcții - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Chimie Industrială - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Agricultură - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Industrie Alimentară - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Silvicultură - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Seral - Protecția Mediului - Limba Maghiară']),
+        add_data_for_highschool(['Servicii - Seral - Comerț - Limba Maghiară',
+                                 'Servicii - Seral - Economic - Limba Maghiară',
+                                 'Servicii - Seral - Turism și Alimentație - Limba Maghiară',
+                                 'Servicii - Seral - Administrativ - Limba Maghiară',
+                                 'Servicii - Seral - Estetica și Igiena Corpului Omenesc - Limba Maghiară',
+                                 'Tehnic - Seral - Mecanică - Limba Maghiară',
+                                 'Tehnic - Seral - Electromecanică - Limba Maghiară',
+                                 'Tehnic - Seral - Electronică Automatizări - Limba Maghiară',
+                                 'Tehnic - Seral - Electric - Limba Maghiară',
+                                 'Tehnic - Seral - Construcții, Instalații și Lucrări Publice - Limba Maghiară',
+                                 'Tehnic - Seral - Industrie Textilă și Pielărie - Limba Maghiară',
+                                 'Tehnic - Seral - Fabricarea Produselor din Lemn - Limba Maghiară',
+                                 'Tehnic - Seral - Tehnice Poligrafice - Limba Maghiară',
+                                 'Tehnic - Seral - Producție Media - Limba Maghiară',
+                                 'Tehnic - Seral - Transporturi - Limba Maghiară',
+                                 'Tehnic - Seral - Chimie Industrială - Limba Maghiară',
+                                 'Tehnic - Seral - Materiale de Construcții - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Chimie Industrială - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Agricultură - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Industrie Alimentară - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Silvicultură - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Seral - Protecția Mediului - Limba Maghiară'],
                                 HIGHSCHOOL_SERAL_HU)
 
 
-def add_data_for_highschool(programs, program_map):
-    for program in programs:
+def add_data_for_highschool(programs_names, program_map):
+    for program_name in programs_names:
+        program = GenericAcademicProgram.objects.create(name=program_name, category=SchoolUnitCategory.objects.get(name='Liceu - Filieră Tehnologică'))
         program.optional_subjects_weekly_hours = program_map['optional_subjects_weekly_hours']
         program.save()
         for item in program_map['subjects']:

@@ -3,6 +3,7 @@
 from django.db import transaction
 
 from edualert.academic_programs.models import GenericAcademicProgram
+from edualert.schools.models import SchoolUnitCategory
 from edualert.study_classes.constants import CLASS_GRADE_MAPPING
 from edualert.subjects.models import Subject, ProgramSubjectThrough
 
@@ -116,56 +117,57 @@ HIGHSCHOOL_PROF_HU = {
 
 def run():
     with transaction.atomic():
-        add_data_for_highschool(GenericAcademicProgram.objects.filter(name__in=['Servicii - Profesională - Comerț',
-                                                                                'Servicii - Profesională - Economic',
-                                                                                'Servicii - Profesională - Turism și Alimentație',
-                                                                                'Servicii - Profesională - Administrativ',
-                                                                                'Servicii - Profesională - Estetica și Igiena Corpului Omenesc',
-                                                                                'Tehnic - Profesională - Mecanică',
-                                                                                'Tehnic - Profesională - Electromecanică',
-                                                                                'Tehnic - Profesională - Electronică Automatizări',
-                                                                                'Tehnic - Profesională - Electric',
-                                                                                'Tehnic - Profesională - Construcții, Instalații și Lucrări Publice',
-                                                                                'Tehnic - Profesională - Industrie Textilă și Pielărie',
-                                                                                'Tehnic - Profesională - Fabricarea Produselor din Lemn',
-                                                                                'Tehnic - Profesională - Tehnice Poligrafice',
-                                                                                'Tehnic - Profesională - Producție Media',
-                                                                                'Tehnic - Profesională - Transporturi',
-                                                                                'Tehnic - Profesională - Chimie Industrială',
-                                                                                'Tehnic - Profesională - Materiale de Construcții',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Chimie Industrială',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Agricultură',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Industrie Alimentară',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Silvicultură',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Protecția Mediului']),
+        add_data_for_highschool(['Servicii - Profesională - Comerț',
+                                 'Servicii - Profesională - Economic',
+                                 'Servicii - Profesională - Turism și Alimentație',
+                                 'Servicii - Profesională - Administrativ',
+                                 'Servicii - Profesională - Estetica și Igiena Corpului Omenesc',
+                                 'Tehnic - Profesională - Mecanică',
+                                 'Tehnic - Profesională - Electromecanică',
+                                 'Tehnic - Profesională - Electronică Automatizări',
+                                 'Tehnic - Profesională - Electric',
+                                 'Tehnic - Profesională - Construcții, Instalații și Lucrări Publice',
+                                 'Tehnic - Profesională - Industrie Textilă și Pielărie',
+                                 'Tehnic - Profesională - Fabricarea Produselor din Lemn',
+                                 'Tehnic - Profesională - Tehnice Poligrafice',
+                                 'Tehnic - Profesională - Producție Media',
+                                 'Tehnic - Profesională - Transporturi',
+                                 'Tehnic - Profesională - Chimie Industrială',
+                                 'Tehnic - Profesională - Materiale de Construcții',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Chimie Industrială',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Agricultură',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Industrie Alimentară',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Silvicultură',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Protecția Mediului'],
                                 HIGHSCHOOL_PROF)
-        add_data_for_highschool(GenericAcademicProgram.objects.filter(name__in=['Servicii - Profesională - Comerț - Limba Maghiară',
-                                                                                'Servicii - Profesională - Economic - Limba Maghiară',
-                                                                                'Servicii - Profesională - Turism și Alimentație - Limba Maghiară',
-                                                                                'Servicii - Profesională - Administrativ - Limba Maghiară',
-                                                                                'Servicii - Profesională - Estetica și Igiena Corpului Omenesc - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Mecanică - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Electromecanică - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Electronică Automatizări - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Electric - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Construcții, Instalații și Lucrări Publice - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Industrie Textilă și Pielărie - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Fabricarea Produselor din Lemn - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Tehnice Poligrafice - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Producție Media - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Transporturi - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Chimie Industrială - Limba Maghiară',
-                                                                                'Tehnic - Profesională - Materiale de Construcții - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Chimie Industrială - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Agricultură - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Industrie Alimentară - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Silvicultură - Limba Maghiară',
-                                                                                'Resurse Naturale și Protecția Mediului - Profesională - Protecția Mediului - Limba Maghiară']),
+        add_data_for_highschool(['Servicii - Profesională - Comerț - Limba Maghiară',
+                                 'Servicii - Profesională - Economic - Limba Maghiară',
+                                 'Servicii - Profesională - Turism și Alimentație - Limba Maghiară',
+                                 'Servicii - Profesională - Administrativ - Limba Maghiară',
+                                 'Servicii - Profesională - Estetica și Igiena Corpului Omenesc - Limba Maghiară',
+                                 'Tehnic - Profesională - Mecanică - Limba Maghiară',
+                                 'Tehnic - Profesională - Electromecanică - Limba Maghiară',
+                                 'Tehnic - Profesională - Electronică Automatizări - Limba Maghiară',
+                                 'Tehnic - Profesională - Electric - Limba Maghiară',
+                                 'Tehnic - Profesională - Construcții, Instalații și Lucrări Publice - Limba Maghiară',
+                                 'Tehnic - Profesională - Industrie Textilă și Pielărie - Limba Maghiară',
+                                 'Tehnic - Profesională - Fabricarea Produselor din Lemn - Limba Maghiară',
+                                 'Tehnic - Profesională - Tehnice Poligrafice - Limba Maghiară',
+                                 'Tehnic - Profesională - Producție Media - Limba Maghiară',
+                                 'Tehnic - Profesională - Transporturi - Limba Maghiară',
+                                 'Tehnic - Profesională - Chimie Industrială - Limba Maghiară',
+                                 'Tehnic - Profesională - Materiale de Construcții - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Chimie Industrială - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Agricultură - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Industrie Alimentară - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Silvicultură - Limba Maghiară',
+                                 'Resurse Naturale și Protecția Mediului - Profesională - Protecția Mediului - Limba Maghiară'],
                                 HIGHSCHOOL_PROF_HU)
 
 
-def add_data_for_highschool(programs, program_map):
-    for program in programs:
+def add_data_for_highschool(programs_names, program_map):
+    for program_name in programs_names:
+        program = GenericAcademicProgram.objects.create(name=program_name, category=SchoolUnitCategory.objects.get(name='Liceu - Filieră Tehnologică'))
         program.optional_subjects_weekly_hours = program_map['optional_subjects_weekly_hours']
         program.save()
         for item in program_map['subjects']:
