@@ -15,7 +15,8 @@ def format_and_send_notification_task(subject, body, user_profile_ids, should_se
     bodies = {
         'text/html': get_template('message.html').render(context={'title': subject, 'body': body,
                                                                   'frontend_url': settings.FRONTEND_URL,
-                                                                  'show_my_account': show_my_account}),
+                                                                  'show_my_account': show_my_account,
+                                                                  'signature': 'Echipa EduAlert'}),
     }
 
     for profile_id in user_profile_ids:

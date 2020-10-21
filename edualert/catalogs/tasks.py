@@ -25,6 +25,12 @@ def send_alerts_for_risks_task():
 
 
 @shared_task
+def send_alerts_for_school_situation_task():
+    from edualert.catalogs.utils import send_alerts_for_school_situation
+    send_alerts_for_school_situation()
+
+
+@shared_task
 def calculate_students_placements_task():
     from edualert.catalogs.utils import calculate_student_placements
     calculate_student_placements()

@@ -112,6 +112,7 @@ def send_reset_password_message(user_profile_id, link):
             'text/html': get_template('message.html').render(context={'title': RESET_PASSWORD_TITLE,
                                                                       'body': RESET_PASSWORD_BODY_EMAIL.format(link),
                                                                       'frontend_url': settings.FRONTEND_URL,
-                                                                      'show_my_account': False}),
+                                                                      'show_my_account': False,
+                                                                      'signature': 'Echipa EduAlert'}),
         }
         send_mail(RESET_PASSWORD_TITLE, bodies, settings.SERVER_EMAIL, [profile.email])
