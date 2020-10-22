@@ -206,8 +206,8 @@ FIXTURE_DIRS = (
 CELERY_BROKER_URL = env.str('CACHE_URL', '')
 
 # Emails
-DEFAULT_FROM_EMAIL = 'dev-no-reply@rodeapps.com'
-SERVER_EMAIL = 'dev-no-reply@rodeapps.com'
+DEFAULT_FROM_EMAIL = 'madalina.gal@rodeapps.com'
+SERVER_EMAIL = 'madalina.gal@rodeapps.com'
 
 
 # Frontend URL

@@ -18,9 +18,10 @@ def send_alerts_for_school_situation():
     for school_unit in RegisteredSchoolUnit.objects.all():
         for student in UserProfile.objects.filter(school_unit_id=school_unit.id, user_role=UserProfile.UserRoles.STUDENT, is_active=True):
             unfounded_absences_count = SubjectAbsence.objects.filter(student_id=student.id, taken_at__gte=one_week_ago, taken_at__lt=yesterday, is_founded=False).count()
-
             grades = SubjectGrade.objects.filter(student_id=student.id, taken_at__gte=one_week_ago, taken_at__lt=yesterday)
-            grouped_grades = group_grades_by_subject(grades)
+
+            if unfounded_absences_count == 0 and grades.count() == 0:
+                continue
 
             parents_with_emails = []
             parents_with_phone_numbers = []
@@ -29,6 +30,8 @@ def send_alerts_for_school_situation():
                     parents_with_emails.append(parent)
                 elif parent.phone_number:
                     parents_with_phone_numbers.append(parent)
+
+            grouped_grades = group_grades_by_subject(grades)
 
             if parents_with_emails:
                 formatted_grades_for_email = format_grades_for_email(grouped_grades)

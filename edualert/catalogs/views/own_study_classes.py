@@ -33,7 +33,8 @@ class OwnStudyClassPupilList(generics.ListAPIView):
             id=self.kwargs['id'],
             class_master=self.request.user.user_profile
         )
-        return study_class.student_catalogs_per_year.filter(student__is_active=True)
+        return study_class.student_catalogs_per_year.filter(student__is_active=True) \
+            .select_related('student').prefetch_related('student__labels')
 
 
 class OwnStudyClassPupilDetail(generics.RetrieveAPIView):
@@ -130,4 +131,4 @@ class OwnStudyClassCatalogBySubject(generics.ListAPIView):
             teacher_id=profile.id,
             is_enrolled=True,
             student__is_active=True
-        ).prefetch_related('grades', 'absences', 'examination_grades')
+        ).select_related('student').prefetch_related('grades', 'absences', 'examination_grades', 'student__labels')
