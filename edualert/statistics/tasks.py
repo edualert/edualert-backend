@@ -159,7 +159,7 @@ def update_school_unit_enrollment_stats_task():
 
 def get_months_since_academic_calendar_start(current_calendar):
     today = timezone.now().date()
-    date = current_calendar.first_semester.starts_at
+    date = current_calendar.first_semester.starts_at.replace(day=1)
 
     months = []
     while date <= today:

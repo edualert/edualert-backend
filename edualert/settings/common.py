@@ -206,12 +206,12 @@ FIXTURE_DIRS = (
 CELERY_BROKER_URL = env.str('CACHE_URL', '')
 
 # Emails
-DEFAULT_FROM_EMAIL = 'dev-no-reply@rodeapps.com'
-SERVER_EMAIL = 'dev-no-reply@rodeapps.com'
+DEFAULT_FROM_EMAIL = 'alerte@edualert.ro'
+SERVER_EMAIL = 'alerte@edualert.ro'
 
 
 # Frontend URL
-FRONTEND_URL = env.str('FRONTEND_URL_PRODUCTION', 'http://edualert-frontend-dev.herokuapp.com/')
+FRONTEND_URL = env.str('FRONTEND_URL_PRODUCTION', 'https://catalog.edualert.ro/')
 if ENVIRONMENT == 'staging':
     FRONTEND_URL = env.str('FRONTEND_URL_STAGING', '')
 

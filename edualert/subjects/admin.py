@@ -15,7 +15,8 @@ class ProgramSubjectThroughAdmin(admin.ModelAdmin):
     list_display = ('id', 'generic_academic_program_link', 'academic_program_link',
                     'subject_link', 'class_grade', 'weekly_hours_count', 'is_mandatory')
     readonly_fields = ('subject_name',)
-    list_filter = ('is_mandatory',)
+    search_fields = ('subject_name',)
+    list_filter = ('is_mandatory', 'class_grade')
 
     def generic_academic_program_link(self, instance):
         if instance.generic_academic_program:

@@ -38,3 +38,11 @@ ABSENCES_ABOVE_3_BODY = 'Elevul are un număr de absențe nemotivate mai mare ca
 
 ABSENCES_ABOVE_LIMIT_TITLE = 'Număr total absențe nemotivate semestru mai mare ca {} - {}'
 ABSENCES_ABOVE_LIMIT_BODY = 'Elevul are un număr total de absențe nemotivate pe semestru mai mare ca {}.'
+
+SCHOOL_SITUATION_SMS_BODY = 'EduAlert - Situație {} {}. Note: {}. Absențe nemotivate: {}.'
+SCHOOL_SITUATION_EMAIL_TITLE = 'Situație școlară {} {}'
+SCHOOL_SITUATION_EMAIL_BODY = 'Bună ziua!\n\n' \
+                              'Acesta este un raport săptămânal automat cu privire la situația școlară a lui {} pentru perioada {}.\n\n' \
+                              'Note: {}.\n\n' \
+                              'Absențe nemotivate: {}.'
+SCHOOL_SITUATION_EMAIL_SIGNATURE = 'Gânduri bune,\n{}'

@@ -9,3 +9,4 @@ from .exporter import get_catalog_csv_representation
 from .risk_levels import calculate_students_risk_level
 from .risk_alerts import send_alerts_for_risks
 from .student_placements import calculate_student_placements
+from .school_situation_alerts import send_alerts_for_school_situation

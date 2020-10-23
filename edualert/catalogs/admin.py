@@ -10,6 +10,8 @@ class StudentCatalogPerSubjectAdmin(admin.ModelAdmin):
     list_display = ('id', 'student_link', 'study_class_link', 'subject_link', 'is_enrolled',
                     'is_at_risk', 'wants_level_testing_grade', 'wants_thesis', 'wants_simulation', 'is_exempted')
     readonly_fields = ('subject_name', 'is_coordination_subject')
+    search_fields = ('student__full_name', 'student__id')
+    list_filter = ('study_class__class_grade',)
 
     def student_link(self, instance):
         url = reverse("admin:profiles_userprofile_change", args=(instance.student.id,))
@@ -85,6 +87,7 @@ class ExaminationGradeAdmin(admin.ModelAdmin):
 
 class StudentCatalogPerYearAdmin(admin.ModelAdmin):
     list_display = ('id', 'student_link', 'study_class_link')
+    search_fields = ('student__full_name', 'student__id')
 
     def student_link(self, instance):
         url = reverse("admin:profiles_userprofile_change", args=(instance.student.id,))
