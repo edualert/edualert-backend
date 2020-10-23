@@ -69,5 +69,4 @@ RESET_PASSWORD_TITLE = 'Resetare parolă'
 RESET_PASSWORD_BODY_EMAIL = 'Pentru resetarea parolei pentru platforma EduAlert, accesați linkul de mai jos și urmați instrucțiunile:\n' \
                             '{}\n' \
                             'Dacă nu ați cerut resetarea parolei din platforma EduAlert ignorați acest email.'
-RESET_PASSWORD_BODY_SMS = 'Pentru resetarea parolei pentru platforma EduAlert, accesați acest link și urmați instrucțiunile: {}. ' \
-                          'Dacă nu ați cerut resetarea parolei din platforma EduAlert, ignorați acest mesaj.'
+RESET_PASSWORD_BODY_SMS = 'Click pentru resetare parolă EduAlert: {}.'
