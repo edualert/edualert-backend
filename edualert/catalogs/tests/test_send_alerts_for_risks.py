@@ -5,9 +5,8 @@ from pytz import utc
 
 from edualert.academic_calendars.factories import AcademicYearCalendarFactory, SchoolEventFactory
 from edualert.academic_calendars.models import SchoolEvent
-from edualert.catalogs.constants import AVG_BELOW_7_TITLE, AVG_BELOW_7_BODY, AVG_BELOW_LIMIT_TITLE, AVG_BELOW_LIMIT_BODY, \
-    BEHAVIOR_GRADE_BELOW_10_TITLE, BEHAVIOR_GRADE_BELOW_10_BODY, BEHAVIOR_GRADE_BELOW_8_TITLE, BEHAVIOR_GRADE_BELOW_8_BODY, \
-    ABSENCES_BETWEEN_1_3_TITLE, ABSENCES_BETWEEN_1_3_BODY, ABSENCES_ABOVE_3_TITLE, ABSENCES_ABOVE_3_BODY, \
+from edualert.catalogs.constants import AVG_BELOW_LIMIT_TITLE, AVG_BELOW_LIMIT_BODY, \
+    BEHAVIOR_GRADE_BELOW_8_TITLE, BEHAVIOR_GRADE_BELOW_8_BODY, \
     ABSENCES_ABOVE_LIMIT_TITLE, ABSENCES_ABOVE_LIMIT_BODY
 from edualert.catalogs.factories import StudentCatalogPerYearFactory, StudentCatalogPerSubjectFactory, SubjectAbsenceFactory
 from edualert.catalogs.utils import send_alerts_for_risks
@@ -30,13 +29,14 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
         )
         cls.create_semester_end_events(cls.calendar)
         cls.subject = SubjectFactory(name='Matematică')
+        cls.subject2 = SubjectFactory(name='Limba Romana')
         coordination_subject = SubjectFactory(is_coordination=True)
 
         cls.school1 = RegisteredSchoolUnitFactory()
 
         cls.study_class1 = StudyClassFactory(school_unit=cls.school1)
 
-        # 1 unauthorized absence (both sem) + average below 5 (sem I) + average below 7 (sem II) + behavior grade below 8 (sem I) + behavior grade below 10 (sem II)
+        # behavior grade for the 1st semester lower than 8
         cls.student1 = UserProfileFactory(school_unit=cls.school1, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class1)
         cls.parent1 = UserProfileFactory(school_unit=cls.school1, user_role=UserProfile.UserRoles.PARENT)
         cls.student1.parents.add(cls.parent1)
@@ -48,43 +48,31 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
 
         cls.study_class2 = StudyClassFactory(school_unit=cls.school1, class_grade='XII', class_grade_arabic=12)
 
-        # 4 unauthorized absences (both sem)
+        # 11 unauthorized absences (both sem)
         cls.student2 = UserProfileFactory(school_unit=cls.school1, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class2)
         StudentCatalogPerYearFactory(student=cls.student2, study_class=cls.study_class2)
         cls.catalog2 = StudentCatalogPerSubjectFactory(student=cls.student2, study_class=cls.study_class2, subject=cls.subject)
-        for _ in range(4):
+        for _ in range(11):
             SubjectAbsenceFactory(catalog_per_subject=cls.catalog2, student=cls.student2, semester=1)
             SubjectAbsenceFactory(catalog_per_subject=cls.catalog2, student=cls.student2, semester=2)
-        # 14 unauthorized absences (both sem)
-        cls.student3 = UserProfileFactory(school_unit=cls.school1, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class2)
-        StudentCatalogPerYearFactory(student=cls.student3, study_class=cls.study_class2)
-        cls.catalog3 = StudentCatalogPerSubjectFactory(student=cls.student3, study_class=cls.study_class2, subject=cls.subject)
-        for _ in range(14):
-            SubjectAbsenceFactory(catalog_per_subject=cls.catalog3, student=cls.student3, semester=1)
-            SubjectAbsenceFactory(catalog_per_subject=cls.catalog3, student=cls.student3, semester=2)
 
         cls.school2 = RegisteredSchoolUnitFactory()
         cls.school2.categories.add(SchoolUnitCategoryFactory(name='Liceu - Filieră Tehnologică'))
 
         cls.study_class3 = StudyClassFactory(school_unit=cls.school2, class_grade='VIII', class_grade_arabic=8)
 
-        # 24 unauthorized absences (both sem)
-        cls.student4 = UserProfileFactory(school_unit=cls.school2, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class3)
-        StudentCatalogPerYearFactory(student=cls.student4, study_class=cls.study_class3)
-        cls.catalog4 = StudentCatalogPerSubjectFactory(student=cls.student4, study_class=cls.study_class3, subject=cls.subject)
-        for _ in range(24):
-            SubjectAbsenceFactory(catalog_per_subject=cls.catalog4, student=cls.student4, semester=1)
-            SubjectAbsenceFactory(catalog_per_subject=cls.catalog4, student=cls.student4, semester=2)
+        # Average below limit (both sem)
+        cls.student3 = UserProfileFactory(school_unit=cls.school2, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class3)
+        StudentCatalogPerYearFactory(student=cls.student3, study_class=cls.study_class3)
+        StudentCatalogPerSubjectFactory(student=cls.student3, study_class=cls.study_class3, subject=cls.subject, avg_sem1=4, avg_sem2=3)
 
         cls.study_class4 = StudyClassFactory(school_unit=cls.school2, class_grade='IX', class_grade_arabic=9)
 
-        # 34 unauthorized absences (both sem)
-        cls.student5 = UserProfileFactory(school_unit=cls.school2, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class4)
-        StudentCatalogPerYearFactory(student=cls.student5, study_class=cls.study_class4)
-        cls.catalog5 = StudentCatalogPerSubjectFactory(student=cls.student5, study_class=cls.study_class4, subject=cls.subject)
-        for _ in range(34):
-            SubjectAbsenceFactory(catalog_per_subject=cls.catalog5, student=cls.student5, semester=1)
-            SubjectAbsenceFactory(catalog_per_subject=cls.catalog5, student=cls.student5, semester=2)
+        # Averages below limit (both sem)
+        cls.student4 = UserProfileFactory(school_unit=cls.school2, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class4)
+        StudentCatalogPerYearFactory(student=cls.student4, study_class=cls.study_class4)
+        StudentCatalogPerSubjectFactory(student=cls.student4, study_class=cls.study_class4, subject=cls.subject, avg_sem1=4, avg_sem2=2)
+        StudentCatalogPerSubjectFactory(student=cls.student4, study_class=cls.study_class4, subject=cls.subject2, avg_sem1=3, avg_sem2=4)
 
     @staticmethod
     def create_semester_end_events(calendar):
@@ -110,141 +98,93 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
             ends_at=date(2020, 6, 26)
         )
 
-    @patch('django.utils.timezone.now', return_value=datetime(2019, 12, 9).replace(tzinfo=utc))
+    @patch('django.utils.timezone.now', return_value=datetime(2019, 9, 23).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
     def test_send_alerts_for_risks_during_first_semester(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 8)
-        calls = [call(ABSENCES_BETWEEN_1_3_TITLE.format(self.student1.full_name),
-                      ABSENCES_BETWEEN_1_3_BODY.format(self.subject.name),
+        self.assertEqual(send_notification_mock.call_count, 1)
+        calls = [call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
+                      [self.study_class2.class_master_id], True)]
+        send_notification_mock.assert_has_calls(calls, any_order=True)
+
+    @patch('django.utils.timezone.now', return_value=datetime(2020, 1, 6).replace(tzinfo=utc))
+    @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
+    def test_send_alerts_for_risks_last_first_semester_month(self, send_notification_mock, timezone_mock):
+        send_alerts_for_risks()
+        self.assertEqual(send_notification_mock.call_count, 4)
+        calls = [call(AVG_BELOW_LIMIT_TITLE.format(5, self.student1.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student1.full_name, 5, "MAT"),
                       [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student2.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
+                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
                       [self.study_class2.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student3.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class2.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(10, self.student3.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(10),
-                      [self.study_class2.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student4.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
+                 call(AVG_BELOW_LIMIT_TITLE.format(5, self.student3.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student3.full_name, 5, "MAT"),
                       [self.study_class3.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(20, self.student4.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(20),
-                      [self.study_class3.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student5.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class4.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(30, self.student5.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(30),
-                      [self.study_class4.class_master_id], True),
-                 ]
+                 call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      [self.study_class4.class_master_id], True)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
     @patch('django.utils.timezone.now', return_value=datetime(2020, 1, 13).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
     def test_send_alerts_for_risks_after_first_semester(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 10)
-        calls = [call(ABSENCES_BETWEEN_1_3_TITLE.format(self.student1.full_name),
-                      ABSENCES_BETWEEN_1_3_BODY.format(self.subject.name),
+        self.assertEqual(send_notification_mock.call_count, 2)
+        calls = [call(BEHAVIOR_GRADE_BELOW_8_TITLE.format(self.student1.full_name),
+                      BEHAVIOR_GRADE_BELOW_8_BODY.format(self.student1.full_name),
                       [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(AVG_BELOW_LIMIT_TITLE.format(5, self.student1.full_name),
-                      AVG_BELOW_LIMIT_BODY.format(5, self.subject.name),
-                      [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(BEHAVIOR_GRADE_BELOW_8_TITLE.format(self.student1.full_name),
-                      BEHAVIOR_GRADE_BELOW_8_BODY,
-                      [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student2.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
+                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
+                      [self.study_class2.class_master_id], True)]
+        send_notification_mock.assert_has_calls(calls, any_order=True)
+
+    @patch('django.utils.timezone.now', return_value=datetime(2020, 5, 25).replace(tzinfo=utc))
+    @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
+    def test_send_alerts_for_risks_last_second_semester_month_12_grade(self, send_notification_mock, timezone_mock):
+        send_alerts_for_risks()
+        self.assertEqual(send_notification_mock.call_count, 2)
+        calls = [call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
                       [self.study_class2.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student3.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class2.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(10, self.student3.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(10),
-                      [self.study_class2.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student4.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class3.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(20, self.student4.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(20),
-                      [self.study_class3.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student5.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class4.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(30, self.student5.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(30),
-                      [self.study_class4.class_master_id], True),
-                 ]
+                 call(AVG_BELOW_LIMIT_TITLE.format(5, self.student3.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student3.full_name, 5, "MAT"),
+                      [self.study_class3.class_master_id], True)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
     @patch('django.utils.timezone.now', return_value=datetime(2020, 6, 1).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
-    def test_send_alerts_for_risks_after_second_semester_12_grade_end(self, send_notification_mock, timezone_mock):
+    def test_send_alerts_for_risks_last_second_semester_month_8_grade(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 5)
-        calls = [call(ABSENCES_BETWEEN_1_3_TITLE.format(self.student1.full_name),
-                      ABSENCES_BETWEEN_1_3_BODY.format(self.subject.name),
-                      [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student4.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
+        self.assertEqual(send_notification_mock.call_count, 2)
+        calls = [call(AVG_BELOW_LIMIT_TITLE.format(5, self.student3.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student3.full_name, 5, "MAT"),
                       [self.study_class3.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(20, self.student4.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(20),
-                      [self.study_class3.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student5.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class4.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(30, self.student5.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(30),
-                      [self.study_class4.class_master_id], True),
-                 ]
+                 call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      [self.study_class4.class_master_id], True)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
     @patch('django.utils.timezone.now', return_value=datetime(2020, 6, 8).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
-    def test_send_alerts_for_risks_after_second_semester_8_grade_end(self, send_notification_mock, timezone_mock):
+    def test_send_alerts_for_risks_last_second_semester_month_regular(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 3)
-        calls = [call(ABSENCES_BETWEEN_1_3_TITLE.format(self.student1.full_name),
-                      ABSENCES_BETWEEN_1_3_BODY.format(self.subject.name),
-                      [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student5.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class4.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(30, self.student5.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(30),
-                      [self.study_class4.class_master_id], True),
-                 ]
+        self.assertEqual(send_notification_mock.call_count, 1)
+        calls = [call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      [self.study_class4.class_master_id], True)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
-    @patch('django.utils.timezone.now', return_value=datetime(2020, 6, 15).replace(tzinfo=utc))
+    @patch('django.utils.timezone.now', return_value=datetime(2020, 6, 22).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
-    def test_send_alerts_for_risks_after_second_semester_regular_end(self, send_notification_mock, timezone_mock):
+    def test_send_alerts_for_risks_last_second_semester_month_technological(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 4)
-        calls = [call(AVG_BELOW_7_TITLE.format(self.student1.full_name),
-                      AVG_BELOW_7_BODY.format('anuală', self.subject.name),
-                      [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(BEHAVIOR_GRADE_BELOW_10_TITLE.format(self.student1.full_name),
-                      BEHAVIOR_GRADE_BELOW_10_BODY.format('anuală'),
-                      [self.parent1.id, self.study_class1.class_master_id], True),
-                 call(ABSENCES_ABOVE_3_TITLE.format(self.student5.full_name),
-                      ABSENCES_ABOVE_3_BODY.format(self.subject.name),
-                      [self.study_class4.class_master_id], True),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(30, self.student5.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(30),
-                      [self.study_class4.class_master_id], True),
-                 ]
+        self.assertEqual(send_notification_mock.call_count, 1)
+        calls = [call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      [self.study_class4.class_master_id], True)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
-
-    @patch('django.utils.timezone.now', return_value=datetime(2020, 6, 29).replace(tzinfo=utc))
-    @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
-    def test_send_alerts_for_risks_after_second_semester_technological_end(self, send_notification_mock, timezone_mock):
-        send_alerts_for_risks()
-        send_notification_mock.assert_not_called()
 
     @patch('django.utils.timezone.now', return_value=datetime(2020, 7, 20).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
