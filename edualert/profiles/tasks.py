@@ -92,7 +92,7 @@ def send_alert_for_labels(user_profile_id, label_ids):
             final_recipient_ids = copy(recipient_ids)
             if send_to_principal and school_principal_id:
                 final_recipient_ids.append(school_principal_id)
-            format_and_send_notification_task(subject, body, final_recipient_ids, True)
+            format_and_send_notification_task(subject, body, final_recipient_ids, False)
 
 
 @shared_task

@@ -82,7 +82,7 @@ def send_alert_for_absences_above_limit(semester_unfounded_absences_count, stude
 
     title = ABSENCES_ABOVE_LIMIT_TITLE.format(student.full_name)
     body = ABSENCES_ABOVE_LIMIT_BODY.format(student.full_name, semester_unfounded_absences_count)
-    format_and_send_notification_task(title, body, user_profiles_ids, True)
+    format_and_send_notification_task(title, body, user_profiles_ids, False)
 
 
 def send_alert_for_subjects_below_limit(subjects_with_avg_below_limit, student, user_profiles_ids):
@@ -92,7 +92,7 @@ def send_alert_for_subjects_below_limit(subjects_with_avg_below_limit, student, 
     title = AVG_BELOW_LIMIT_TITLE.format(5, student.full_name)
     subjects = ", ".join([get_subject_initials(subject) for subject in subjects_with_avg_below_limit])
     body = AVG_BELOW_LIMIT_BODY.format(student.full_name, 5, subjects)
-    format_and_send_notification_task(title, body, user_profiles_ids, True)
+    format_and_send_notification_task(title, body, user_profiles_ids, False)
 
 
 def send_alert_for_behavior_grade_below_8(has_behavior_grade_below_8, student, user_profiles_ids):
@@ -101,7 +101,7 @@ def send_alert_for_behavior_grade_below_8(has_behavior_grade_below_8, student, u
 
     title = BEHAVIOR_GRADE_BELOW_8_TITLE.format(student.full_name)
     body = BEHAVIOR_GRADE_BELOW_8_BODY.format(student.full_name)
-    format_and_send_notification_task(title, body, user_profiles_ids, True)
+    format_and_send_notification_task(title, body, user_profiles_ids, False)
 
 
 def get_next_monday_for_date(date):
