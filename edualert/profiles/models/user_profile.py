@@ -26,7 +26,7 @@ class UserProfile(TimeStampedModel):
     email = models.EmailField(max_length=150, null=True, blank=True)
     use_phone_as_username = models.BooleanField(default=False)
     email_notifications_enabled = models.BooleanField(default=True)
-    sms_notifications_enabled = models.BooleanField(default=False)
+    sms_notifications_enabled = models.BooleanField(default=True)
     push_notifications_enabled = models.BooleanField(default=True)
     last_online = models.DateTimeField(null=True, blank=True)
 

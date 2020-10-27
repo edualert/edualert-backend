@@ -481,8 +481,8 @@ class UserProfileUpdateTestCase(CommonAPITestCase):
         self.assertCountEqual(profile.labels.values_list('id', flat=True), [label1.id])
 
         self.assertEqual(send_notification_mock.call_count, 2)
-        calls = [call(EXPELLED_TITLE.format(profile.full_name), EXPELLED_BODY, [self.principal.id], True),
-                 call(HELD_BACK_TITLE.format(profile.full_name), HELD_BACK_BODY, [self.principal.id], True)]
+        calls = [call(EXPELLED_TITLE.format(profile.full_name), EXPELLED_BODY, [self.principal.id], False),
+                 call(HELD_BACK_TITLE.format(profile.full_name), HELD_BACK_BODY, [self.principal.id], False)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
     def test_user_profile_update_taught_subjects(self):
