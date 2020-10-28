@@ -164,7 +164,7 @@ def get_current_semester(today, current_calendar, second_semester_end_events, cl
 
 
 def get_attendance_risk_level(catalog_per_subject, date_limit):
-    absences_count = catalog_per_subject.absences.filter(created__date__gte=date_limit, is_founded=False).count()
+    absences_count = catalog_per_subject.absences.filter(taken_at__gte=date_limit, is_founded=False).count()
     attendance_risk_level = 0
     if 1 <= absences_count <= 3:
         attendance_risk_level = 1
