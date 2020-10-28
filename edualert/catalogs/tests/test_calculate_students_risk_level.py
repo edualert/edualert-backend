@@ -291,24 +291,25 @@ class RiskLevelsTestCase(CommonAPITestCase):
         study_class5_stats = StudentAtRiskCounts.objects.get(study_class=self.study_class5, year=2020, month=1)
         self.assertEqual(study_class5_stats.daily_counts[0]['count'], 2)
 
-        self.assertEqual(send_notification_mock.call_count, 5)
-        calls = [call(ABANDONMENT_RISK_TITLE.format(self.student2.full_name),
-                      ABANDONMENT_RISK_BODY.format(1),
-                      [self.study_class1.class_master_id, self.school1.school_principal_id], False),
-                 call(ABANDONMENT_RISK_TITLE.format(self.student3.full_name),
-                      ABANDONMENT_RISK_BODY.format(2),
-                      [self.study_class1.class_master_id, self.school1.school_principal_id], False),
-                 call(ABANDONMENT_RISK_TITLE.format(self.student8.full_name),
-                      ABANDONMENT_RISK_BODY.format(1),
-                      [self.study_class4.class_master_id, self.school2.school_principal_id], False),
-                 call(ABANDONMENT_RISK_TITLE.format(self.student10.full_name),
-                      ABANDONMENT_RISK_BODY.format(2),
-                      [self.study_class5.class_master_id, self.school2.school_principal_id], False),
-                 call(ABANDONMENT_RISK_TITLE.format(self.student11.full_name),
-                      ABANDONMENT_RISK_BODY.format(2),
-                      [self.study_class5.class_master_id, self.school2.school_principal_id], False),
-                 ]
-        send_notification_mock.assert_has_calls(calls, any_order=True)
+        self.assertEqual(send_notification_mock.call_count, 0)
+        # self.assertEqual(send_notification_mock.call_count, 5)
+        # calls = [call(ABANDONMENT_RISK_TITLE.format(self.student2.full_name),
+        #               ABANDONMENT_RISK_BODY.format(1),
+        #               [self.study_class1.class_master_id, self.school1.school_principal_id], False),
+        #          call(ABANDONMENT_RISK_TITLE.format(self.student3.full_name),
+        #               ABANDONMENT_RISK_BODY.format(2),
+        #               [self.study_class1.class_master_id, self.school1.school_principal_id], False),
+        #          call(ABANDONMENT_RISK_TITLE.format(self.student8.full_name),
+        #               ABANDONMENT_RISK_BODY.format(1),
+        #               [self.study_class4.class_master_id, self.school2.school_principal_id], False),
+        #          call(ABANDONMENT_RISK_TITLE.format(self.student10.full_name),
+        #               ABANDONMENT_RISK_BODY.format(2),
+        #               [self.study_class5.class_master_id, self.school2.school_principal_id], False),
+        #          call(ABANDONMENT_RISK_TITLE.format(self.student11.full_name),
+        #               ABANDONMENT_RISK_BODY.format(2),
+        #               [self.study_class5.class_master_id, self.school2.school_principal_id], False),
+        #          ]
+        # send_notification_mock.assert_has_calls(calls, any_order=True)
 
     @patch('django.utils.timezone.now', return_value=datetime(2020, 6, 1).replace(tzinfo=utc))
     def test_risk_levels_after_second_semester_12_grade_end(self, mocked_method):

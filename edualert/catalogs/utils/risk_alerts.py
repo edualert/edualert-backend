@@ -89,6 +89,7 @@ def send_alert_for_subjects_below_limit(subjects_with_avg_below_limit, student, 
     if not subjects_with_avg_below_limit:
         return
 
+    subjects_with_avg_below_limit = sorted(subjects_with_avg_below_limit)
     title = AVG_BELOW_LIMIT_TITLE.format(5, student.full_name)
     subjects = ", ".join([get_subject_initials(subject) for subject in subjects_with_avg_below_limit])
     body = AVG_BELOW_LIMIT_BODY.format(student.full_name, 5, subjects)
