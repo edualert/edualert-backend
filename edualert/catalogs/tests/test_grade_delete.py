@@ -105,11 +105,11 @@ class GradeDeleteTestCase(CommonAPITestCase):
         self.assertEqual(response.data['message'], "Can't delete coordination subject grade.")
 
     @data(
-        datetime.datetime(2020, 4, 4, 7, 59, 59),
-        datetime.datetime(2020, 4, 3, 22, 59),
+        datetime.datetime(2020, 4, 2, 11, 59, 59),
+        datetime.datetime(2020, 4, 1, 22, 59),
     )
-    @patch('django.utils.timezone.now', return_value=timezone.datetime(2020, 4, 4, 12, 0, 0).replace(tzinfo=utc))
-    def test_grade_delete_grade_more_than_two_hours_in_the_past(self, created_at, mocked_method):
+    @patch('django.utils.timezone.now', return_value=timezone.datetime(2020, 4, 9, 12, 0, 0).replace(tzinfo=utc))
+    def test_grade_delete_grade_more_than_7_days_in_the_past(self, created_at, mocked_method):
         self.client.login(username=self.teacher.username, password='passwd')
         grade = self.create_grade()
         grade.created = created_at.replace(tzinfo=utc)
@@ -117,7 +117,7 @@ class GradeDeleteTestCase(CommonAPITestCase):
 
         response = self.client.delete(self.build_url(grade.id))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, {'message': 'Cannot delete a grade that was created more than 2 hours ago.'})
+        self.assertEqual(response.data, {'message': 'Cannot delete a grade that was created more than 7 days ago.'})
 
     @patch('django.utils.timezone.now', return_value=timezone.datetime(2020, 4, 4, 12, 0, 0).replace(tzinfo=utc))
     def test_grade_delete_success(self, mocked_method):
