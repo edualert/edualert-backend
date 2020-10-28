@@ -11,14 +11,14 @@ from edualert.schools.models import RegisteredSchoolUnit
 
 def send_alerts_for_school_situation():
     today = timezone.now().date()
-    one_week_ago = today - timezone.timedelta(days=7)
-    yesterday = today - timezone.timedelta(days=1)
-    time_period = get_time_period(one_week_ago, yesterday)
+    two_weeks_ago = today - timezone.timedelta(days=14)
+    one_week_ago = today - timezone.timedelta(days=8)
+    time_period = get_time_period(two_weeks_ago, one_week_ago)
 
     for school_unit in RegisteredSchoolUnit.objects.all():
         for student in UserProfile.objects.filter(school_unit_id=school_unit.id, user_role=UserProfile.UserRoles.STUDENT, is_active=True):
-            unfounded_absences_count = get_unfounded_absences_count_for_student(student.id, one_week_ago, yesterday)
-            grades = get_grades_for_students(student.id, one_week_ago, yesterday)
+            unfounded_absences_count = get_unfounded_absences_count_for_student(student.id, two_weeks_ago, one_week_ago)
+            grades = get_grades_for_students(student.id, two_weeks_ago, one_week_ago)
 
             if unfounded_absences_count == 0 and grades.count() == 0:
                 continue
@@ -37,11 +37,11 @@ def send_alerts_for_school_situation():
                                                      parents_with_phone_numbers)
 
 
-def get_time_period(one_week_ago, yesterday):
-    if one_week_ago.month == yesterday.month:
-        return "{}-{}.{}".format(one_week_ago.day, yesterday.day, yesterday.month)
+def get_time_period(starts_at, ends_at):
+    if starts_at.month == ends_at.month:
+        return "{}-{}.{}".format(starts_at.day, ends_at.day, ends_at.month)
 
-    return "{}.{}-{}.{}".format(one_week_ago.day, one_week_ago.month, yesterday.day, yesterday.month)
+    return "{}.{}-{}.{}".format(starts_at.day, starts_at.month, ends_at.day, ends_at.month)
 
 
 def get_unfounded_absences_count_for_student(student_id, starts_at, ends_at):

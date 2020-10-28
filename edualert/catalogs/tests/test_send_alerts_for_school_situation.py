@@ -122,7 +122,7 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
     @patch('edualert.catalogs.utils.school_situation_alerts.format_and_send_school_situation_sms')
     def test_send_alerts(self, send_sms_mock, send_email_mock):
         today = timezone.now().date()
-        two_days_ago = today - timezone.timedelta(days=2)
+        ten_days_ago = today - timezone.timedelta(days=10)
 
         # add one more student from a different school
         school2 = RegisteredSchoolUnitFactory()
@@ -132,12 +132,12 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
         catalog3 = StudentCatalogPerSubjectFactory(student=student2, study_class=study_class2, subject=self.subject1)
 
         # add 1 unfounded absence for 1st student
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=two_days_ago)
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=ten_days_ago)
         # add grades for both of them
-        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=two_days_ago, grade=6)
-        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=two_days_ago, grade=7)
-        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=two_days_ago, grade=5)
-        SubjectGradeFactory(student=student2, catalog_per_subject=catalog3, taken_at=two_days_ago, grade=10)
+        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=ten_days_ago, grade=6)
+        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=ten_days_ago, grade=7)
+        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=ten_days_ago, grade=5)
+        SubjectGradeFactory(student=student2, catalog_per_subject=catalog3, taken_at=ten_days_ago, grade=10)
 
         # add 2 parents for each, one allowing emails, one allowing sms
         parent1 = UserProfileFactory(school_unit=self.school, user_role=UserProfile.UserRoles.PARENT)
@@ -152,9 +152,9 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
         # call tested function
         send_alerts_for_school_situation()
 
-        one_week_ago = today - timezone.timedelta(days=7)
-        yesterday = today - timezone.timedelta(days=1)
-        time_period = get_time_period(one_week_ago, yesterday)
+        two_weeks_ago = today - timezone.timedelta(days=14)
+        one_week_ago = today - timezone.timedelta(days=8)
+        time_period = get_time_period(two_weeks_ago, one_week_ago)
 
         # check mocked calls
         send_email_calls = [call("Marinescu I. Ioan", time_period, "Limba Romana 10", 0, school2.name, [parent3]),
