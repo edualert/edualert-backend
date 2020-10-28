@@ -40,23 +40,23 @@ def send_alert_for_labels(user_profile_id, label_ids):
 
         # if label.text == ABANDONMENT_RISK_1_LABEL:
         #     subject = ABANDONMENT_RISK_TITLE.format(profile.full_name)
-        #     body = ABANDONMENT_RISK_BODY.format(1)
+        #     body = ABANDONMENT_RISK_BODY.format(profile.full_name, 1)
         #     send_to_principal = True
         # elif label.text == ABANDONMENT_RISK_2_LABEL:
         #     subject = ABANDONMENT_RISK_TITLE.format(profile.full_name)
-        #     body = ABANDONMENT_RISK_BODY.format(2)
+        #     body = ABANDONMENT_RISK_BODY.format(profile.full_name, 2)
         #     send_to_principal = True
         if label.text == TRANSFERRED_LABEL:
             subject = TRANSFERRED_TITLE.format(profile.full_name)
-            body = TRANSFERRED_BODY
+            body = TRANSFERRED_BODY.format(profile.full_name)
             send_to_principal = True
         elif label.text == EXPELLED_LABEL:
             subject = EXPELLED_TITLE.format(profile.full_name)
-            body = EXPELLED_BODY
+            body = EXPELLED_BODY.format(profile.full_name)
             send_to_principal = True
         elif label.text == ABANDONMENT_LABEL:
             subject = ABANDONMENT_TITLE.format(profile.full_name)
-            body = ABANDONMENT_BODY
+            body = ABANDONMENT_BODY.format(profile.full_name)
             send_to_principal = True
         elif label.text in [FAILING_1_SUBJECT_LABEL, FAILING_2_SUBJECTS_LABEL]:
             if profile.student_in_class:
@@ -71,21 +71,19 @@ def send_alert_for_labels(user_profile_id, label_ids):
                     Q(avg_sem2__lt=5) | Q(avg_sem2__lt=6, subject_id__in=core_subjects_ids),
                     student_id=profile.id, study_class_id=profile.student_in_class.id
                 ), all=True).values_list('subject_name', flat=True)
-                body = ''
-                for school_subject in set(school_subjects):
-                    body += FAILING_SUBJECTS_BODY.format(school_subject)
+                body = FAILING_SUBJECTS_BODY.format(profile.full_name, ", ".join(set(school_subjects)))
                 send_to_principal = False
         elif label.text in [HELD_BACK_LABEL, HELD_BACK_ILLNESS_LABEL]:
             subject = HELD_BACK_TITLE.format(profile.full_name)
-            body = HELD_BACK_BODY
+            body = HELD_BACK_BODY.format(profile.full_name)
             send_to_principal = True
         elif label.text in [EXEMPTED_SPORT_LABEL, EXEMPTED_RELIGION_LABEL]:
             subject = EXEMPTED_TITLE.format(profile.full_name)
-            body = EXEMPTED_BODY.format(' '.join(label.text.split(' ')[1:]))
+            body = EXEMPTED_BODY.format(profile.full_name, ' '.join(label.text.split(' ')[1:]))
             send_to_principal = False
         elif label.text in [SUPPORT_GROUP_LABEL, MENTORING_LABEL, WORKSHOP_LABEL, SUMMER_CAMP_LABEL, PSYCHOLOGICAL_COUNSELING_LABEL]:
             subject = PROGRAM_ENROLLMENT_TITLE.format(profile.full_name)
-            body = PROGRAM_ENROLLMENT_BODY.format(PROJECTS_MAP[label.text])
+            body = PROGRAM_ENROLLMENT_BODY.format(profile.full_name, PROJECTS_MAP[label.text])
             send_to_principal = True
 
         if subject and body:
@@ -102,12 +100,7 @@ def send_reset_password_message(user_profile_id, link):
     if not profile:
         return
 
-    if profile.use_phone_as_username:
-        phone_number = profile.phone_number if profile.phone_number.startswith('+') or profile.phone_number.startswith('00') \
-            else '+4' + profile.phone_number
-        text_message = get_template('message.txt').render(context={'body': RESET_PASSWORD_BODY_SMS.format(link)})
-        send_sms([(phone_number, text_message)])
-    else:
+    if profile.email:
         bodies = {
             'text/html': get_template('message.html').render(context={'title': RESET_PASSWORD_TITLE,
                                                                       'body': RESET_PASSWORD_BODY_EMAIL.format(link),
@@ -116,3 +109,8 @@ def send_reset_password_message(user_profile_id, link):
                                                                       'signature': 'Echipa EduAlert'}),
         }
         send_mail(RESET_PASSWORD_TITLE, bodies, settings.SERVER_EMAIL, [profile.email])
+    else:
+        phone_number = profile.phone_number if profile.phone_number.startswith('+') or profile.phone_number.startswith('00') \
+            else '+4' + profile.phone_number
+        text_message = RESET_PASSWORD_BODY_SMS.format(link)
+        send_sms([(phone_number, text_message)])

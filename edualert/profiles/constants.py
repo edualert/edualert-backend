@@ -38,28 +38,28 @@ PROJECTS_MAP = {
 
 # Emails / SMS
 ABANDONMENT_RISK_TITLE = 'Risc abandon școlar - {}'
-ABANDONMENT_RISK_BODY = 'Elevul este în situație de risc abandon școlar, grad {}.'
+ABANDONMENT_RISK_BODY = 'Elevul {} este în situație de risc abandon școlar, grad {}.'
 
 TRANSFERRED_TITLE = 'Transfer - {}'
-TRANSFERRED_BODY = 'Elevul este în situație de transfer între școli.'
+TRANSFERRED_BODY = 'Elevul {} este în situație de transfer între școli.'
 
 EXPELLED_TITLE = 'Exmatriculare - {}'
-EXPELLED_BODY = 'Elevul a fost exmatriculat.'
+EXPELLED_BODY = 'Elevul {} a fost exmatriculat.'
 
 ABANDONMENT_TITLE = 'Abandon școlar - {}'
-ABANDONMENT_BODY = 'Elevul este în situație de abandon școlar.'
+ABANDONMENT_BODY = 'Elevul {} este în situație de abandon școlar.'
 
 FAILING_SUBJECTS_TITLE = 'Corigență - {}'
-FAILING_SUBJECTS_BODY = 'Elevul este corigent la {}.\n'
+FAILING_SUBJECTS_BODY = 'Elevul {} este corigent la materiile: {}.'
 
 HELD_BACK_TITLE = 'Repetare an școlar - {}'
-HELD_BACK_BODY = 'Elevul este repetent.'
+HELD_BACK_BODY = 'Elevul {} este repetent.'
 
 EXEMPTED_TITLE = 'Scutire materie - {}'
-EXEMPTED_BODY = 'Elevul este scutit de {}.'
+EXEMPTED_BODY = 'Elevul {} este scutit de {}.'
 
 PROGRAM_ENROLLMENT_TITLE = 'Înrolare program prevenție abandon școlar - {}'
-PROGRAM_ENROLLMENT_BODY = 'Elevul este înrolat în {}.'
+PROGRAM_ENROLLMENT_BODY = 'Elevul {} este înrolat în {}.'
 
 ACCOUNT_CHANGED_TITLE = 'Contul EduAlert'
 ACCOUNT_ACTIVATED_BODY = 'Contul EduAlert a fost reactivat.'

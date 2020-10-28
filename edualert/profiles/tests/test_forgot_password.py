@@ -41,7 +41,7 @@ class ForgotPasswordTestCase(CommonAPITestCase):
     @patch('edualert.profiles.tasks.send_mail')
     @patch('edualert.profiles.tasks.send_sms')
     def test_forgot_password_send_sms(self, send_sms_mock, send_mail_mock):
-        self.profile.use_phone_as_username = True
+        self.profile.email = ""
         self.profile.save()
 
         response = self.client.post(self.url, {'username': self.profile.username})

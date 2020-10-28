@@ -224,10 +224,10 @@ class CatalogSettingsUpdateTestCase(CommonAPITestCase):
 
         self.assertEqual(send_notification_mock.call_count, 2)
         calls = [call(EXEMPTED_TITLE.format(self.student1.full_name),
-                      EXEMPTED_BODY.format('Religie'),
+                      EXEMPTED_BODY.format(self.student1.full_name, 'Religie'),
                       [self.study_class.class_master_id], False),
                  call(EXEMPTED_TITLE.format(self.student1.full_name),
-                      EXEMPTED_BODY.format('Educație Fizică'),
+                      EXEMPTED_BODY.format(self.student1.full_name, 'Educație Fizică'),
                       [self.study_class.class_master_id], False),
                  ]
         send_notification_mock.assert_has_calls(calls, any_order=True)

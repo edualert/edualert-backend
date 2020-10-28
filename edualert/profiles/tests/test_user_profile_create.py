@@ -381,10 +381,10 @@ class UserProfileCreateTestCaste(CommonAPITestCase):
 
         self.assertEqual(send_notification_mock.call_count, 2)
         calls = [call(TRANSFERRED_TITLE.format(student.full_name),
-                      TRANSFERRED_BODY,
+                      TRANSFERRED_BODY.format(student.full_name),
                       [father.id, mother.id, self.principal.id], False),
                  call(PROGRAM_ENROLLMENT_TITLE.format(student.full_name),
-                      PROGRAM_ENROLLMENT_BODY.format('Proiect ORS - Grup Suport'),
+                      PROGRAM_ENROLLMENT_BODY.format(student.full_name, 'Proiect ORS - Grup Suport'),
                       [father.id, mother.id, self.principal.id], False),
                  ]
         send_notification_mock.assert_has_calls(calls, any_order=True)
