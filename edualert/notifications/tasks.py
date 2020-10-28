@@ -11,7 +11,6 @@ def format_and_send_notification_task(subject, body, user_profile_ids, always_se
     mails_to_send = []
     sms_to_send = []
 
-    text_message = get_template('message.txt').render(context={'body': body})
     bodies = {
         'text/html': get_template('message.html').render(context={'title': subject, 'body': body,
                                                                   'frontend_url': settings.FRONTEND_URL,
@@ -33,7 +32,7 @@ def format_and_send_notification_task(subject, body, user_profile_ids, always_se
         if (always_send_sms or not can_send_email) and profile.sms_notifications_enabled and profile.phone_number:
             phone_number = profile.phone_number if profile.phone_number.startswith('+') or profile.phone_number.startswith('00') \
                 else '+4' + profile.phone_number
-            sms_to_send.append((phone_number, text_message))
+            sms_to_send.append((phone_number, body))
 
     if len(mails_to_send) > 1:
         send_mass_mail(mails_to_send)

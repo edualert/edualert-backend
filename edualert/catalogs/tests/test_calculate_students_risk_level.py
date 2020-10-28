@@ -294,19 +294,19 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertEqual(send_notification_mock.call_count, 0)
         # self.assertEqual(send_notification_mock.call_count, 5)
         # calls = [call(ABANDONMENT_RISK_TITLE.format(self.student2.full_name),
-        #               ABANDONMENT_RISK_BODY.format(1),
+        #               ABANDONMENT_RISK_BODY.format(self.student2.full_name, 1),
         #               [self.study_class1.class_master_id, self.school1.school_principal_id], False),
         #          call(ABANDONMENT_RISK_TITLE.format(self.student3.full_name),
-        #               ABANDONMENT_RISK_BODY.format(2),
+        #               ABANDONMENT_RISK_BODY.format(self.student3.full_name, 2),
         #               [self.study_class1.class_master_id, self.school1.school_principal_id], False),
         #          call(ABANDONMENT_RISK_TITLE.format(self.student8.full_name),
-        #               ABANDONMENT_RISK_BODY.format(1),
+        #               ABANDONMENT_RISK_BODY.format(self.student8.full_name, 1),
         #               [self.study_class4.class_master_id, self.school2.school_principal_id], False),
         #          call(ABANDONMENT_RISK_TITLE.format(self.student10.full_name),
-        #               ABANDONMENT_RISK_BODY.format(2),
+        #               ABANDONMENT_RISK_BODY.format(self.student10.full_name, 2),
         #               [self.study_class5.class_master_id, self.school2.school_principal_id], False),
         #          call(ABANDONMENT_RISK_TITLE.format(self.student11.full_name),
-        #               ABANDONMENT_RISK_BODY.format(2),
+        #               ABANDONMENT_RISK_BODY.format(self.student11.full_name, 2),
         #               [self.study_class5.class_master_id, self.school2.school_principal_id], False),
         #          ]
         # send_notification_mock.assert_has_calls(calls, any_order=True)
