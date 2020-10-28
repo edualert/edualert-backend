@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-02 14:04+0000\n"
+"POT-Creation-Date: 2020-10-28 15:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -461,7 +461,6 @@ msgid "update"
 msgstr "edita"
 
 #: edualert/catalogs/views/examination_grades.py:61
-#: edualert/catalogs/views/grades.py:82
 msgid "Cannot {} a grade that was created more than 2 hours ago."
 msgstr "Nu se poate {} o notă care a fost creată cu mai mult de 2 ore în urmă."
 
@@ -476,6 +475,10 @@ msgstr "Nu se pot adăuga note pentru un elev scutit."
 #: edualert/catalogs/views/grades.py:48 edualert/catalogs/views/grades.py:119
 msgid "Can't add grades for coordination subject."
 msgstr "Nu se pot adăuga alte note la purtare."
+
+#: edualert/catalogs/views/grades.py:82
+msgid "Cannot {} a grade that was created more than 7 days ago."
+msgstr "Nu se poate {} o notă care a fost creată cu mai mult de 7 zile în urmă."
 
 #: edualert/catalogs/views/grades.py:98
 msgid "Can't delete coordination subject grade."
@@ -947,6 +950,15 @@ msgstr "Elevul nu are media generală necesară pentru această clasă."
 #: edualert/subjects/serializers.py:22
 msgid "The number of hours must be greater than 0."
 msgstr "Numărul de ore pe săptămână să fie mai mare ca 0."
+
+#: env/lib/python3.8/site-packages/awscli/bcdoc/textwriter.py:469
+#, python-format
+msgid "[image: %s]"
+msgstr ""
+
+#: env/lib/python3.8/site-packages/awscli/bcdoc/textwriter.py:470
+msgid "[image]"
+msgstr ""
 
 #: env/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
