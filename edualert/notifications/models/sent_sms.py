@@ -12,6 +12,7 @@ class SentSms(TimeStampedModel):
 
     class Meta:
         ordering = ('-sent_at',)
+        verbose_name_plural = 'sent sms'
 
     def __str__(self):
         return f"SentSms {self.id}"
