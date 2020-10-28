@@ -123,7 +123,7 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
                       AVG_BELOW_LIMIT_BODY.format(self.student3.full_name, 5, "MAT"),
                       [self.study_class3.class_master_id], False),
                  call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
-                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "LRO, MAT"),
                       [self.study_class4.class_master_id], False)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
@@ -162,7 +162,7 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
                       AVG_BELOW_LIMIT_BODY.format(self.student3.full_name, 5, "MAT"),
                       [self.study_class3.class_master_id], False),
                  call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
-                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "LRO, MAT"),
                       [self.study_class4.class_master_id], False)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
@@ -172,7 +172,7 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
         send_alerts_for_risks()
         self.assertEqual(send_notification_mock.call_count, 1)
         calls = [call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
-                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "LRO, MAT"),
                       [self.study_class4.class_master_id], False)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
@@ -182,7 +182,7 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
         send_alerts_for_risks()
         self.assertEqual(send_notification_mock.call_count, 1)
         calls = [call(AVG_BELOW_LIMIT_TITLE.format(5, self.student4.full_name),
-                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "MAT, LRO"),
+                      AVG_BELOW_LIMIT_BODY.format(self.student4.full_name, 5, "LRO, MAT"),
                       [self.study_class4.class_master_id], False)]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 

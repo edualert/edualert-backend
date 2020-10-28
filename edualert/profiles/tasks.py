@@ -38,15 +38,15 @@ def send_alert_for_labels(user_profile_id, label_ids):
         body = None
         send_to_principal = False
 
-        if label.text == ABANDONMENT_RISK_1_LABEL:
-            subject = ABANDONMENT_RISK_TITLE.format(profile.full_name)
-            body = ABANDONMENT_RISK_BODY.format(1)
-            send_to_principal = True
-        elif label.text == ABANDONMENT_RISK_2_LABEL:
-            subject = ABANDONMENT_RISK_TITLE.format(profile.full_name)
-            body = ABANDONMENT_RISK_BODY.format(2)
-            send_to_principal = True
-        elif label.text == TRANSFERRED_LABEL:
+        # if label.text == ABANDONMENT_RISK_1_LABEL:
+        #     subject = ABANDONMENT_RISK_TITLE.format(profile.full_name)
+        #     body = ABANDONMENT_RISK_BODY.format(1)
+        #     send_to_principal = True
+        # elif label.text == ABANDONMENT_RISK_2_LABEL:
+        #     subject = ABANDONMENT_RISK_TITLE.format(profile.full_name)
+        #     body = ABANDONMENT_RISK_BODY.format(2)
+        #     send_to_principal = True
+        if label.text == TRANSFERRED_LABEL:
             subject = TRANSFERRED_TITLE.format(profile.full_name)
             body = TRANSFERRED_BODY
             send_to_principal = True
