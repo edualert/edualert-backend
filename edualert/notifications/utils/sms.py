@@ -6,9 +6,12 @@ import time
 import requests
 
 from django.conf import settings
+from django.utils import timezone
 
 
 def send_sms(sms_to_send):
+    from edualert.notifications.models import SentSms
+
     if not settings.SEND_SMS:
         return
 
@@ -16,6 +19,7 @@ def send_sms(sms_to_send):
     url = "/prepaid/message"
     http_method = "POST"
 
+    sent_sms = []
     for sms in sms_to_send:
         req_data = {
             "apiKey": settings.WEB2SMS_API_KEY,
@@ -40,3 +44,11 @@ def send_sms(sms_to_send):
         }
 
         requests.post(host + url, data=json.dumps(req_data), headers=headers)
+        sent_sms.append(SentSms(
+            recipient=req_data['recipient'],
+            message=req_data['message'],
+            nonce=req_data['nonce'],
+            sent_at=timezone.now(),
+        ))
+
+    SentSms.objects.bulk_create(sent_sms)

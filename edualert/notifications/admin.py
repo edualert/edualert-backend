@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html, escape
 
-from edualert.notifications.models import Notification, TargetUserThrough
+from edualert.notifications.models import Notification, TargetUserThrough, \
+    SentEmailAlternative, SentSms
 
 
 class NotificationAdmin(admin.ModelAdmin):
@@ -66,5 +67,17 @@ class TargetUserThroughAdmin(admin.ModelAdmin):
         obj.save()
 
 
+class SentEmailAlternativeAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'cc', 'bcc', 'sent_at', 'subject')
+    search_fields = ('cc', 'bcc', 'subject')
+
+
+class SentSmsAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'recipient', 'sent_at')
+    search_fields = ('recipient',)
+
+
 admin.site.register(Notification, NotificationAdmin)
 admin.site.register(TargetUserThrough, TargetUserThroughAdmin)
+admin.site.register(SentEmailAlternative, SentEmailAlternativeAdmin)
+admin.site.register(SentSms, SentSmsAdmin)
