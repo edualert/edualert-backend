@@ -109,7 +109,7 @@ def send_reset_password_message(user_profile_id, link):
                                                                       'signature': 'Echipa EduAlert'}),
         }
         send_mail(RESET_PASSWORD_TITLE, bodies, settings.SERVER_EMAIL, [profile.email])
-    else:
+    elif profile.phone_number:
         phone_number = profile.phone_number if profile.phone_number.startswith('+') or profile.phone_number.startswith('00') \
             else '+4' + profile.phone_number
         text_message = RESET_PASSWORD_BODY_SMS.format(link)
