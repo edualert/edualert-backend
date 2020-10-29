@@ -110,10 +110,10 @@ class AbsenceAuthorizeTestCase(CommonAPITestCase):
     #     self.assertEqual(response.data['message'], "Can't authorize absences at this time.")
 
     @patch('django.utils.timezone.now', return_value=timezone.datetime(2019, 9, 20).replace(tzinfo=utc))
-    def test_authorize_absence_3_hours_ago_teacher(self, timezone_mock):
+    def test_authorize_absence_8_days_ago_teacher(self, timezone_mock):
         self.client.login(username=self.teacher.username, password='passwd')
 
-        self.absence.created = timezone.now() - timezone.timedelta(hours=3)
+        self.absence.created = timezone.now() - timezone.timedelta(days=8)
         self.absence.save()
 
         response = self.client.post(self.build_url(self.absence.id), data={})
@@ -121,10 +121,10 @@ class AbsenceAuthorizeTestCase(CommonAPITestCase):
         self.assertEqual(response.data['message'], "You can't authorize this absence anymore.")
 
     @patch('django.utils.timezone.now', return_value=timezone.datetime(2019, 9, 20).replace(tzinfo=utc))
-    def test_authorize_absence_3_hours_ago_class_master(self, timezone_mock):
+    def test_authorize_absence_8_days_ago_class_master(self, timezone_mock):
         self.client.login(username=self.class_master.username, password='passwd')
 
-        self.absence.created = timezone.now() - timezone.timedelta(hours=3)
+        self.absence.created = timezone.now() - timezone.timedelta(days=8)
         self.absence.save()
 
         response = self.client.post(self.build_url(self.absence.id), data={})

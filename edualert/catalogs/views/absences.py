@@ -71,7 +71,7 @@ class AbsenceAuthorize(generics.GenericAPIView):
         #     return Response({'message': _("Can't authorize absences at this time.")}, status=status.HTTP_400_BAD_REQUEST)
 
         profile = self.request.user.user_profile
-        if profile.id != catalog.study_class.class_master_id and absence.created < timezone.now() - timezone.timedelta(hours=2):
+        if profile.id != catalog.study_class.class_master_id and absence.created < timezone.now() - timezone.timedelta(days=7):
             return Response({'message': _("You can't authorize this absence anymore.")}, status=status.HTTP_400_BAD_REQUEST)
 
         absence.is_founded = True
@@ -104,7 +104,7 @@ class AbsenceDelete(generics.DestroyAPIView):
         # if not can_update_grades_or_absences(catalog.study_class):
         #     return Response({'message': _("Can't delete absences at this time.")}, status=status.HTTP_400_BAD_REQUEST)
 
-        if (timezone.now() - absence.created).seconds / 3600 > 2:
+        if absence.created < timezone.now() - timezone.timedelta(days=7):
             return Response({'message': _("You can't delete this absence anymore.")}, status=status.HTTP_400_BAD_REQUEST)
 
         semester = absence.semester

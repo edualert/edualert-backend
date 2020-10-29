@@ -78,8 +78,8 @@ class GradeDetail(UpdateAPIView, DestroyAPIView):
 
         action = _('delete') if self.request.method == DELETE else _('update')
         if not grade.catalog_per_subject.is_coordination_subject and \
-                grade.created < timezone.now() - timezone.timedelta(hours=2):
-            return Response({'message': _('Cannot {} a grade that was created more than 2 hours ago.').format(action)},
+                grade.created < timezone.now() - timezone.timedelta(days=7):
+            return Response({'message': _('Cannot {} a grade that was created more than 7 days ago.').format(action)},
                             status=status.HTTP_400_BAD_REQUEST)
 
         # TODO uncomment after it's tested
