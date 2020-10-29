@@ -323,8 +323,7 @@ class GradeCreateTestCase(CommonAPITestCase):
             self.assertEqual(obj.avg_annual, 9.5)
 
     @patch('django.utils.timezone.now', return_value=timezone.datetime(2020, 4, 5).replace(tzinfo=utc))
-    @patch('edualert.profiles.tasks.format_and_send_notification_task')
-    def test_grade_create_second_examinations_count(self, send_notification_mock, timezone_mock):
+    def test_grade_create_second_examinations_count(self, timezone_mock):
         for avg in [4, 5, 6, 10]:
             StudentCatalogPerSubjectFactory(student=self.student, study_class=self.study_class, avg_sem1=avg, avg_sem2=avg)
 
@@ -380,5 +379,3 @@ class GradeCreateTestCase(CommonAPITestCase):
         self.catalog_per_year.refresh_from_db()
         self.assertEqual(self.catalog_per_year.second_examinations_count, 0)
         self.assertEqual(self.student.labels.count(), 0)
-
-        self.assertEqual(send_notification_mock.call_count, 2)

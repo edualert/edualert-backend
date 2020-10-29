@@ -49,9 +49,6 @@ EXPELLED_BODY = 'Elevul {} a fost exmatriculat.'
 ABANDONMENT_TITLE = 'Abandon școlar - {}'
 ABANDONMENT_BODY = 'Elevul {} este în situație de abandon școlar.'
 
-FAILING_SUBJECTS_TITLE = 'Corigență - {}'
-FAILING_SUBJECTS_BODY = 'Elevul {} este corigent la materiile: {}.'
-
 HELD_BACK_TITLE = 'Repetare an școlar - {}'
 HELD_BACK_BODY = 'Elevul {} este repetent.'
 
