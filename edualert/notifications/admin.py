@@ -73,7 +73,7 @@ class SentEmailAlternativeAdmin(admin.ModelAdmin):
 
 
 class SentSmsAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'recipient', 'sent_at')
+    list_display = ('__str__', 'recipient', 'sent_at', 'message')
     search_fields = ('recipient',)
 
 

@@ -2,18 +2,16 @@ from copy import copy
 
 from celery import shared_task
 from django.conf import settings
-from django.db.models import Q
 from django.template.loader import get_template
 
-from edualert.catalogs.models import StudentCatalogPerSubject
 from edualert.notifications.tasks import format_and_send_notification_task
 from edualert.notifications.utils import send_mail, send_sms
 from edualert.profiles.constants import TRANSFERRED_LABEL, EXPELLED_LABEL, \
-    ABANDONMENT_RISK_1_LABEL, ABANDONMENT_RISK_2_LABEL, ABANDONMENT_LABEL, FAILING_1_SUBJECT_LABEL, FAILING_2_SUBJECTS_LABEL, \
+    ABANDONMENT_RISK_1_LABEL, ABANDONMENT_RISK_2_LABEL, ABANDONMENT_LABEL, \
     HELD_BACK_LABEL, HELD_BACK_ILLNESS_LABEL, EXEMPTED_SPORT_LABEL, EXEMPTED_RELIGION_LABEL, \
     SUPPORT_GROUP_LABEL, MENTORING_LABEL, WORKSHOP_LABEL, SUMMER_CAMP_LABEL, PSYCHOLOGICAL_COUNSELING_LABEL, \
     ABANDONMENT_RISK_TITLE, ABANDONMENT_RISK_BODY, TRANSFERRED_TITLE, TRANSFERRED_BODY, \
-    EXPELLED_TITLE, EXPELLED_BODY, ABANDONMENT_TITLE, ABANDONMENT_BODY, FAILING_SUBJECTS_TITLE, FAILING_SUBJECTS_BODY, \
+    EXPELLED_TITLE, EXPELLED_BODY, ABANDONMENT_TITLE, ABANDONMENT_BODY, \
     HELD_BACK_TITLE, HELD_BACK_BODY, EXEMPTED_TITLE, EXEMPTED_BODY, \
     PROJECTS_MAP, PROGRAM_ENROLLMENT_TITLE, PROGRAM_ENROLLMENT_BODY, RESET_PASSWORD_TITLE, RESET_PASSWORD_BODY_EMAIL, RESET_PASSWORD_BODY_SMS
 
@@ -58,21 +56,6 @@ def send_alert_for_labels(user_profile_id, label_ids):
             subject = ABANDONMENT_TITLE.format(profile.full_name)
             body = ABANDONMENT_BODY.format(profile.full_name)
             send_to_principal = True
-        elif label.text in [FAILING_1_SUBJECT_LABEL, FAILING_2_SUBJECTS_LABEL]:
-            if profile.student_in_class:
-                subject = FAILING_SUBJECTS_TITLE.format(profile.full_name)
-                core_subject = profile.student_in_class.academic_program.core_subject
-                core_subjects_ids = [core_subject.id] if core_subject else []
-
-                school_subjects = StudentCatalogPerSubject.objects.filter(
-                    Q(avg_sem1__lt=5) | Q(avg_sem1__lt=6, subject_id__in=core_subjects_ids),
-                    student_id=profile.id, study_class_id=profile.student_in_class.id
-                ).union(StudentCatalogPerSubject.objects.filter(
-                    Q(avg_sem2__lt=5) | Q(avg_sem2__lt=6, subject_id__in=core_subjects_ids),
-                    student_id=profile.id, study_class_id=profile.student_in_class.id
-                ), all=True).values_list('subject_name', flat=True)
-                body = FAILING_SUBJECTS_BODY.format(profile.full_name, ", ".join(set(school_subjects)))
-                send_to_principal = False
         elif label.text in [HELD_BACK_LABEL, HELD_BACK_ILLNESS_LABEL]:
             subject = HELD_BACK_TITLE.format(profile.full_name)
             body = HELD_BACK_BODY.format(profile.full_name)
