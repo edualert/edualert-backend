@@ -39,6 +39,8 @@ def send_alerts_for_school_situation():
             except Exception:
                 print("Couldn't send alert for student: {}".format(student.full_name))
 
+    print('Finished task send_alerts_for_school_situation')
+
 
 def get_time_period(starts_at, ends_at):
     if starts_at.month == ends_at.month:
