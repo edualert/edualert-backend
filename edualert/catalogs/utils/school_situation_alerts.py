@@ -15,7 +15,7 @@ def send_alerts_for_school_situation():
     one_week_ago = today - timezone.timedelta(days=8)
     time_period = get_time_period(two_weeks_ago, one_week_ago)
 
-    for school_unit in RegisteredSchoolUnit.objects.all().exclude(id=4):
+    for school_unit in RegisteredSchoolUnit.objects.all():
         for student in UserProfile.objects.filter(school_unit_id=school_unit.id, user_role=UserProfile.UserRoles.STUDENT, is_active=True):
             try:
                 unfounded_absences_count = get_unfounded_absences_count_for_student(student.id, two_weeks_ago, one_week_ago)
