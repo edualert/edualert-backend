@@ -15,26 +15,29 @@ def send_alerts_for_school_situation():
     one_week_ago = today - timezone.timedelta(days=8)
     time_period = get_time_period(two_weeks_ago, one_week_ago)
 
-    for school_unit in RegisteredSchoolUnit.objects.all():
+    for school_unit in RegisteredSchoolUnit.objects.all().exclude(id=4):
         for student in UserProfile.objects.filter(school_unit_id=school_unit.id, user_role=UserProfile.UserRoles.STUDENT, is_active=True):
-            unfounded_absences_count = get_unfounded_absences_count_for_student(student.id, two_weeks_ago, one_week_ago)
-            grades = get_grades_for_students(student.id, two_weeks_ago, one_week_ago)
+            try:
+                unfounded_absences_count = get_unfounded_absences_count_for_student(student.id, two_weeks_ago, one_week_ago)
+                grades = get_grades_for_students(student.id, two_weeks_ago, one_week_ago)
 
-            if unfounded_absences_count == 0 and grades.count() == 0:
-                continue
+                if unfounded_absences_count == 0 and grades.count() == 0:
+                    continue
 
-            parents_with_emails, parents_with_phone_numbers = get_parents_contact(student)
-            grouped_grades = group_grades_by_subject(grades)
+                parents_with_emails, parents_with_phone_numbers = get_parents_contact(student)
+                grouped_grades = group_grades_by_subject(grades)
 
-            if parents_with_emails:
-                formatted_grades_for_email = get_formatted_grades(grouped_grades)
-                format_and_send_school_situation_email(student.full_name, time_period, formatted_grades_for_email, unfounded_absences_count,
-                                                       school_unit.name, parents_with_emails)
-            if parents_with_phone_numbers:
-                student_initials = get_student_initials(student.full_name)
-                formatted_grades_for_sms = get_formatted_grades(grouped_grades, True)
-                format_and_send_school_situation_sms(student_initials, time_period, formatted_grades_for_sms, unfounded_absences_count,
-                                                     parents_with_phone_numbers)
+                if parents_with_emails:
+                    formatted_grades_for_email = get_formatted_grades(grouped_grades)
+                    format_and_send_school_situation_email(student.full_name, time_period, formatted_grades_for_email, unfounded_absences_count,
+                                                           school_unit.name, parents_with_emails)
+                if parents_with_phone_numbers:
+                    student_initials = get_student_initials(student.full_name)
+                    formatted_grades_for_sms = get_formatted_grades(grouped_grades, True)
+                    format_and_send_school_situation_sms(student_initials, time_period, formatted_grades_for_sms, unfounded_absences_count,
+                                                         parents_with_phone_numbers)
+            except Exception:
+                print("Couldn't send alert for student: {}".format(student.full_name))
 
 
 def get_time_period(starts_at, ends_at):
@@ -49,7 +52,8 @@ def get_unfounded_absences_count_for_student(student_id, starts_at, ends_at):
 
 
 def get_grades_for_students(student_id, starts_at, ends_at):
-    return SubjectGrade.objects.filter(student_id=student_id, taken_at__gte=starts_at, taken_at__lte=ends_at)
+    return SubjectGrade.objects.filter(student_id=student_id, taken_at__gte=starts_at, taken_at__lte=ends_at,
+                                       catalog_per_subject__is_coordination_subject=False)
 
 
 def get_parents_contact(student):
@@ -84,9 +88,13 @@ def get_subject_initials(subject_name):
     if len(subject_name_words) == 1:
         return subject_name_words[0][0:3].upper()
     if len(subject_name_words) == 2:
-        return "{}{}".format(subject_name_words[0][0], subject_name_words[1][0:2]).upper()
+        if len(subject_name_words[0]) > 0:
+            return "{}{}".format(subject_name_words[0][0], subject_name_words[1][0:2]).upper()
+        return subject_name_words[1][0:3].upper()
 
-    return "{}{}{}".format(subject_name_words[0][0], subject_name_words[1][0], subject_name_words[2][0]).upper()
+    if len(subject_name_words[0]) > 0 and len(subject_name_words[1]) > 0 and len(subject_name_words[2]) > 0:
+        return "{}{}{}".format(subject_name_words[0][0], subject_name_words[1][0], subject_name_words[2][0]).upper()
+    return subject_name[0:3]
 
 
 def get_formatted_grades(grouped_grades, is_for_sms=False):
@@ -104,7 +112,7 @@ def get_student_initials(full_name):
     if full_name == "":
         return ""
 
-    return "".join([word[0] for word in full_name.split(" ")])
+    return "".join([word[0] for word in full_name.split(" ") if len(word) > 0])
 
 
 def format_and_send_school_situation_email(student_name, time_period, formatted_grades, unfounded_absences_count, school_name, parents):
