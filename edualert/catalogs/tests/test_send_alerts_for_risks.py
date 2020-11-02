@@ -102,23 +102,25 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
     def test_send_alerts_for_risks_during_first_semester(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 1)
-        calls = [call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
-                      [self.study_class2.class_master_id], False)]
-        send_notification_mock.assert_has_calls(calls, any_order=True)
+        self.assertEqual(send_notification_mock.call_count, 0)
+        # self.assertEqual(send_notification_mock.call_count, 1)
+        # calls = [call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+        #               ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
+        #               [self.study_class2.class_master_id], False)]
+        # send_notification_mock.assert_has_calls(calls, any_order=True)
 
     @patch('django.utils.timezone.now', return_value=datetime(2020, 1, 6).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
     def test_send_alerts_for_risks_last_first_semester_month(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 4)
+        # self.assertEqual(send_notification_mock.call_count, 4)
+        self.assertEqual(send_notification_mock.call_count, 3)
         calls = [call(AVG_BELOW_LIMIT_TITLE.format(5, self.student1.full_name),
                       AVG_BELOW_LIMIT_BODY.format(self.student1.full_name, 5, "MAT"),
                       [self.parent1.id, self.study_class1.class_master_id], False),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
-                      [self.study_class2.class_master_id], False),
+                 # call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+                 #      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
+                 #      [self.study_class2.class_master_id], False),
                  call(AVG_BELOW_LIMIT_TITLE.format(5, self.student3.full_name),
                       AVG_BELOW_LIMIT_BODY.format(self.student3.full_name, 5, "MAT"),
                       [self.study_class3.class_master_id], False),
@@ -131,23 +133,27 @@ class SendAlertsForRisksTestCase(CommonAPITestCase):
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
     def test_send_alerts_for_risks_after_first_semester(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 2)
+        self.assertEqual(send_notification_mock.call_count, 1)
+        # self.assertEqual(send_notification_mock.call_count, 2)
         calls = [call(BEHAVIOR_GRADE_BELOW_8_TITLE.format(self.student1.full_name),
                       BEHAVIOR_GRADE_BELOW_8_BODY.format(self.student1.full_name),
                       [self.parent1.id, self.study_class1.class_master_id], False),
-                 call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
-                      [self.study_class2.class_master_id], False)]
+                 # call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+                 #      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
+                 #      [self.study_class2.class_master_id], False)
+                 ]
         send_notification_mock.assert_has_calls(calls, any_order=True)
 
     @patch('django.utils.timezone.now', return_value=datetime(2020, 5, 25).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.risk_alerts.format_and_send_notification_task')
     def test_send_alerts_for_risks_last_second_semester_month_12_grade(self, send_notification_mock, timezone_mock):
         send_alerts_for_risks()
-        self.assertEqual(send_notification_mock.call_count, 2)
-        calls = [call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
-                      ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
-                      [self.study_class2.class_master_id], False),
+        self.assertEqual(send_notification_mock.call_count, 1)
+        # self.assertEqual(send_notification_mock.call_count, 2)
+        calls = [
+            # call(ABSENCES_ABOVE_LIMIT_TITLE.format(self.student2.full_name),
+            #           ABSENCES_ABOVE_LIMIT_BODY.format(self.student2.full_name, 11),
+            #           [self.study_class2.class_master_id], False),
                  call(AVG_BELOW_LIMIT_TITLE.format(5, self.student3.full_name),
                       AVG_BELOW_LIMIT_BODY.format(self.student3.full_name, 5, "MAT"),
                       [self.study_class3.class_master_id], False)]
