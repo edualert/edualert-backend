@@ -32,7 +32,7 @@ app.conf.beat_schedule = {
     },
     'send_alerts_for_school_situation_task': {
         'task': 'edualert.catalogs.tasks.send_alerts_for_school_situation_task',
-        'schedule': crontab(day_of_week=1, hour=11, minute=5)
+        'schedule': crontab(day_of_week=1, hour=10, minute=0)
     },
     'calculate_students_placements_task': {
         'task': 'edualert.catalogs.tasks.calculate_students_placements_task',
