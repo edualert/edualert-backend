@@ -51,12 +51,14 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
 
     def test_get_grades_for_students(self):
         self.assertEqual(get_grades_for_students(self.student.id, self.starts_at, self.ends_at).count(), 0)
+        catalog = StudentCatalogPerSubjectFactory(is_coordination_subject=True)
 
         SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=self.starts_at - timezone.timedelta(days=1))
         SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=self.starts_at)
         SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=self.starts_at + timezone.timedelta(days=1))
         SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=self.ends_at - timezone.timedelta(days=1))
         SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=self.ends_at)
+        SubjectGradeFactory(student=self.student, catalog_per_subject=catalog, taken_at=self.ends_at)
         SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=self.ends_at + timezone.timedelta(days=1))
 
         self.assertEqual(get_grades_for_students(self.student.id, self.starts_at, self.ends_at).count(), 4)

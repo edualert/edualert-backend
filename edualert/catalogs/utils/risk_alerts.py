@@ -71,7 +71,7 @@ def send_alerts_for_risks():
 
             # Send alerts
             user_profiles_ids = list(student.parents.values_list('id', flat=True)) + [catalog.study_class.class_master_id]
-            send_alert_for_absences_above_limit(semester_unfounded_absences_count, student, user_profiles_ids)
+            # send_alert_for_absences_above_limit(semester_unfounded_absences_count, student, user_profiles_ids)
             send_alert_for_subjects_below_limit(subjects_with_avg_below_limit, student, user_profiles_ids)
             send_alert_for_behavior_grade_below_8(has_behavior_grade_below_8, student, user_profiles_ids)
 
