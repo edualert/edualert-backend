@@ -1,7 +1,10 @@
+import json
 import time
+import uuid
 from collections import Counter
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import MiddlewareNotUsed
 from django.db import connection
 from django.utils import timezone
@@ -87,3 +90,88 @@ class SQLPrintingMiddleware(MiddlewareMixin):
         print("{}{}[MIDDLWARE OVERHEAD: {} seconds]{}\n".format(*replace_tuple))
 
         return response
+
+
+class RequestActivityTrackerMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # read body before it's read by `rest_framework.Request` so that it's saved on the `django.http.HttpRequest`
+        # object, this will allows us to read it again after the response is retrieved
+        _ = request.body
+
+        # pass the request down the middleware chain
+        response = self.get_response(request)
+
+        # Filter request by method
+        if request.method in ['OPTIONS', 'HEAD', 'GET']:
+            return response
+
+        # Only track requests for identifiable users
+        user = request.user
+        if not user or user.is_anonymous or not user.id:
+            return response
+
+        # Save request information in cache to be extracted and saved to a persistent storage
+        cache_value_raw = {
+            'timestamp_ms': int(time.time() * 1000),
+            'user_id': request.user.id,
+            'method': request.method,
+            'path': request.get_full_path_info(),
+            'status_code': response.status_code,
+            'request_body': _get_request_body(request),
+        }
+        cache_key = 'track_request_{}'.format(uuid.uuid4())
+        cache_value = json.dumps(cache_value_raw)
+        cache.set(cache_key, cache_value, timeout=None)
+
+        return response
+
+
+def _get_request_body(request):
+    """
+    Return a json object when content type is 'application/json'. Sensitive fields in the object are replaced.
+    """
+    request_body = None
+
+    if request.content_type:
+        # return masked content if it's json
+        if request.content_type == 'application/json':
+            request_body_json = json.loads(request.body)
+
+            # mask sensitive fields
+            _replace_fields_recursively(request_body_json, [
+                'password', 'new_password', 'current_password', 'email', 'phone_number', 'educator_email',
+                'educator_phone_number'
+            ])
+            request_body = request_body_json
+
+    return request_body
+
+
+def _replace_fields_recursively(obj, keys, value='<masked>'):
+    def replace(o, k, _):
+        if k in keys:
+            o[k] = value
+
+    _iter_dict(obj, replace)
+
+
+def _iter_dict(obj, func):
+    """
+    Call `func` for every key/value pair we can find in the provided `dict`.
+    """
+    if not isinstance(obj, dict):
+        return
+
+    for key, val in obj.items():
+        # iterate dictionaries recursively
+        if isinstance(val, dict):
+            _iter_dict(val, func)
+        # iterate over list values
+        elif isinstance(val, list):
+            for item in val:
+                _iter_dict(item, func)
+        else:
+            func(obj, key, val)
