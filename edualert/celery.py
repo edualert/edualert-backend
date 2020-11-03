@@ -38,6 +38,10 @@ app.conf.beat_schedule = {
         'task': 'edualert.catalogs.tasks.calculate_students_placements_task',
         'schedule': crontab(hour=23, minute=59),
     },
+    'send_request_log_to_cloud_watch_task': {
+        'task': 'edualert.common.tasks.send_request_log_to_cloud_watch_task',
+        'schedule': crontab(minute='*/5'),
+    },
 }
 
 
