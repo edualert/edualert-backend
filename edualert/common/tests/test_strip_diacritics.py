@@ -2,7 +2,7 @@ from django.test import SimpleTestCase
 from edualert.common.utils import strip_diacritics
 
 
-class StripAccentsTestCase(SimpleTestCase):
+class StripDiacriticsTestCase(SimpleTestCase):
     """
     Test `strip_diacritics` to make sure it alters text as expected.
     """
