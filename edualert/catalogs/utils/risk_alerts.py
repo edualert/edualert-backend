@@ -2,13 +2,12 @@ from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 
 from edualert.academic_calendars.models import SchoolEvent
-from edualert.academic_calendars.utils import get_current_academic_calendar
+from edualert.academic_calendars.utils import get_current_academic_calendar, get_second_semester_end_events
 from edualert.catalogs.constants import AVG_BELOW_LIMIT_TITLE, AVG_BELOW_LIMIT_BODY, \
-    BEHAVIOR_GRADE_BELOW_8_TITLE, BEHAVIOR_GRADE_BELOW_8_BODY, \
-    ABSENCES_ABOVE_LIMIT_TITLE, ABSENCES_ABOVE_LIMIT_BODY
+    BEHAVIOR_GRADE_BELOW_8_TITLE, BEHAVIOR_GRADE_BELOW_8_BODY
 from edualert.catalogs.models import StudentCatalogPerYear
 from edualert.catalogs.utils import has_technological_category
-from edualert.catalogs.utils.risk_levels import get_second_semester_end_events, get_mapped_catalogs_per_subject
+from edualert.catalogs.utils.risk_levels import get_mapped_catalogs_per_subject
 from edualert.catalogs.utils.school_situation_alerts import get_subject_initials
 from edualert.notifications.tasks import format_and_send_notification_task
 from edualert.schools.models import RegisteredSchoolUnit
@@ -42,13 +41,6 @@ def send_alerts_for_risks():
 
             subjects_with_avg_below_limit = []
             has_behavior_grade_below_8 = False
-            semester_unfounded_absences_count = 0
-
-            current_semester = None
-            if today < first_semester_report_date:
-                current_semester = 1
-            elif today < second_semester_report_date:
-                current_semester = 2
 
             for catalog_per_subject in student_catalogs_per_subject:
                 if today == first_semester_report_date:
@@ -65,24 +57,10 @@ def send_alerts_for_risks():
                         if catalog_per_subject.avg_sem2 and catalog_per_subject.avg_sem2 < 5:
                             subjects_with_avg_below_limit.append(catalog_per_subject.subject_name)
 
-            if current_semester:
-                semester_unfounded_absences_count = student.absences.filter(academic_year=current_calendar.academic_year,
-                                                                            semester=current_semester, is_founded=False).count()
-
             # Send alerts
             user_profiles_ids = list(student.parents.values_list('id', flat=True)) + [catalog.study_class.class_master_id]
-            # send_alert_for_absences_above_limit(semester_unfounded_absences_count, student, user_profiles_ids)
             send_alert_for_subjects_below_limit(subjects_with_avg_below_limit, student, user_profiles_ids)
             send_alert_for_behavior_grade_below_8(has_behavior_grade_below_8, student, user_profiles_ids)
-
-
-def send_alert_for_absences_above_limit(semester_unfounded_absences_count, student, user_profiles_ids):
-    if semester_unfounded_absences_count <= 10:
-        return
-
-    title = ABSENCES_ABOVE_LIMIT_TITLE.format(student.full_name)
-    body = ABSENCES_ABOVE_LIMIT_BODY.format(student.full_name, semester_unfounded_absences_count)
-    format_and_send_notification_task(title, body, user_profiles_ids, False)
 
 
 def send_alert_for_subjects_below_limit(subjects_with_avg_below_limit, student, user_profiles_ids):

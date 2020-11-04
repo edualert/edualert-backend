@@ -2,7 +2,9 @@ import datetime
 from unittest.mock import patch, call
 
 from django.utils import timezone
+from pytz import utc
 
+from edualert.academic_calendars.factories import AcademicYearCalendarFactory
 from edualert.catalogs.factories import StudentCatalogPerSubjectFactory, SubjectAbsenceFactory, SubjectGradeFactory
 from edualert.catalogs.models import SubjectGrade
 from edualert.catalogs.utils.school_situation_alerts import get_time_period, get_unfounded_absences_count_for_student, \
@@ -19,6 +21,8 @@ from edualert.subjects.factories import SubjectFactory
 class SendAlertsForSchoolSituation(CommonAPITestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.academic_calendar = AcademicYearCalendarFactory()
+        cls.academic_year = cls.academic_calendar.academic_year
         cls.starts_at = datetime.date(2020, 10, 21)
         cls.ends_at = datetime.date(2020, 10, 27)
 
@@ -38,16 +42,17 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
         self.assertEqual(get_time_period(datetime.date(2020, 10, 28), datetime.date(2020, 11, 2)), "28.10-2.11")
 
     def test_get_unfounded_absences_count_for_student(self):
-        self.assertEqual(get_unfounded_absences_count_for_student(self.student.id, self.starts_at, self.ends_at), 0)
+        self.assertEqual(get_unfounded_absences_count_for_student(self.student.id, self.academic_year, 1), 0)
 
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=self.starts_at - timezone.timedelta(days=1))
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=self.starts_at)
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=self.starts_at + timezone.timedelta(days=1), is_founded=True)
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=self.ends_at - timezone.timedelta(days=1))
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=self.ends_at)
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=self.ends_at + timezone.timedelta(days=1))
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, academic_year=self.academic_year, semester=1)
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, academic_year=self.academic_year, semester=2)
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, academic_year=self.academic_year - 1, semester=1)
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, academic_year=self.academic_year - 1, semester=2)
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, academic_year=self.academic_year, semester=1, is_founded=True)
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, academic_year=self.academic_year, semester=2, is_founded=True)
 
-        self.assertEqual(get_unfounded_absences_count_for_student(self.student.id, self.starts_at, self.ends_at), 3)
+        self.assertEqual(get_unfounded_absences_count_for_student(self.student.id, self.academic_year, 1), 1)
+        self.assertEqual(get_unfounded_absences_count_for_student(self.student.id, self.academic_year, 2), 1)
 
     def test_get_grades_for_students(self):
         self.assertEqual(get_grades_for_students(self.student.id, self.starts_at, self.ends_at).count(), 0)
@@ -95,9 +100,16 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
         self.assertEqual(get_subject_initials(""), "")
         self.assertEqual(get_subject_initials("Matematica"), "MAT")
         self.assertEqual(get_subject_initials("FE"), "FE")
+        self.assertEqual(get_subject_initials("FE "), "FE")
+        self.assertEqual(get_subject_initials(" FE"), "FE")
+        self.assertEqual(get_subject_initials(" FE "), "FE")
         self.assertEqual(get_subject_initials("Limba Romana"), "LRO")
+        self.assertEqual(get_subject_initials("Limba Romana "), "LRO")
+        self.assertEqual(get_subject_initials(" Limba Romana "), "LRO")
         self.assertEqual(get_subject_initials("Modele Machete Constructii"), "MMC")
         self.assertEqual(get_subject_initials("Modele Machete Constructii Desen"), "MMC")
+        self.assertEqual(get_subject_initials("Modele  Machete Constructii Desen"), "MOD")
+        self.assertEqual(get_subject_initials("Modele Machete  Constructii Desen"), "MOD")
 
     def test_get_formatted_grades(self):
         self.assertEqual(get_formatted_grades({}), "")
@@ -114,18 +126,19 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
 
     def test_get_student_initials(self):
         self.assertEqual(get_student_initials(""), "")
+        self.assertEqual(get_student_initials("Pop Marius"), "PM")
+        self.assertEqual(get_student_initials("Pop  Marius"), "PM")
         self.assertEqual(get_student_initials("Pop Marius Vasile"), "PMV")
+        self.assertEqual(get_student_initials("Pop  Marius  Vasile"), "PMV")
         self.assertEqual(get_student_initials("Pop IC Marius"), "PIM")
         self.assertEqual(get_student_initials("Pop I.C. Marius"), "PIM")
         self.assertEqual(get_student_initials("Pop I.C. Marius-Vasile"), "PIM")
         self.assertEqual(get_student_initials("Pop I.C. Marius Vasile"), "PIMV")
 
+    @patch('django.utils.timezone.now', return_value=timezone.datetime(2020, 3, 16).replace(tzinfo=utc))
     @patch('edualert.catalogs.utils.school_situation_alerts.format_and_send_school_situation_email')
     @patch('edualert.catalogs.utils.school_situation_alerts.format_and_send_school_situation_sms')
-    def test_send_alerts(self, send_sms_mock, send_email_mock):
-        today = timezone.now().date()
-        ten_days_ago = today - timezone.timedelta(days=10)
-
+    def test_send_alerts(self, send_sms_mock, send_email_mock, timezone_mock):
         # add one more student from a different school
         school2 = RegisteredSchoolUnitFactory()
         study_class2 = StudyClassFactory(school_unit=school2)
@@ -134,12 +147,12 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
         catalog3 = StudentCatalogPerSubjectFactory(student=student2, study_class=study_class2, subject=self.subject1)
 
         # add 1 unfounded absence for 1st student
-        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=ten_days_ago)
+        SubjectAbsenceFactory(student=self.student, catalog_per_subject=self.catalog1, semester=2)
         # add grades for both of them
-        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=ten_days_ago, grade=6)
-        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=ten_days_ago, grade=7)
-        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=ten_days_ago, grade=5)
-        SubjectGradeFactory(student=student2, catalog_per_subject=catalog3, taken_at=ten_days_ago, grade=10)
+        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=datetime.date(2020, 3, 2), grade=6)
+        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog1, taken_at=datetime.date(2020, 3, 4), grade=7)
+        SubjectGradeFactory(student=self.student, catalog_per_subject=self.catalog2, taken_at=datetime.date(2020, 3, 5), grade=5)
+        SubjectGradeFactory(student=student2, catalog_per_subject=catalog3, taken_at=timezone.datetime(2020, 3, 3), grade=10)
 
         # add 2 parents for each, one allowing emails, one allowing sms
         parent1 = UserProfileFactory(school_unit=self.school, user_role=UserProfile.UserRoles.PARENT)
@@ -154,15 +167,11 @@ class SendAlertsForSchoolSituation(CommonAPITestCase):
         # call tested function
         send_alerts_for_school_situation()
 
-        two_weeks_ago = today - timezone.timedelta(days=14)
-        one_week_ago = today - timezone.timedelta(days=8)
-        time_period = get_time_period(two_weeks_ago, one_week_ago)
-
         # check mocked calls
-        send_email_calls = [call("Marinescu I. Ioan", time_period, "Limba Romana 10", 0, school2.name, [parent3]),
-                            call("Pop Ionut", time_period, "Matematica 5, Limba Romana 7 ; 6", 1, self.school.name, [parent1])]
+        send_email_calls = [call("Marinescu I. Ioan", "2-8.3", "Limba Romana 10", 0, school2.name, [parent3]),
+                            call("Pop Ionut", "2-8.3", "Matematica 5, Limba Romana 7 ; 6", 1, self.school.name, [parent1])]
         send_email_mock.assert_has_calls(send_email_calls, any_order=True)
 
-        send_sms_calls = [call("MII", time_period, "LRO 10", 0, [parent4]),
-                          call("PI", time_period, "MAT 5, LRO 7 ; 6", 1, [parent2])]
+        send_sms_calls = [call("MII", "2-8.3", "LRO 10", 0, [parent4]),
+                          call("PI", "2-8.3", "MAT 5, LRO 7 ; 6", 1, [parent2])]
         send_sms_mock.assert_has_calls(send_sms_calls, any_order=True)

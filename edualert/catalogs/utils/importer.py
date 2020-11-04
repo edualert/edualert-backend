@@ -8,10 +8,10 @@ from django.utils import timezone
 from django.utils.translation import pgettext
 
 from edualert.academic_calendars.models import SchoolEvent
-from edualert.academic_calendars.utils import get_current_academic_calendar
+from edualert.academic_calendars.utils import get_current_academic_calendar, get_second_semester_end_events
 from edualert.catalogs.models import StudentCatalogPerSubject, SubjectGrade, SubjectAbsence, ExaminationGrade
-from edualert.catalogs.utils import compute_averages, change_averages_after_examination_grade_operation, has_technological_category
-from edualert.catalogs.utils.risk_levels import get_current_semester, get_second_semester_end_events
+from edualert.catalogs.utils import compute_averages, change_averages_after_examination_grade_operation, \
+    has_technological_category, get_current_semester
 from edualert.catalogs.tasks import update_absences_counts_for_students_task
 from edualert.profiles.models import Label, UserProfile
 from edualert.subjects.models import ProgramSubjectThrough
