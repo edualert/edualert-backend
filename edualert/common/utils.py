@@ -1,3 +1,4 @@
+import unicodedata
 from copy import deepcopy
 
 import pytz
@@ -57,3 +58,20 @@ def convert_datetime_to_timezone(datetime_obj, tz='Europe/Bucharest'):
         return datetime_obj.astimezone(tz=pytz.timezone(tz))
     except pytz.exceptions.UnknownTimeZoneError:
         return datetime_obj
+
+
+def strip_diacritics(s):
+    # Warning!
+    # This may significantly change the meaning of the text.
+    #
+    # Copied from: https://stackoverflow.com/a/518232
+    #
+    # Documentation for unicodedata.normalize is here:
+    # https://docs.python.org/3/library/unicodedata.html?highlight=unicodedata#unicodedata.normalize
+    #
+    # More information (with pictures) regarding unicode normalization forms can be found here:
+    # https://unicode.org/reports/tr15/#Norm_Forms
+    #
+    # Code point categories are listed here:
+    # https://www.unicode.org/versions/Unicode13.0.0/ch04.pdf
+    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
