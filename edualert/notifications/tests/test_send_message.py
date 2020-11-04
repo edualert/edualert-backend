@@ -41,28 +41,32 @@ class SendMessageTestCase(CommonAPITestCase):
     def setUp(self):
         self.notification_for_class_students = {
             "title": "Notification for class students",
-            "send_sms": True,
+            # "send_sms": True,
+            "send_sms": False,
             "receiver_type": Notification.ReceiverTypes.CLASS_STUDENTS,
             "target_study_class": self.study_class.id,
             "body": "Body for class students"
         }
         self.notification_for_class_parents = {
             "title": "Notification for class parents",
-            "send_sms": True,
+            # "send_sms": True,
+            "send_sms": False,
             "receiver_type": Notification.ReceiverTypes.CLASS_PARENTS,
             "target_study_class": self.study_class.id,
             "body": "Body for class parents"
         }
         self.notification_for_one_student = {
             "title": "Notification for one student",
-            "send_sms": True,
+            # "send_sms": True,
+            "send_sms": False,
             "receiver_type": Notification.ReceiverTypes.ONE_STUDENT,
             "target_user": self.student1.id,
             "body": "Body for one student"
         }
         self.notification_for_one_parent = {
             "title": "Notification for one parent",
-            "send_sms": True,
+            # "send_sms": True,
+            "send_sms": False,
             "receiver_type": Notification.ReceiverTypes.ONE_PARENT,
             "target_user": self.parent.id,
             "body": "Body for one parent"
@@ -192,6 +196,7 @@ class SendMessageTestCase(CommonAPITestCase):
         self.client.login(username=self.principal.username, password='passwd')
 
         self.notification_for_class_students['body'] = 'x' * 501
+        self.notification_for_class_students['send_sms'] = False
         response = self.client.post(self.url, self.notification_for_class_students)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, {'body': ['Maximum characters numbers was exceeded.']})
@@ -255,7 +260,8 @@ class SendMessageTestCase(CommonAPITestCase):
 
         self.assertEqual(mocked_send_mail.call_count, 0)
         self.assertEqual(mocked_send_mass_mail.call_count, 0)
-        self.assertEqual(mocked_send_sms.call_count, 1)
+        # self.assertEqual(mocked_send_sms.call_count, 1)
+        self.assertEqual(mocked_send_sms.call_count, 0)
 
     @data(
         'principal', 'teacher'
@@ -287,8 +293,9 @@ class SendMessageTestCase(CommonAPITestCase):
 
         self.assertEqual(mocked_send_mail.call_count, 0)
         self.assertEqual(mocked_send_mass_mail.call_count, 1)
-        self.assertEqual(mocked_send_sms.call_count, 1)
-        self.assertEqual(len(mocked_send_sms.call_args), 2)
+        # self.assertEqual(mocked_send_sms.call_count, 1)
+        self.assertEqual(mocked_send_sms.call_count, 0)
+        # self.assertEqual(len(mocked_send_sms.call_args), 2)
         self.assertEqual(TargetUserThrough.objects.filter(notification=message).count(), 2)
 
     @data(
@@ -319,7 +326,8 @@ class SendMessageTestCase(CommonAPITestCase):
 
         self.assertEqual(mocked_send_mail.call_count, 1)
         self.assertEqual(mocked_send_mass_mail.call_count, 0)
-        self.assertEqual(mocked_send_sms.call_count, 1)
+        # self.assertEqual(mocked_send_sms.call_count, 1)
+        self.assertEqual(mocked_send_sms.call_count, 0)
 
         self.assertEqual(TargetUserThrough.objects.filter(notification=message).count(), 1)
 
@@ -353,7 +361,8 @@ class SendMessageTestCase(CommonAPITestCase):
 
         self.assertEqual(mocked_send_mail.call_count, 1)
         self.assertEqual(mocked_send_mass_mail.call_count, 0)
-        self.assertEqual(mocked_send_sms.call_count, 1)
+        # self.assertEqual(mocked_send_sms.call_count, 1)
+        self.assertEqual(mocked_send_sms.call_count, 0)
 
         self.assertEqual(TargetUserThrough.objects.filter(notification=message).count(), 1)
 
@@ -396,7 +405,8 @@ class SendMessageTestCase(CommonAPITestCase):
 
         self.assertEqual(mocked_send_mail.call_count, 1)
         self.assertEqual(mocked_send_mass_mail.call_count, 0)
-        self.assertEqual(mocked_send_sms.call_count, 1)
+        # self.assertEqual(mocked_send_sms.call_count, 1)
+        self.assertEqual(mocked_send_sms.call_count, 0)
 
         if profile_param == 'teacher':
             # Add as teacher to the other class too
@@ -414,4 +424,5 @@ class SendMessageTestCase(CommonAPITestCase):
 
             self.assertEqual(mocked_send_mail.call_count, 2)
             self.assertEqual(mocked_send_mass_mail.call_count, 0)
-            self.assertEqual(mocked_send_sms.call_count, 2)
+            # self.assertEqual(mocked_send_sms.call_count, 2)
+            self.assertEqual(mocked_send_sms.call_count, 0)
