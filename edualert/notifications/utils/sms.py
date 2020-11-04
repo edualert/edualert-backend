@@ -8,6 +8,8 @@ import requests
 from django.conf import settings
 from django.utils import timezone
 
+from edualert.common.utils import strip_diacritics
+
 
 def send_sms(sms_to_send):
     from edualert.notifications.models import SentSms
@@ -25,7 +27,7 @@ def send_sms(sms_to_send):
             "apiKey": settings.WEB2SMS_API_KEY,
             "sender": "",
             "recipient": sms[0],
-            "message": sms[1],
+            "message": strip_diacritics(sms[1]),
             "scheduleDatetime": "",
             "validityDatetime": "",
             "callbackUrl": "",
