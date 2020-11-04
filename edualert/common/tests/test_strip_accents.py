@@ -6,7 +6,7 @@ class StripAccentsTestCase(SimpleTestCase):
     """
     Test `strip_diacritics` to make sure it alters text as expected.
     """
-    def test_strip_accents(self):
+    def test_strip_diacritics(self):
         for test_case in expected_results:
             if isinstance(test_case, list):
                 for inner_test_case in test_case:
