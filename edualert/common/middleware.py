@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 import uuid
 from collections import Counter
@@ -104,29 +105,37 @@ class RequestActivityTrackerMiddleware:
         # pass the request down the middleware chain
         response = self.get_response(request)
 
-        # Filter request by method
-        if request.method in ['OPTIONS', 'HEAD', 'GET']:
-            return response
-
-        # Only track requests for identifiable users
-        user = request.user
-        if not user or user.is_anonymous or not user.id:
-            return response
-
-        # Save request information in cache to be extracted and saved to a persistent storage
-        cache_value_raw = {
-            'timestamp_ms': int(time.time() * 1000),
-            'user_id': request.user.id,
-            'method': request.method,
-            'path': request.get_full_path_info(),
-            'status_code': response.status_code,
-            'request_body': _get_request_body(request),
-        }
-        cache_key = 'track_request_{}'.format(uuid.uuid4())
-        cache_value = json.dumps(cache_value_raw)
-        cache.set(cache_key, cache_value, timeout=None)
+        try:
+            _process_request(request, response)
+        except Exception:
+            # regardless of error do not obstruct the requests
+            logging.exception('Failed to log request')
 
         return response
+
+
+def _process_request(request, response):
+    # Filter request by method
+    if request.method in ['OPTIONS', 'HEAD', 'GET']:
+        return response
+
+    # Only track requests for identifiable users
+    user = request.user
+    if not user or user.is_anonymous or not user.id:
+        return response
+
+    # Save request information in cache to be extracted and saved to a persistent storage
+    cache_value_raw = {
+        'timestamp_ms': int(time.time() * 1000),
+        'user_id': request.user.id,
+        'method': request.method,
+        'path': request.get_full_path_info(),
+        'status_code': response.status_code,
+        'request_body': _get_request_body(request),
+    }
+    cache_key = 'track_request_{}'.format(uuid.uuid4())
+    cache_value = json.dumps(cache_value_raw)
+    cache.set(cache_key, cache_value, timeout=None)
 
 
 def _get_request_body(request):
@@ -135,17 +144,16 @@ def _get_request_body(request):
     """
     request_body = None
 
-    if request.content_type:
+    if request.content_type and request.content_type == 'application/json':
         # return masked content if it's json
-        if request.content_type == 'application/json':
-            request_body_json = json.loads(request.body)
+        request_body_json = json.loads(request.body)
 
-            # mask sensitive fields
-            _replace_fields_recursively(request_body_json, [
-                'password', 'new_password', 'current_password', 'email', 'phone_number', 'educator_email',
-                'educator_phone_number'
-            ])
-            request_body = request_body_json
+        # mask sensitive fields
+        _replace_fields_recursively(request_body_json, [
+            'password', 'new_password', 'current_password', 'email', 'phone_number', 'educator_email',
+            'educator_phone_number'
+        ])
+        request_body = request_body_json
 
     return request_body
 
