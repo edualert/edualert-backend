@@ -1,6 +1,8 @@
 import json
 import logging
+import boto3
 
+from botocore.config import Config
 from celery import shared_task
 from django.conf import settings
 from django.core.cache import cache
@@ -57,8 +59,6 @@ def send_request_log_to_cloud_watch_task():
     only a couple are handled by this function. Namely the size in bytes, the chronological order and the maximum
     number of events.
     """
-    import boto3
-    from botocore.config import Config
 
     # check we are using the expected redis client because we rely on a specific function from it to iterate through
     # the cache keys
@@ -67,35 +67,28 @@ def send_request_log_to_cloud_watch_task():
         logging.error("Expected 'default' cache to be django-redis and have a function `iter_keys`.")
         return
 
+    if not hasattr(settings, 'REQUEST_LOG') or \
+            not settings.REQUEST_LOG \
+            or 'LOG_GROUP_NAME' not in settings.REQUEST_LOG \
+            or 'REGION_NAME' not in settings.REQUEST_LOG:
+        logging.error("Expected 'LOG_GROUP_NAME' and 'REGION_NAME' to be present in settings.REQUEST_LOG")
+        return
+
     log_group_name = settings.REQUEST_LOG['LOG_GROUP_NAME']
     log_group_region_name = settings.REQUEST_LOG['REGION_NAME']
     client = boto3.client('logs', config=Config(region_name=log_group_region_name))
 
-    # lookup log group; create it if we can't find it
-    try:
-        log_group = _retrieve_track_request_log_group(client, log_group_name)
-    except IndexError:
-        client.create_log_group(logGroupName=log_group_name)
-        log_group = _retrieve_track_request_log_group(client, log_group_name)
-
-    # lookup log stream; create it if we can't find it
-    now = timezone.now()
-    log_stream_name = '{}-{}'.format(now.month, now.year)
-    try:
-        log_stream = _retrieve_track_request_log_stream(client, log_group, log_stream_name)
-    except IndexError:
-        client.create_log_stream(logGroupName=log_group['logGroupName'], logStreamName=log_stream_name)
-        log_stream = _retrieve_track_request_log_stream(client, log_group, log_stream_name)
+    log_group = _provide_log_group(client, log_group_name)
+    log_stream = _provide_log_stream(client, log_group)
 
     # `max_batch_size_bytes`, `log_event_extra_bytes` and `max_batch_size` are taken from here:
     # https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html
-    max_batch_size_bytes = 1_048_576  # 1MB
+    max_batch_size_bytes = settings.REQUEST_LOG.get('MAX_BATCH_SIZE_BYTES', 1_048_576)  # 1MB default
     log_event_extra_bytes = 26
-    max_batch_size = 10_000
+    max_batch_size = settings.REQUEST_LOG.get('MAX_BATCH_SIZE', 10_000)
     batch = []
     batch_size_bytes = 0
     sequence_token = log_stream['uploadSequenceToken'] if 'uploadSequenceToken' in log_stream else None
-
 
     for cache_key in cache.iter_keys("track_request_*"):
         # extract log from cache
@@ -111,11 +104,13 @@ def send_request_log_to_cloud_watch_task():
             # and send the log on it's own
 
             sequence_token = _dispatch_batch(client, log_group, log_stream, sequence_token, batch)
+            batch = []
+            batch_size_bytes = 0
 
             # Truncate the response body by a multiple of 4, to be sure we don't break utf-8 and send it
             extra_bytes = log_bytes - max_batch_size_bytes
             extra_bytes_reminder = extra_bytes % 4
-            bytes_to_truncate = extra_bytes - extra_bytes_reminder
+            bytes_to_truncate = extra_bytes + extra_bytes_reminder
             log_str = json.dumps({
                 'timestamp_ms': log['timestamp_ms'],
                 'user_id': log['user_id'],
@@ -159,10 +154,30 @@ def _dispatch_batch(client, log_group, log_stream, sequence_token, batch):
             params['sequenceToken'] = sequence_token
         response = client.put_log_events(**params)
         return response['nextSequenceToken']
-    except Exception as error:
+    except Exception:
         # in case the request fails log the error and the batch and return the sequence_token
-        logging.error('Failed to send log events batch to Cloud Watch. Exception: {}\nBatch: {}', error, batch)
+        logging.exception('Failed to send log events batch to Cloud Watch\nBatch: {}'.format(batch))
         return sequence_token
+
+
+def _provide_log_group(client, log_group_name):
+    try:
+        log_group = _retrieve_track_request_log_group(client, log_group_name)
+    except IndexError:
+        client.create_log_group(logGroupName=log_group_name)
+        log_group = _retrieve_track_request_log_group(client, log_group_name)
+    return log_group
+
+
+def _provide_log_stream(client, log_group):
+    now = timezone.now()
+    log_stream_name = '{}-{}'.format(now.month, now.year)
+    try:
+        log_stream = _retrieve_track_request_log_stream(client, log_group, log_stream_name)
+    except IndexError:
+        client.create_log_stream(logGroupName=log_group['logGroupName'], logStreamName=log_stream_name)
+        log_stream = _retrieve_track_request_log_stream(client, log_group, log_stream_name)
+    return log_stream
 
 
 def _retrieve_track_request_log_stream(client, log_group, stream_name):
@@ -174,8 +189,7 @@ def _retrieve_track_request_log_stream(client, log_group, stream_name):
     """
     response = client.describe_log_streams(logGroupName=log_group['logGroupName'], logStreamNamePrefix=stream_name)
     log_streams = response['logStreams']
-    log_streams_count = len(log_streams) != 1
-    if log_streams_count > 1:
+    if len(log_streams) > 1:
         # return the most recently created log group
         return sorted(log_streams, key=lambda x: x['creationTime'], reverse=True)[0]
     return log_streams[0]
@@ -190,8 +204,7 @@ def _retrieve_track_request_log_group(client, log_group_name):
     """
     response = client.describe_log_groups(logGroupNamePrefix=log_group_name)
     log_groups = response['logGroups']
-    log_groups_count = len(log_groups) != 1
-    if log_groups_count > 1:
+    if len(log_groups) > 1:
         # return the most recently created log group
         return sorted(log_groups, key=lambda x: x['creationTime'], reverse=True)[0]
     return log_groups[0]
