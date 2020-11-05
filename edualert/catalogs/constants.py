@@ -24,7 +24,7 @@ AVG_BELOW_LIMIT_BODY = 'Elevul {} are media semestrială sub {} la materiile: {}
 BEHAVIOR_GRADE_BELOW_8_TITLE = 'Notă purtare sub 8 - {}'
 BEHAVIOR_GRADE_BELOW_8_BODY = 'Elevul {} are nota semestrială sub 8 la purtare.'
 
-SCHOOL_SITUATION_SMS_BODY = 'EduAlert: Note {} {}: {}. Total absențe nemotivate în acest semestru: {}.'
+SCHOOL_SITUATION_SMS_BODY = 'EduAlert: Note {} {}: {}. Total absențe nemotivate în acest semestru: {}'
 SCHOOL_SITUATION_EMAIL_TITLE = 'Situație școlară {} {}'
 SCHOOL_SITUATION_EMAIL_BODY = 'Bună ziua!\n\n' \
                               'Acesta este un raport săptămânal automat cu privire la situația școlară a lui {}.\n\n' \
