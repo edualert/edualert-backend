@@ -15,6 +15,17 @@ def check_event_is_semester_end(event_type):
     return event_type in SEMESTER_END_EVENTS
 
 
+def get_second_semester_end_events(current_calendar):
+    return {
+        SchoolEvent.EventTypes.SECOND_SEMESTER_END_VIII_GRADE: current_calendar.second_semester.school_events
+            .filter(event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_VIII_GRADE).first(),
+        SchoolEvent.EventTypes.SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA: current_calendar.second_semester.school_events
+            .filter(event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA).first(),
+        SchoolEvent.EventTypes.SECOND_SEMESTER_END_XII_XIII_GRADE: current_calendar.second_semester.school_events
+            .filter(event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_XII_XIII_GRADE).first(),
+    }
+
+
 def generate_next_year_academic_calendar():
     current_calendar = get_current_academic_calendar()
     next_year = current_calendar.academic_year + 1

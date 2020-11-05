@@ -105,3 +105,25 @@ def get_weekly_hours_count(study_class, subject_id):
         return program_subject_through.weekly_hours_count
 
     return 1
+
+
+def get_current_semester(today, current_calendar, second_semester_end_events, class_grade_arabic, is_technological_school):
+    if today < current_calendar.second_semester.starts_at:
+        current_semester = 1
+    else:
+        second_semester_end_event = None
+        if class_grade_arabic == 8:
+            second_semester_end_event = second_semester_end_events.get(SchoolEvent.EventTypes.SECOND_SEMESTER_END_VIII_GRADE)
+        elif class_grade_arabic in [9, 10, 11]:
+            if is_technological_school:
+                second_semester_end_event = second_semester_end_events.get(SchoolEvent.EventTypes.SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA)
+        elif class_grade_arabic in [12, 13]:
+            second_semester_end_event = second_semester_end_events.get(SchoolEvent.EventTypes.SECOND_SEMESTER_END_XII_XIII_GRADE)
+
+        second_semester_end = second_semester_end_event.ends_at if second_semester_end_event else current_calendar.second_semester.ends_at
+        if today < second_semester_end:
+            current_semester = 2
+        else:
+            current_semester = None
+
+    return current_semester

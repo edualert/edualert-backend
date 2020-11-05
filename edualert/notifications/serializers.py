@@ -156,9 +156,11 @@ class SentNotificationCreateSerializer(serializers.ModelSerializer):
                 from_user_subjects = '__'.join(from_user.teacher_class_through.filter(study_class__in=children_study_classes).distinct()
                                                .values_list('subject_name', flat=True).order_by(Lower('subject_name')))
 
+        # Don't support sms for now
+        validated_data.pop('send_sms', False)
         instance = Notification.objects.create(from_user=from_user, from_user_full_name=from_user.full_name, from_user_role=from_user.user_role,
                                                from_user_subjects=from_user_subjects, target_users_role=TARGET_USERS_ROLE_MAP[receiver_type],
-                                               target_study_class=target_study_class, targets_count=targets_count, **validated_data)
+                                               target_study_class=target_study_class, targets_count=targets_count, send_sms=False, **validated_data)
 
         if receiver_type == Notification.ReceiverTypes.ONE_STUDENT:
             TargetUserThrough.objects.create_and_send(notification=instance, user_profile=target_user, user_profile_full_name=target_user.full_name,

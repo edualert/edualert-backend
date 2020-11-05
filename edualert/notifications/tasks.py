@@ -6,7 +6,7 @@ from edualert.notifications.utils import send_mass_mail, send_mail, send_sms
 
 
 @shared_task
-def format_and_send_notification_task(subject, body, user_profile_ids, always_send_sms, show_my_account=True):
+def format_and_send_notification_task(subject, body, user_profile_ids, prohibit_sending_sms, show_my_account=True):
     from edualert.profiles.models import UserProfile
     mails_to_send = []
     sms_to_send = []
@@ -29,7 +29,7 @@ def format_and_send_notification_task(subject, body, user_profile_ids, always_se
             mails_to_send.append([subject, bodies, settings.SERVER_EMAIL, [profile.email]])
             can_send_email = True
 
-        if (always_send_sms or not can_send_email) and profile.sms_notifications_enabled and profile.phone_number:
+        if not prohibit_sending_sms and not can_send_email and profile.sms_notifications_enabled and profile.phone_number:
             phone_number = profile.phone_number if profile.phone_number.startswith('+') or profile.phone_number.startswith('00') \
                 else '+4' + profile.phone_number
             sms_to_send.append((phone_number, body))
