@@ -168,18 +168,14 @@ def _replace_fields_recursively(obj, keys, value='<masked>'):
 
 def _iter_dict(obj, func):
     """
-    Call `func` for every key/value pair we can find in the provided `dict`.
+    Call `func` for every key/value pair we can find in the provided `obj`.
     """
-    if not isinstance(obj, dict):
-        return
-
-    for key, val in obj.items():
-        # iterate dictionaries recursively
-        if isinstance(val, dict):
-            _iter_dict(val, func)
-        # iterate over list values
-        elif isinstance(val, list):
-            for item in val:
-                _iter_dict(item, func)
-        else:
-            func(obj, key, val)
+    if isinstance(obj, dict):
+        for key, val in obj.items():
+            if not isinstance(val, dict) and not isinstance(val, list):
+                func(obj, key, val)
+            else:
+                _iter_dict(val, func)
+    if isinstance(obj, list):
+        for item in obj:
+            _iter_dict(item, func)
