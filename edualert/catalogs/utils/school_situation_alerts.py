@@ -2,8 +2,11 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.utils import timezone
 
-from edualert.catalogs.constants import SCHOOL_SITUATION_SMS_BODY, SCHOOL_SITUATION_EMAIL_TITLE, SCHOOL_SITUATION_EMAIL_BODY, SCHOOL_SITUATION_EMAIL_SIGNATURE
+from edualert.academic_calendars.utils import get_current_academic_calendar, get_second_semester_end_events
+from edualert.catalogs.constants import SCHOOL_SITUATION_SMS_BODY, SCHOOL_SITUATION_EMAIL_TITLE, \
+    SCHOOL_SITUATION_EMAIL_BODY, SCHOOL_SITUATION_EMAIL_SIGNATURE
 from edualert.catalogs.models import SubjectGrade, SubjectAbsence
+from edualert.catalogs.utils import has_technological_category, get_current_semester
 from edualert.notifications.utils import send_sms, send_mail
 from edualert.profiles.models import UserProfile
 from edualert.schools.models import RegisteredSchoolUnit
@@ -15,10 +18,23 @@ def send_alerts_for_school_situation():
     one_week_ago = today - timezone.timedelta(days=8)
     time_period = get_time_period(two_weeks_ago, one_week_ago)
 
+    current_calendar = get_current_academic_calendar()
+    if not current_calendar:
+        return
+    second_semester_end_events = get_second_semester_end_events(current_calendar)
+
     for school_unit in RegisteredSchoolUnit.objects.all():
-        for student in UserProfile.objects.filter(school_unit_id=school_unit.id, user_role=UserProfile.UserRoles.STUDENT, is_active=True):
+        is_technological_school = has_technological_category(school_unit)
+
+        for student in UserProfile.objects.filter(school_unit_id=school_unit.id, user_role=UserProfile.UserRoles.STUDENT,
+                                                  is_active=True).select_related('student_in_class'):
             try:
-                unfounded_absences_count = get_unfounded_absences_count_for_student(student.id, two_weeks_ago, one_week_ago)
+                current_semester = get_current_semester(today, current_calendar, second_semester_end_events,
+                                                        student.student_in_class.class_grade_arabic, is_technological_school)
+                if current_semester is None:
+                    continue
+
+                unfounded_absences_count = get_unfounded_absences_count_for_student(student.id, current_calendar.academic_year, current_semester)
                 grades = get_grades_for_students(student.id, two_weeks_ago, one_week_ago)
 
                 if unfounded_absences_count == 0 and grades.count() == 0:
@@ -49,8 +65,9 @@ def get_time_period(starts_at, ends_at):
     return "{}.{}-{}.{}".format(starts_at.day, starts_at.month, ends_at.day, ends_at.month)
 
 
-def get_unfounded_absences_count_for_student(student_id, starts_at, ends_at):
-    return SubjectAbsence.objects.filter(student_id=student_id, taken_at__gte=starts_at, taken_at__lte=ends_at, is_founded=False).count()
+def get_unfounded_absences_count_for_student(student_id, current_academic_year, current_semester):
+    return SubjectAbsence.objects.filter(student_id=student_id, academic_year=current_academic_year,
+                                         semester=current_semester, is_founded=False).count()
 
 
 def get_grades_for_students(student_id, starts_at, ends_at):
@@ -83,7 +100,7 @@ def group_grades_by_subject(grades):
 
 
 def get_subject_initials(subject_name):
-    subject_name_words = subject_name.split(" ")
+    subject_name_words = subject_name.strip().split(" ")
 
     if len(subject_name_words) == 0:
         return ""
@@ -96,7 +113,7 @@ def get_subject_initials(subject_name):
 
     if len(subject_name_words[0]) > 0 and len(subject_name_words[1]) > 0 and len(subject_name_words[2]) > 0:
         return "{}{}{}".format(subject_name_words[0][0], subject_name_words[1][0], subject_name_words[2][0]).upper()
-    return subject_name[0:3]
+    return subject_name[0:3].upper()
 
 
 def get_formatted_grades(grouped_grades, is_for_sms=False):

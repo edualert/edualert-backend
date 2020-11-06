@@ -8,7 +8,8 @@ from edualert.notifications.tasks import format_and_send_notification_task
 class TargetUserThroughManager(models.Manager):
     def create_and_send(self, *args, **kwargs):
         instance = super(TargetUserThroughManager, self).create(*args, **kwargs)
-        format_and_send_notification_task.delay(NEW_MESSAGE_TITLE, NEW_MESSAGE_BODY, [instance.user_profile.id], instance.notification.send_sms)
+        # format_and_send_notification_task.delay(NEW_MESSAGE_TITLE, NEW_MESSAGE_BODY, [instance.user_profile.id], not instance.notification.send_sms)
+        format_and_send_notification_task.delay(NEW_MESSAGE_TITLE, NEW_MESSAGE_BODY, [instance.user_profile.id], True)
         return instance
 
     def bulk_create_and_send(self, *args, **kwargs):
@@ -24,7 +25,8 @@ class TargetUserThroughManager(models.Manager):
                 }
 
         for notification_id, data in target_through_by_notification.items():
-            format_and_send_notification_task.delay(NEW_MESSAGE_TITLE, NEW_MESSAGE_BODY, data['user_profile_id_set'], data['notification'].send_sms)
+            # format_and_send_notification_task.delay(NEW_MESSAGE_TITLE, NEW_MESSAGE_BODY, data['user_profile_id_set'], not data['notification'].send_sms)
+            format_and_send_notification_task.delay(NEW_MESSAGE_TITLE, NEW_MESSAGE_BODY, data['user_profile_id_set'], True)
 
         return instances
 

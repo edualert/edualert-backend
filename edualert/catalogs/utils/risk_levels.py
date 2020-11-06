@@ -1,10 +1,9 @@
 from django.utils import timezone
 
-from edualert.academic_calendars.models import SchoolEvent
-from edualert.academic_calendars.utils import get_current_academic_calendar
+from edualert.academic_calendars.utils import get_current_academic_calendar, get_second_semester_end_events
 from edualert.academic_programs.models import AcademicProgram
 from edualert.catalogs.models import StudentCatalogPerSubject, StudentCatalogPerYear
-from edualert.catalogs.utils import has_technological_category
+from edualert.catalogs.utils import has_technological_category, get_current_semester
 from edualert.profiles.constants import ABANDONMENT_RISK_1_LABEL, ABANDONMENT_RISK_2_LABEL
 from edualert.profiles.models import Label, UserProfile
 from edualert.schools.models import RegisteredSchoolUnit
@@ -98,17 +97,6 @@ def calculate_students_risk_level():
     set_study_classes_students_at_risk_count(current_calendar.academic_year, risk_stats_map, today.day)
 
 
-def get_second_semester_end_events(current_calendar):
-    return {
-        SchoolEvent.EventTypes.SECOND_SEMESTER_END_VIII_GRADE: current_calendar.second_semester.school_events
-            .filter(event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_VIII_GRADE).first(),
-        SchoolEvent.EventTypes.SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA: current_calendar.second_semester.school_events
-            .filter(event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA).first(),
-        SchoolEvent.EventTypes.SECOND_SEMESTER_END_XII_XIII_GRADE: current_calendar.second_semester.school_events
-            .filter(event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_XII_XIII_GRADE).first(),
-    }
-
-
 def get_mapped_risk_stats(year, month):
     student_at_risk_counts = StudentAtRiskCounts.objects.filter(year=year, month=month)
     risk_stats_map = {
@@ -139,28 +127,6 @@ def get_mapped_catalogs_per_subject(academic_year, school_unit_id):
         catalogs_map[catalog.student_id].append(catalog)
 
     return catalogs_map
-
-
-def get_current_semester(today, current_calendar, second_semester_end_events, class_grade_arabic, is_technological_school):
-    if today < current_calendar.second_semester.starts_at:
-        current_semester = 1
-    else:
-        second_semester_end_event = None
-        if class_grade_arabic == 8:
-            second_semester_end_event = second_semester_end_events.get(SchoolEvent.EventTypes.SECOND_SEMESTER_END_VIII_GRADE)
-        elif class_grade_arabic in [9, 10, 11]:
-            if is_technological_school:
-                second_semester_end_event = second_semester_end_events.get(SchoolEvent.EventTypes.SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA)
-        elif class_grade_arabic in [12, 13]:
-            second_semester_end_event = second_semester_end_events.get(SchoolEvent.EventTypes.SECOND_SEMESTER_END_XII_XIII_GRADE)
-
-        second_semester_end = second_semester_end_event.ends_at if second_semester_end_event else current_calendar.second_semester.ends_at
-        if today < second_semester_end:
-            current_semester = 2
-        else:
-            current_semester = None
-
-    return current_semester
 
 
 def get_attendance_risk_level(catalog_per_subject, date_limit):
