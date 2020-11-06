@@ -12,3 +12,4 @@ factory-boy==2.12.0
 methodtools==0.1.2
 psycopg2==2.8.4
 uwsgi==2.0.18
+boto3==1.16.9

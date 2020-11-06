@@ -21,6 +21,12 @@ CACHES = {
         }
 }
 
+# Request Logs
+REQUEST_LOG = {
+    'REGION_NAME': 'eu-central-1',
+    'LOG_GROUP_NAME': 'api_requests_log_group',
+}
+MIDDLEWARE += ('edualert.common.middleware.RequestActivityTrackerMiddleware',)
 
 # STORAGE
 # ------------------------------------------------------------------------------
