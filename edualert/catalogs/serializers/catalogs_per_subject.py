@@ -270,7 +270,7 @@ class StudentCatalogPerSubjectSerializer(serializers.ModelSerializer):
 
 
 class CatalogsPerSubjectRemarksSerializer(serializers.ModelSerializer):
-    remarks = serializers.CharField(max_length=500)
+    remarks = serializers.CharField(max_length=500, allow_blank=True, allow_null=True)
 
     class Meta:
         model = StudentCatalogPerSubject
