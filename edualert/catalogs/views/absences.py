@@ -70,14 +70,10 @@ class AbsenceAuthorize(generics.GenericAPIView):
         # if not can_update_grades_or_absences(catalog.study_class):
         #     return Response({'message': _("Can't authorize absences at this time.")}, status=status.HTTP_400_BAD_REQUEST)
 
-        profile = self.request.user.user_profile
-        if profile.id != catalog.study_class.class_master_id and absence.created < timezone.now() - timezone.timedelta(days=7):
-            return Response({'message': _("You can't authorize this absence anymore.")}, status=status.HTTP_400_BAD_REQUEST)
-
         absence.is_founded = True
         absence.save()
         change_absences_counts_on_authorize(catalog, absence)
-        update_last_change_in_catalog(profile)
+        update_last_change_in_catalog(self.request.user.user_profile)
 
         serializer = self.get_serializer(instance=catalog)
         return Response(serializer.data)

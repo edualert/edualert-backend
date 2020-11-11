@@ -109,44 +109,6 @@ class AbsenceAuthorizeTestCase(CommonAPITestCase):
     #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
     #     self.assertEqual(response.data['message'], "Can't authorize absences at this time.")
 
-    @patch('django.utils.timezone.now', return_value=timezone.datetime(2019, 9, 20).replace(tzinfo=utc))
-    def test_authorize_absence_8_days_ago_teacher(self, timezone_mock):
-        self.client.login(username=self.teacher.username, password='passwd')
-
-        self.absence.created = timezone.now() - timezone.timedelta(days=8)
-        self.absence.save()
-
-        response = self.client.post(self.build_url(self.absence.id), data={})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data['message'], "You can't authorize this absence anymore.")
-
-    @patch('django.utils.timezone.now', return_value=timezone.datetime(2019, 9, 20).replace(tzinfo=utc))
-    def test_authorize_absence_8_days_ago_class_master(self, timezone_mock):
-        self.client.login(username=self.class_master.username, password='passwd')
-
-        self.absence.created = timezone.now() - timezone.timedelta(days=8)
-        self.absence.save()
-
-        response = self.client.post(self.build_url(self.absence.id), data={})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        self.refresh_objects_from_db([self.catalog, self.catalog_per_year, self.study_class,
-                                      self.study_class.academic_program, self.school_stats])
-        for catalog in [self.catalog, self.catalog_per_year]:
-            self.assertEqual(catalog.abs_count_sem1, 1)
-            self.assertEqual(catalog.abs_count_sem2, 0)
-            self.assertEqual(catalog.abs_count_annual, 1)
-            self.assertEqual(catalog.founded_abs_count_sem1, 1)
-            self.assertEqual(catalog.founded_abs_count_sem2, 0)
-            self.assertEqual(catalog.founded_abs_count_annual, 1)
-            self.assertEqual(catalog.unfounded_abs_count_sem1, 0)
-            self.assertEqual(catalog.unfounded_abs_count_sem2, 0)
-            self.assertEqual(catalog.unfounded_abs_count_annual, 0)
-        for obj in [self.study_class, self.study_class.academic_program, self.school_stats]:
-            self.assertEqual(obj.unfounded_abs_avg_sem1, 0)
-            self.assertEqual(obj.unfounded_abs_avg_sem2, 0)
-            self.assertEqual(obj.unfounded_abs_avg_annual, 0)
-
     @data(
         'class_master', 'teacher'
     )
