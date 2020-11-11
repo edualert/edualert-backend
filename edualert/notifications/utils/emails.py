@@ -1,5 +1,6 @@
 import smtplib
 from email.mime.image import MIMEImage
+from pathlib import Path
 
 from django.conf import settings
 from django.core.mail import get_connection, EmailMultiAlternatives
@@ -7,6 +8,15 @@ from django.utils import timezone
 
 
 def send_mail(subject, bodies, from_email, bcc, cc=None, fail_silently=False, auth_user=None, auth_password=None, connection=None):
+    send_mail_with_attachments(subject, bodies, from_email, bcc, [], cc=cc, fail_silently=fail_silently,
+                               auth_user=auth_user, auth_password=auth_password, connection=connection)
+
+
+def send_mail_with_attachments(subject, bodies, from_email, bcc, files, cc=None, fail_silently=False, auth_user=None, auth_password=None, connection=None):
+    # cc - List<email>
+    # bcc - List<email>
+    # files - List<(file_path, filename)>
+
     from edualert.notifications.models import SentEmailAlternative
 
     # Adapted the django.core.mail.send_mail implementation to our needs.
@@ -31,6 +41,12 @@ def send_mail(subject, bodies, from_email, bcc, cc=None, fail_silently=False, au
             sent_at=sent_at,
         ))
     mail.attach(logo_data())
+
+    for (file_path, filename) in files:
+        path = Path(file_path)
+        with path.open('rb') as file:
+            content = file.read()
+            mail.attach(filename, content)
 
     try:
         send_result = mail.send()
