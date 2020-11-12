@@ -180,23 +180,24 @@ def get_months_since_academic_calendar_start(current_calendar):
     return months
 
 
+def _get_month_name(month_number):
+    month_names = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie',
+                   'Octombrie', 'Noiembrie', 'Decembrie']
+    # the list starts from 0 and the `month_number` starts 1
+    return month_names[month_number - 1]
+
+
 @shared_task
 def send_monthly_school_unit_absence_report_task():
     today = timezone.now().date()
-    report_date = today - relativedelta(months=1)
-    year = report_date.year
-    month = report_date.month
+    reported_date = today - relativedelta(months=1)
     academic_year = get_current_academic_calendar()
-
-    month_names = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie',
-                   'Octombrie', 'Noiembrie', 'Decembrie']
-    # the list is index from 0 and the `month` variable from 1
-    month_name = month_names[month - 1]
+    month_name = _get_month_name(reported_date.month)
 
     # generate all the reports which have to be sent
     report_files = []
     try:
-        _generate_report_files(report_files, academic_year, year, month, month_name)
+        _generate_report_files(report_files, academic_year, reported_date, today)
     except Exception as err:
         # remove all the generated temporary files before bubbling up the exception
         for _, file in report_files:
@@ -208,9 +209,9 @@ def send_monthly_school_unit_absence_report_task():
     for email in delivery_emails:
         # try to send an email with all the reports
         try:
-            subject = 'Raport lunar absențe - {} {}'.format(month_name, year)
+            subject = 'Raport lunar absențe - {} {}'.format(month_name, reported_date.year)
             content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
-                      'care conțin evidența absențelor pentru {} {}.'.format(month_name, year)
+                      'care conțin evidența absențelor pentru {} {}.'.format(month_name, reported_date.year)
             # compose attachments based on: filesystem filename, attachment filename
             attachments = [(file.name, '{}.xlsx'.format(school_name)) for school_name, file in report_files]
 
@@ -231,7 +232,7 @@ def send_monthly_school_unit_absence_report_task():
         unlink(file.name)
 
 
-def _generate_report_files(report_files, academic_year, year, month, month_name):
+def _generate_report_files(report_files, academic_year, reported_date, current_date):
     query_offset = 0
     query_batch_size = 200
     school_units_count = RegisteredSchoolUnit.objects.count()
@@ -250,13 +251,15 @@ def _generate_report_files(report_files, academic_year, year, month, month_name)
             file = tempfile.NamedTemporaryFile(prefix='edu_report_', suffix='.xslx', delete=False)
             report_files.append((school_unit, file))
             # compute report data and write it to the temporary file
-            report_data = _compute_report_data_for_school_unit(academic_year, year, month, school_unit)
-            _write_report_xslx(file.name, month_name, year, report_data.values())
+            report_data = _compute_report_data_for_school_unit(academic_year, reported_date, school_unit)
+            _write_report_xslx(file.name, reported_date, current_date, report_data.values())
             # move on to the next bach
             query_offset += query_batch_size
 
 
-def _compute_report_data_for_school_unit(academic_year, year, month, school_unit):
+def _compute_report_data_for_school_unit(academic_year, reported_date, school_unit):
+    year = reported_date.year
+    month = reported_date.month
     unfounded_absences = Count('absence', filter=Q(absence__is_founded=False, absence__taken_at__year=year, absence__taken_at__month=month))
     founded_absences = Count('absence', filter=Q(absence__is_founded=True, absence__taken_at__year=year, absence__taken_at__month=month))
 
@@ -294,7 +297,7 @@ def _compute_report_data_for_school_unit(academic_year, year, month, school_unit
     return classes
 
 
-def _write_report_xslx(filename, month_name, year, classes):
+def _write_report_xslx(filename, reported_date, current_date, classes):
     def set_border(cell):
         cell.border = Border(
             left=Side(border_style='thin', color='FF000000'),
@@ -325,20 +328,19 @@ def _write_report_xslx(filename, month_name, year, classes):
         worksheet.merge_cells('A1:F1')
 
         # add subtitle
-        worksheet['A2'] = 'Luna {} {}'.format(month_name, year)
+        worksheet['A2'] = 'Luna {} {}'.format(_get_month_name(reported_date.month), reported_date.year)
         worksheet['A2'].font = Font(name='Calibri', bold=True)
         worksheet['A2'].alignment = Alignment(horizontal='center')
         worksheet.merge_cells('A2:F2')
 
         # add deadline
-        worksheet['A3'] = 'Data predării:'
+        worksheet['A3'] = 'Termen de predate: 15.{}.{}'.format(current_date.month, current_date.year)
         worksheet['A3'].font = Font(name='Calibri', bold=True)
         worksheet.merge_cells('A3:C3')
 
-        worksheet['B4'] = '=Cap!B1'
-        worksheet['B4'].font = Font(name='Calibri', bold=True)
-        worksheet['B4'].alignment = Alignment(horizontal='center')
-        worksheet['B4'].number_format = 'yyyy-mm-dd'
+        worksheet['A4'] = '=CONCATENATE("Data predării: ", Cap!A1)'
+        worksheet['A4'].font = Font(name='Calibri', bold=True)
+        worksheet.merge_cells('A4:C4')
 
         # add study class
         worksheet['D3'] = 'Clasa:'
@@ -442,10 +444,8 @@ def _write_report_xslx(filename, month_name, year, classes):
 
     # add sheet to allow easier change for global values
     worksheet = workbook.create_sheet('Cap')
-    worksheet['A1'] = 'Data predării:'
-    worksheet['B1'] = 'Setat din Cap:B1'
+    worksheet['A1'] = 'Setat din Cap:A1'
 
     worksheet.column_dimensions['A'].width = len(str(worksheet['A1'].value))
-    worksheet.column_dimensions['B'].width = 15
 
     workbook.save(filename)
