@@ -2,7 +2,6 @@ import datetime
 from unittest import skip
 
 from dateutil.relativedelta import relativedelta
-from django.db import connection
 from django.test import TestCase, override_settings
 from django.utils import timezone
 
@@ -132,10 +131,8 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
     def test__compute_report_data_for_school_unit(self):
         today = timezone.now().date()
         report_date = today - relativedelta(months=1)
-        target_year = report_date.year
-        target_month = report_date.month
 
-        classes_dict = _compute_report_data_for_school_unit(self.current_calendar, target_year, target_month,
+        classes_dict = _compute_report_data_for_school_unit(self.current_calendar.academic_year, report_date,
                                                             self.school_unit1)
         classes = list(classes_dict.values())
         self.assertEqual(4, len(classes))
