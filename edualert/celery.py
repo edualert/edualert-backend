@@ -26,6 +26,10 @@ app.conf.beat_schedule = {
         'task': 'edualert.catalogs.tasks.calculate_students_risk_level_task',
         'schedule': crontab(hour=00, minute=15)
     },
+    'send_monthly_school_unit_absence_report_task': {
+        'task': 'edualert.statistics.tasks.send_monthly_school_unit_absence_report_task',
+        'schedule': crontab(day_of_month=11, hour=6, minute=0),
+    },
     'send_alerts_for_risks_task': {
         'task': 'edualert.catalogs.tasks.send_alerts_for_risks_task',
         'schedule': crontab(day_of_week=1, hour=6, minute=30)
@@ -41,10 +45,6 @@ app.conf.beat_schedule = {
     'send_request_log_to_cloud_watch_task': {
         'task': 'edualert.common.tasks.send_request_log_to_cloud_watch_task',
         'schedule': crontab(minute='*/5'),
-    },
-    'send_monthly_school_unit_absence_report_task': {
-        'task': 'edualert.statistics.tasks.send_monthly_school_unit_absence_report_task',
-        'schedule': crontab(day_of_month=11, hour=6, minute=0),
     },
 }
 
