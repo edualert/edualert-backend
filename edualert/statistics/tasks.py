@@ -233,10 +233,11 @@ def _compute_report_data_for_school_unit(academic_year, year, month, school_unit
     founded_absences = Count('absence', filter=Q(absence__is_founded=True, absence__taken_at__year=year, absence__taken_at__month=month))
 
     classes_query = StudentCatalogPerSubject.objects \
-        .filter(academic_year=academic_year, study_class__school_unit=school_unit) \
-        .values('subject_name', 'study_class__class_grade', 'study_class__class_letter',
-                'study_class__class_master__full_name') \
-        .annotate(unfounded_absences=unfounded_absences, founded_absences=founded_absences)
+        .filter(academic_year=academic_year.academic_year, study_class__school_unit=school_unit) \
+        .values('subject_name', 'study_class__class_grade', 'study_class__class_grade_arabic',
+                'study_class__class_letter', 'study_class__class_master__full_name') \
+        .annotate(unfounded_absences=unfounded_absences, founded_absences=founded_absences) \
+        .order_by('study_class__class_grade_arabic', 'study_class__class_letter', 'subject_name')
 
     # transform query results
     classes = {}
