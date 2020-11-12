@@ -209,7 +209,7 @@ def send_monthly_school_unit_absence_report_task():
                 # get data for report
                 classes = _compute_report_data_for_school_unit(academic_year, year, month, school_unit)
                 # write report to temporary file
-                _create_report_xslx(file.name, month_name, classes.values())
+                _create_report_xslx(file.name, month_name, year, classes.values())
                 # send email
                 subject = 'Raport lunar absente - {} {}'.format(month_name, year)
                 content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
@@ -265,7 +265,7 @@ def _compute_report_data_for_school_unit(academic_year, year, month, school_unit
     return classes
 
 
-def _create_report_xslx(filename, month_name, classes):
+def _create_report_xslx(filename, month_name, year, classes):
     def set_border(cell):
         cell.border = Border(
             left=Side(border_style='thin', color='FF000000'),
@@ -296,7 +296,7 @@ def _create_report_xslx(filename, month_name, classes):
         worksheet.merge_cells('A1:F1')
 
         # add subtitle
-        worksheet['A2'] = 'Luna {} 2020'.format(month_name)
+        worksheet['A2'] = 'Luna {} {}'.format(month_name, year)
         worksheet['A2'].font = Font(name='Calibri', bold=True)
         worksheet['A2'].alignment = Alignment(horizontal='center')
         worksheet.merge_cells('A2:F2')
