@@ -182,7 +182,7 @@ def get_months_since_academic_calendar_start(current_calendar):
 def send_monthly_school_unit_absence_report_task():
     today = timezone.now().date()
     report_date = today - relativedelta(months=1)
-    academic_year = report_date.year
+    year = report_date.year
     month = report_date.month
 
     month_names = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie',
@@ -206,13 +206,13 @@ def send_monthly_school_unit_absence_report_task():
         for school_unit in school_units_qs[query_offset:query_offset + query_batch_size]:
             with tempfile.NamedTemporaryFile(prefix='edu_report_', suffix='.xslx') as file:
                 # get data for report
-                classes = _compute_report_data_for_school_unit(academic_year, month, school_unit)
+                classes = _compute_report_data_for_school_unit(year, month, school_unit)
                 # write report to temporary file
                 _create_report_xslx(file.name, month_name, classes.values())
                 # send email
-                subject = 'Raport lunar absente - {} {}'.format(month_name, academic_year)
+                subject = 'Raport lunar absente - {} {}'.format(month_name, year)
                 content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
-                          'care conțin evidența absențelor pentru {} {}.'.format(month_name, academic_year)
+                          'care conțin evidența absențelor pentru {} {}.'.format(month_name, year)
                 files = [(file.name, '{}.xlsx'.format(subject))]
                 # render template
                 template = get_template('message.html')
@@ -227,12 +227,12 @@ def send_monthly_school_unit_absence_report_task():
         query_offset += query_batch_size
 
 
-def _compute_report_data_for_school_unit(academic_year, month, school_unit):
-    unfounded_absences = Count('absence', filter=Q(absence__is_founded=False, absence__taken_at__year=academic_year, absence__taken_at__month=month))
-    founded_absences = Count('absence', filter=Q(absence__is_founded=True, absence__taken_at__year=academic_year, absence__taken_at__month=month))
+def _compute_report_data_for_school_unit(year, month, school_unit):
+    unfounded_absences = Count('absence', filter=Q(absence__is_founded=False, absence__taken_at__year=year, absence__taken_at__month=month))
+    founded_absences = Count('absence', filter=Q(absence__is_founded=True, absence__taken_at__year=year, absence__taken_at__month=month))
 
     classes_query = StudentCatalogPerSubject.objects \
-        .filter(academic_year=academic_year, study_class__school_unit=school_unit) \
+        .filter(academic_year=year, study_class__school_unit=school_unit) \
         .values('subject_name', 'study_class__class_grade', 'study_class__class_letter',
                 'study_class__class_master__full_name') \
         .annotate(unfounded_absences=unfounded_absences, founded_absences=founded_absences)
