@@ -302,7 +302,7 @@ def _create_report_xslx(filename, month_name, year, classes):
         worksheet.merge_cells('A2:F2')
 
         # add deadline
-        worksheet['A3'] = 'Termen de predare:'
+        worksheet['A3'] = 'Data predării:'
         worksheet['A3'].font = Font(name='Calibri', bold=True)
         worksheet.merge_cells('A3:C3')
 
@@ -327,7 +327,7 @@ def _create_report_xslx(filename, month_name, year, classes):
         # add statistics fields
         worksheet['A6'] = 'Numar elevi existenti la inceputul lunii:'
         worksheet.merge_cells('A6:B6')
-        worksheet['A7'] = 'Numar elevi exmatriculati :'
+        worksheet['A7'] = 'Numar elevi exmatriculati:'
         worksheet.merge_cells('A7:B7')
         worksheet['A8'] = 'Numar elevi retrasi:'
         worksheet.merge_cells('A8:B8')
@@ -413,7 +413,7 @@ def _create_report_xslx(filename, month_name, year, classes):
 
     # add sheet to allow easier change for global values
     worksheet = workbook.create_sheet('Cap')
-    worksheet['A1'] = 'Termen de predare:'
+    worksheet['A1'] = 'Data predării:'
     worksheet['B1'] = 'Setat din Cap:B1'
 
     worksheet.column_dimensions['A'].width = len(str(worksheet['A1'].value))
