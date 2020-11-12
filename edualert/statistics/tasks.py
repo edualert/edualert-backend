@@ -1,5 +1,4 @@
 import datetime
-import logging
 import math
 import tempfile
 from calendar import monthrange
@@ -209,30 +208,25 @@ def send_monthly_school_unit_absence_report_task():
 
     # Deliver all the reports to all the assigned emails
     delivery_emails = settings.ABSENCES_REPORT_DELIVERY_EMAILS
-    for email in delivery_emails:
-        # try to send an email with all the reports
-        try:
-            subject = 'Raport lunar absențe - {} {}'.format(month_name, reported_date.year)
-            content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
-                      'care conțin evidența absențelor pentru {} {}.'.format(month_name, reported_date.year)
-            # compose attachments based on: filesystem filename, attachment filename
-            attachments = [(file.name, '{}.xlsx'.format(school_name)) for school_name, file in report_files]
+    try:
+        subject = 'Raport lunar absențe - {} {}'.format(month_name, reported_date.year)
+        content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
+                  'care conțin evidența absențelor pentru {} {}.'.format(month_name, reported_date.year)
+        # compose attachments based on: filesystem filename, attachment filename
+        attachments = [(file.name, '{}.xlsx'.format(school_name)) for school_name, file in report_files]
 
-            template = get_template('message.html')
-            template_context = {
-                'title': subject, 'body': content, 'show_my_account': False, 'signature': 'Echipa EduAlert'
-            }
-            bodies = {
-                'text/html': template.render(context=template_context)
-            }
-            send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, [email], attachments)
-        except Exception:
-            # log exception but continue with the rest of the emails
-            logging.exception('Failed to send email to: {}'.format(email))
-
-    # remove all the generated temporary files
-    for _, file in report_files:
-        unlink(file.name)
+        template = get_template('message.html')
+        template_context = {
+            'title': subject, 'body': content, 'show_my_account': False, 'signature': 'Echipa EduAlert'
+        }
+        bodies = {
+            'text/html': template.render(context=template_context)
+        }
+        send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, delivery_emails, attachments)
+    finally:
+        # remove all the generated temporary files
+        for _, file in report_files:
+            unlink(file.name)
 
 
 def _generate_report_files(report_files, academic_year, reported_date, current_date):
