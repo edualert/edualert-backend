@@ -211,8 +211,8 @@ def send_monthly_school_unit_absence_report_task():
                 _create_report_xslx(file.name, month_name, classes.values())
                 # send email
                 subject = 'Raport lunar absente - {} {}'.format(month_name, academic_year)
-                content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașat documentul care' \
-                          ' conține evidența absențelor pentru {} {}.'.format(month_name, academic_year)
+                content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
+                          'care conțin evidența absențelor pentru {} {}.'.format(month_name, academic_year)
                 files = [(file.name, '{}.xlsx'.format(subject))]
                 # render template
                 template = get_template('message.html')
