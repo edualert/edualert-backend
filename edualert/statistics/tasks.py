@@ -13,6 +13,7 @@ from django.template.loader import get_template
 from django.utils import timezone
 from openpyxl import Workbook
 from openpyxl.styles import Border, Side, Font, Alignment
+from openpyxl.styles.numbers import FORMAT_TEXT
 
 from edualert.academic_calendars.utils import get_current_academic_calendar
 from edualert.catalogs.models import StudentCatalogPerSubject
@@ -442,6 +443,7 @@ def _write_report_xslx(filename, reported_date, current_date, classes):
     # add sheet to allow easier change for global values
     worksheet = workbook.create_sheet('Cap')
     worksheet['A1'] = 'Setat din Cap:A1'
+    worksheet['A1'].number_format = FORMAT_TEXT
 
     worksheet.column_dimensions['A'].width = len(str(worksheet['A1'].value))
 
