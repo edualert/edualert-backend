@@ -1,9 +1,10 @@
 import datetime
 from unittest import skip
+from unittest.mock import patch
 
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase, override_settings
-from django.utils import timezone
+from pytz import utc
 
 from edualert.academic_calendars.factories import AcademicYearCalendarFactory
 from edualert.academic_programs.factories import AcademicProgramFactory
@@ -19,7 +20,8 @@ from edualert.subjects.factories import SubjectFactory
 class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        date = datetime.date(2020, 11, 1)
+        cls.today = datetime.datetime(2020, 11, 1).replace(tzinfo=utc)
+        date = cls.today
         year = date.year
         month = date.month
         report_date = date - relativedelta(months=1)
@@ -46,7 +48,7 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
 
         # generate subjects
         subject_names = ['Matematica', 'Limba Romana', 'Limba Engleza', 'Limba Franceza', 'Fizica', 'Chimie',
-                         'Biologie', 'TIC', 'Educatie Fizica']
+                         'Biologie', 'TIC', 'Educatie Fizica', 'Tehnologii generale in electronica -automatizari(M1)']
         all_subjects = [SubjectFactory(name=i) for i in subject_names]
 
         # declare helper for easier selection of subjects
@@ -79,7 +81,7 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
 
         # generate students and select subjects for the first school and second class
         for student in gen_students(10):
-            for subject in select_subjects('Matematica', 'Fizica', 'Biologie'):
+            for subject in select_subjects('Matematica', 'Fizica', 'Tehnologii generale in electronica -automatizari(M1)'):
                 catalog_per_subject = StudentCatalogPerSubjectFactory(study_class=study_class2, subject=subject, student=student)
                 gen_absences(catalog_per_subject, 4, 5)
 
@@ -126,10 +128,11 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
         with override_settings(EMAIL_HOST=email_host, EMAIL_PORT=email_port, EMAIL_HOST_USER=email_host_user,
                                EMAIL_HOST_PASSWORD=email_host_password, EMAIL_BACKEND=email_backend, EMAIL_USE_TLS=True,
                                SERVER_EMAIL=from_email, ABSENCES_REPORT_DELIVERY_EMAILS=to_emails):
-            send_monthly_school_unit_absence_report_task()
+            with patch('django.utils.timezone.now', return_value=self.today):
+                send_monthly_school_unit_absence_report_task()
 
     def test__compute_report_data_for_school_unit(self):
-        today = timezone.now().date()
+        today = self.today
         report_date = today - relativedelta(months=1)
 
         classes_dict = _compute_report_data_for_school_unit(self.current_calendar.academic_year, report_date,
@@ -168,9 +171,9 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
         clazz = classes[3]
         self.assertEqual('VII Z', clazz['class_name'])
         self.assertEqual(3, len(clazz['subjects']))
-        self._assert_subject('Biologie', 40, 50, clazz['subjects'][0])
-        self._assert_subject('Fizica', 40, 50, clazz['subjects'][1])
-        self._assert_subject('Matematica', 40, 50, clazz['subjects'][2])
+        self._assert_subject('Fizica', 40, 50, clazz['subjects'][0])
+        self._assert_subject('Matematica', 40, 50, clazz['subjects'][1])
+        self._assert_subject('Tehnologii generale in electronica -automatizari(M1)', 40, 50, clazz['subjects'][2])
 
     def _assert_subject(self, name, founded_absences, unfounded_absences, subject):
         self.assertEqual(name, subject['subject_name'])
