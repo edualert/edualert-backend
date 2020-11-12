@@ -409,7 +409,7 @@ def _write_report_xslx(filename, reported_date, current_date, classes):
             # write subject row
             worksheet.cell(column=1, row=row, value=index + 1)
             cell = worksheet.cell(column=2, row=row, value=study_name)
-            cell.alignment = Alignment(wrap_text=True, vertical='justify', shrink_to_fit=True)
+            cell.alignment = Alignment(wrap_text=True, vertical='center')
             worksheet.merge_cells('B{}:C{}'.format(row, row))
             worksheet.cell(column=4, row=row, value=founded_absences)
             worksheet.cell(column=5, row=row, value=unfounded_absences)
@@ -417,7 +417,7 @@ def _write_report_xslx(filename, reported_date, current_date, classes):
 
             # adjust height if necessary
             if len(str(cell.value)) > study_width:
-                height = math.ceil(len(cell.value) / study_width) * 12
+                height = math.ceil(len(cell.value) / study_width) * 15
                 worksheet.row_dimensions[row].height = height
 
             # set the borders for the cells
