@@ -184,6 +184,7 @@ def send_monthly_school_unit_absence_report_task():
     report_date = today - relativedelta(months=1)
     year = report_date.year
     month = report_date.month
+    academic_year = get_current_academic_calendar()
 
     month_names = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie',
                    'Octombrie', 'Noiembrie', 'Decembrie']
@@ -206,7 +207,7 @@ def send_monthly_school_unit_absence_report_task():
         for school_unit in school_units_qs[query_offset:query_offset + query_batch_size]:
             with tempfile.NamedTemporaryFile(prefix='edu_report_', suffix='.xslx') as file:
                 # get data for report
-                classes = _compute_report_data_for_school_unit(year, month, school_unit)
+                classes = _compute_report_data_for_school_unit(academic_year, year, month, school_unit)
                 # write report to temporary file
                 _create_report_xslx(file.name, month_name, classes.values())
                 # send email
@@ -227,12 +228,12 @@ def send_monthly_school_unit_absence_report_task():
         query_offset += query_batch_size
 
 
-def _compute_report_data_for_school_unit(year, month, school_unit):
+def _compute_report_data_for_school_unit(academic_year, year, month, school_unit):
     unfounded_absences = Count('absence', filter=Q(absence__is_founded=False, absence__taken_at__year=year, absence__taken_at__month=month))
     founded_absences = Count('absence', filter=Q(absence__is_founded=True, absence__taken_at__year=year, absence__taken_at__month=month))
 
     classes_query = StudentCatalogPerSubject.objects \
-        .filter(academic_year=year, study_class__school_unit=school_unit) \
+        .filter(academic_year=academic_year, study_class__school_unit=school_unit) \
         .values('subject_name', 'study_class__class_grade', 'study_class__class_letter',
                 'study_class__class_master__full_name') \
         .annotate(unfounded_absences=unfounded_absences, founded_absences=founded_absences)
