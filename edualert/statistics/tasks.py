@@ -247,7 +247,7 @@ def _generate_report_files(report_files, academic_year, reported_date, current_d
         for school_unit in school_units_qs[query_offset:query_offset + query_batch_size]:
             # generate a temporary file for this school unit and add it to the list
             file = tempfile.NamedTemporaryFile(prefix='edu_report_', suffix='.xslx', delete=False)
-            report_files.append((school_unit, file))
+            report_files.append((school_unit.name, file))
             # compute report data and write it to the temporary file
             report_data = _compute_report_data_for_school_unit(academic_year, reported_date, school_unit)
             _write_report_xslx(file.name, reported_date, current_date, report_data.values())
