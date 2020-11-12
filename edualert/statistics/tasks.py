@@ -1,7 +1,9 @@
 import datetime
+import logging
 import math
 import tempfile
 from calendar import monthrange
+from os import unlink
 
 from celery import shared_task
 from dateutil.relativedelta import relativedelta
@@ -191,6 +193,45 @@ def send_monthly_school_unit_absence_report_task():
     # the list is index from 0 and the `month` variable from 1
     month_name = month_names[month - 1]
 
+    # generate all the reports which have to be sent
+    report_files = []
+    try:
+        _generate_report_files(report_files, academic_year, year, month, month_name)
+    except Exception as err:
+        # remove all the generated temporary files before bubbling up the exception
+        for _, file in report_files:
+            unlink(file.name)
+        raise err
+
+    # Deliver all the reports to all the assigned emails
+    delivery_emails = settings.ABSENCES_REPORT_DELIVERY_EMAILS
+    for email in delivery_emails:
+        # try to send an email with all the reports
+        try:
+            subject = 'Raport lunar absențe - {} {}'.format(month_name, year)
+            content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
+                      'care conțin evidența absențelor pentru {} {}.'.format(month_name, year)
+            # compose attachments based on: filesystem filename, attachment filename
+            attachments = [(file.name, '{}.xlsx'.format(school_name)) for school_name, file in report_files]
+
+            template = get_template('message.html')
+            template_context = {
+                'title': subject, 'body': content, 'show_my_account': False, 'signature': 'Echipa EduAlert'
+            }
+            bodies = {
+                'text/html': template.render(context=template_context)
+            }
+            send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, [email], attachments)
+        except Exception:
+            # log exception but continue with the rest of the emails
+            logging.exception('Failed to send email to: {}'.format(email))
+
+    # remove all the generated temporary files
+    for _, file in report_files:
+        unlink(file.name)
+
+
+def _generate_report_files(report_files, academic_year, year, month, month_name):
     query_offset = 0
     query_batch_size = 200
     school_units_count = RegisteredSchoolUnit.objects.count()
@@ -205,27 +246,14 @@ def send_monthly_school_unit_absence_report_task():
     # our current index.
     while query_offset < school_units_count:
         for school_unit in school_units_qs[query_offset:query_offset + query_batch_size]:
-            with tempfile.NamedTemporaryFile(prefix='edu_report_', suffix='.xslx') as file:
-                # get data for report
-                classes = _compute_report_data_for_school_unit(academic_year, year, month, school_unit)
-                # write report to temporary file
-                _create_report_xslx(file.name, month_name, year, classes.values())
-                # send email
-                subject = 'Raport lunar absențe - {} {}'.format(month_name, year)
-                content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
-                          'care conțin evidența absențelor pentru {} {}.'.format(month_name, year)
-                files = [(file.name, '{}.xlsx'.format(subject))]
-                # render template
-                template = get_template('message.html')
-                template_context = {
-                    'title': subject, 'body': content, 'show_my_account': False, 'signature': 'Echipa EduAlert'
-                }
-                bodies = {
-                    'text/html': template.render(context=template_context)
-                }
-                send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, [school_unit.email], files)
-
-        query_offset += query_batch_size
+            # generate a temporary file for this school unit and add it to the list
+            file = tempfile.NamedTemporaryFile(prefix='edu_report_', suffix='.xslx', delete=False)
+            report_files.append((school_unit, file))
+            # compute report data and write it to the temporary file
+            report_data = _compute_report_data_for_school_unit(academic_year, year, month, school_unit)
+            _write_report_xslx(file.name, month_name, year, report_data.values())
+            # move on to the next bach
+            query_offset += query_batch_size
 
 
 def _compute_report_data_for_school_unit(academic_year, year, month, school_unit):
@@ -266,7 +294,7 @@ def _compute_report_data_for_school_unit(academic_year, year, month, school_unit
     return classes
 
 
-def _create_report_xslx(filename, month_name, year, classes):
+def _write_report_xslx(filename, month_name, year, classes):
     def set_border(cell):
         cell.border = Border(
             left=Side(border_style='thin', color='FF000000'),

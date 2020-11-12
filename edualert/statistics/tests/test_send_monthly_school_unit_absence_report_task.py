@@ -121,11 +121,12 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
         # set email address for the sender and the email address where
         # the reports should be sent
         from_email = ''
+        to_emails = []
 
         # setup SMTP credentials and send emails
         with override_settings(EMAIL_HOST=email_host, EMAIL_PORT=email_port, EMAIL_HOST_USER=email_host_user,
                                EMAIL_HOST_PASSWORD=email_host_password, EMAIL_BACKEND=email_backend, EMAIL_USE_TLS=True,
-                               SERVER_EMAIL=from_email):
+                               SERVER_EMAIL=from_email, ABSENCES_REPORT_DELIVERY_EMAILS=to_emails):
             send_monthly_school_unit_absence_report_task()
 
     def test__compute_report_data_for_school_unit(self):

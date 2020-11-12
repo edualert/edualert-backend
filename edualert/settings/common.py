@@ -223,3 +223,10 @@ if ENVIRONMENT == 'production':
 
 WEB2SMS_API_KEY = env.str('WEB2SMS_API_KEY', '')
 WEB2SMS_SECRET_KEY = env.str('WEB2SMS_SECRET_KEY', '')
+
+# Monthly absences report
+#
+# Comma separated list (without spaces) of email to whom to send the monthly absences reports
+# Example:
+#   ABSENCES_REPORT_DELIVERY_EMAILS='me@example.com,friend@example.com'
+ABSENCES_REPORT_DELIVERY_EMAILS = env.list('ABSENCES_REPORT_DELIVERY_EMAILS', default=[])
