@@ -183,7 +183,7 @@ def get_months_since_academic_calendar_start(current_calendar):
 def _get_month_name(month_number):
     month_names = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie',
                    'Octombrie', 'Noiembrie', 'Decembrie']
-    # the list starts from 0 and the `month_number` starts 1
+    # the list is index from 0 and the `month` variable from 1
     return month_names[month_number - 1]
 
 
@@ -191,13 +191,16 @@ def _get_month_name(month_number):
 def send_monthly_school_unit_absence_report_task():
     today = timezone.now().date()
     reported_date = today - relativedelta(months=1)
-    academic_year = get_current_academic_calendar()
+    academic_calendar = get_current_academic_calendar()
     month_name = _get_month_name(reported_date.month)
+
+    if not academic_calendar:
+        return
 
     # generate all the reports which have to be sent
     report_files = []
     try:
-        _generate_report_files(report_files, academic_year, reported_date, today)
+        _generate_report_files(report_files, academic_calendar.academic_year, reported_date, today)
     except Exception as err:
         # remove all the generated temporary files before bubbling up the exception
         for _, file in report_files:
@@ -264,7 +267,7 @@ def _compute_report_data_for_school_unit(academic_year, reported_date, school_un
     founded_absences = Count('absence', filter=Q(absence__is_founded=True, absence__taken_at__year=year, absence__taken_at__month=month))
 
     classes_query = StudentCatalogPerSubject.objects \
-        .filter(academic_year=academic_year.academic_year, study_class__school_unit=school_unit) \
+        .filter(academic_year=academic_year, study_class__school_unit_id=school_unit.id) \
         .values('subject_name', 'study_class__class_grade', 'study_class__class_grade_arabic',
                 'study_class__class_letter', 'study_class__class_master__full_name') \
         .annotate(unfounded_absences=unfounded_absences, founded_absences=founded_absences) \
