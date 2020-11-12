@@ -332,7 +332,7 @@ def _write_report_xslx(filename, reported_date, current_date, classes):
         worksheet.merge_cells('A2:F2')
 
         # add deadline
-        worksheet['A3'] = 'Termen de predate: 15.{}.{}'.format(current_date.month, current_date.year)
+        worksheet['A3'] = 'Termen de predare: 15.{}.{}'.format(current_date.month, current_date.year)
         worksheet['A3'].font = Font(name='Calibri', bold=True)
         worksheet.merge_cells('A3:C3')
 
