@@ -3,12 +3,14 @@ from unittest import skip
 from unittest.mock import patch
 
 from dateutil.relativedelta import relativedelta
+from ddt import ddt, data
 from django.test import TestCase, override_settings
 from pytz import utc
 
 from edualert.academic_calendars.factories import AcademicYearCalendarFactory
 from edualert.academic_programs.factories import AcademicProgramFactory
 from edualert.catalogs.factories import StudentCatalogPerSubjectFactory, SubjectAbsenceFactory
+from edualert.catalogs.models import SubjectAbsence
 from edualert.profiles.factories import UserProfileFactory
 from edualert.profiles.models import UserProfile
 from edualert.schools.factories import RegisteredSchoolUnitFactory
@@ -17,35 +19,10 @@ from edualert.study_classes.factories import StudyClassFactory
 from edualert.subjects.factories import SubjectFactory
 
 
+@ddt
 class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.today = datetime.datetime(2020, 11, 1).replace(tzinfo=utc)
-        date = cls.today
-        year = date.year
-        month = date.month
-        report_date = date - relativedelta(months=1)
-        target_year = report_date.year
-        target_month = report_date.month
-        cls.current_calendar = AcademicYearCalendarFactory()
-
-        # generate X students
-        def gen_students(count):
-            return [UserProfileFactory(user_role=UserProfile.UserRoles.STUDENT) for _ in range(0, count)]
-
-        # declare a helper function to generate absences
-        def gen_absences(catalog_per_subject, founded_absences, unfounded_absences):
-            for i in range(0, unfounded_absences):
-                SubjectAbsenceFactory(catalog_per_subject=catalog_per_subject, student=catalog_per_subject.student,
-                                      taken_at=datetime.date(target_year, target_month, 1))
-                SubjectAbsenceFactory(catalog_per_subject=catalog_per_subject, student=catalog_per_subject.student,
-                                      taken_at=datetime.date(year, month, 1))
-            for i in range(0, founded_absences):
-                SubjectAbsenceFactory(catalog_per_subject=catalog_per_subject, student=catalog_per_subject.student,
-                                      is_founded=True, taken_at=datetime.date(target_year, target_month, 1))
-                SubjectAbsenceFactory(catalog_per_subject=catalog_per_subject, student=catalog_per_subject.student,
-                                      is_founded=True, taken_at=datetime.date(year, month, 1))
-
         # generate subjects
         subject_names = ['Matematica', 'Limba Romana', 'Limba Engleza', 'Limba Franceza', 'Fizica', 'Chimie',
                          'Biologie', 'TIC', 'Educatie Fizica', 'Tehnologii generale in electronica -automatizari(M1)']
@@ -55,64 +32,80 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
         def select_subjects(*args):
             return [s for s in all_subjects if s.name in args]
 
+        cls.current_calendar = AcademicYearCalendarFactory()
+
         # Generate a new school
         cls.school_unit1 = RegisteredSchoolUnitFactory()
         academic_program1 = AcademicProgramFactory(school_unit=cls.school_unit1)
-        study_class1 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
-                                         class_grade='VI', class_grade_arabic=6, class_letter='A')
-        study_class2 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
-                                         class_grade='VII', class_grade_arabic=7, class_letter='Z')
+        cls.unit1_class1 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
+                                             class_grade='VI', class_grade_arabic=6, class_letter='A')
+        cls.unit1_class2 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
+                                             class_grade='VII', class_grade_arabic=7, class_letter='Z')
 
         # Add two more classes to test order
-        study_class3 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
-                                         class_grade='VI', class_grade_arabic=6, class_letter='Z')
-        study_class4 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
-                                         class_grade='VII', class_grade_arabic=7, class_letter='A')
+        cls.unit1_class3 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
+                                             class_grade='VI', class_grade_arabic=6, class_letter='Z')
+        cls.unit1_class4 = StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
+                                             class_grade='VII', class_grade_arabic=7, class_letter='A')
 
         # Add a fifth class; this will not appear in the results since it doesn't have any `StudentCatalogPerSubject`s
         StudyClassFactory(school_unit=cls.school_unit1, academic_program=academic_program1,
                           class_grade='X', class_grade_arabic=10, class_letter='A')
 
         # generate students and select subjects for the first school and class
-        for student in gen_students(5):
+        cls.unit1_class1._catalogs = []
+        for student in _gen_students(5):
             for subject in select_subjects('Matematica', 'Limba Romana', 'Limba Engleza', 'Limba Franceza'):
-                catalog_per_subject = StudentCatalogPerSubjectFactory(study_class=study_class1, subject=subject, student=student)
-                gen_absences(catalog_per_subject, 2, 3)
+                cls.unit1_class1._catalogs.append(StudentCatalogPerSubjectFactory(study_class=cls.unit1_class1, subject=subject, student=student))
 
         # generate students and select subjects for the first school and second class
-        for student in gen_students(10):
+        cls.unit1_class2._catalogs = []
+        for student in _gen_students(10):
             for subject in select_subjects('Matematica', 'Fizica', 'Tehnologii generale in electronica -automatizari(M1)'):
-                catalog_per_subject = StudentCatalogPerSubjectFactory(study_class=study_class2, subject=subject, student=student)
-                gen_absences(catalog_per_subject, 4, 5)
+                cls.unit1_class2._catalogs.append(StudentCatalogPerSubjectFactory(study_class=cls.unit1_class2, subject=subject, student=student))
 
         # generate students and select subjects for the first school for third and forth class
-        for student in gen_students(5):
+        for student in _gen_students(5):
             for subject in select_subjects('Matematica', 'Limba Romana', 'Limba Engleza', 'Biologie'):
-                StudentCatalogPerSubjectFactory(study_class=study_class3, subject=subject, student=student)
-                StudentCatalogPerSubjectFactory(study_class=study_class4, subject=subject, student=student)
+                StudentCatalogPerSubjectFactory(study_class=cls.unit1_class3, subject=subject, student=student)
+                StudentCatalogPerSubjectFactory(study_class=cls.unit1_class4, subject=subject, student=student)
 
         # Generate a new school
         cls.school_unit2 = RegisteredSchoolUnitFactory()
         academic_program2 = AcademicProgramFactory(school_unit=cls.school_unit2)
-        study_class1 = StudyClassFactory(school_unit=cls.school_unit2, academic_program=academic_program2,
-                                         class_grade='VI', class_letter='A')
-        study_class2 = StudyClassFactory(school_unit=cls.school_unit2, academic_program=academic_program2,
-                                         class_grade='VII', class_letter='Z')
+        cls.unit2_class1 = StudyClassFactory(school_unit=cls.school_unit2, academic_program=academic_program2,
+                                             class_grade='VI', class_letter='A')
+        cls.unit2_class2 = StudyClassFactory(school_unit=cls.school_unit2, academic_program=academic_program2,
+                                             class_grade='VII', class_letter='Z')
 
         # generate students and select subjects for the second school and first class
-        for student in gen_students(5):
+        cls.unit2_class1._catalogs = []
+        for student in _gen_students(5):
             for subject in select_subjects('Matematica', 'Limba Romana', 'Limba Engleza', 'TIC'):
-                catalog_per_subject = StudentCatalogPerSubjectFactory(study_class=study_class1, subject=subject, student=student)
-                gen_absences(catalog_per_subject, 6, 7)
+                cls.unit2_class1._catalogs.append(StudentCatalogPerSubjectFactory(study_class=cls.unit2_class1, subject=subject, student=student))
 
         # generate students and select subjects for the second school and class
-        for student in gen_students(5):
+        cls.unit2_class2._catalogs = []
+        for student in _gen_students(5):
             for subject in select_subjects('Matematica', 'Fizica', 'Chimie', 'Educatie Fizica'):
-                catalog_per_subject = StudentCatalogPerSubjectFactory(study_class=study_class2, subject=subject, student=student)
-                gen_absences(catalog_per_subject, 8, 9)
+                cls.unit2_class2._catalogs.append(StudentCatalogPerSubjectFactory(study_class=cls.unit2_class2, subject=subject, student=student))
 
     @skip('Used only for manually testing the task')
-    def test_send_monthly_school_unit_absence_report_task(self):
+    @data(
+        datetime.datetime(2019, 10, 11).replace(tzinfo=utc),
+        datetime.datetime(2019, 11, 11).replace(tzinfo=utc),
+        datetime.datetime(2019, 12, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 1, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 2, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 3, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 4, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 5, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 6, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 7, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 8, 11).replace(tzinfo=utc),
+        datetime.datetime(2020, 9, 11).replace(tzinfo=utc),
+    )
+    def test_send_monthly_school_unit_absence_report_task(self, current_date):
         # set the empty values based on Django's email settings
         email_host = ''
         email_host_user = ''
@@ -124,18 +117,25 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
         from_email = ''
         to_emails = []
 
+        reported_date = current_date - relativedelta(months=1)
+
+        # only generate absences for the months in the current calendar
+        if reported_date.year == 2019 or reported_date.month < 7:
+            self._generate_school_units_absences(reported_date, current_date)
+
         # setup SMTP credentials and send emails
         with override_settings(EMAIL_HOST=email_host, EMAIL_PORT=email_port, EMAIL_HOST_USER=email_host_user,
                                EMAIL_HOST_PASSWORD=email_host_password, EMAIL_BACKEND=email_backend, EMAIL_USE_TLS=True,
                                SERVER_EMAIL=from_email, ABSENCES_REPORT_DELIVERY_EMAILS=to_emails):
-            with patch('django.utils.timezone.now', return_value=self.today):
+            with patch('django.utils.timezone.now', return_value=current_date):
                 send_monthly_school_unit_absence_report_task()
 
     def test__compute_report_data_for_school_unit(self):
-        today = self.today
-        report_date = today - relativedelta(months=1)
+        current_date = datetime.datetime(2019, 11, 11).replace(tzinfo=utc)
+        reported_date = current_date - relativedelta(months=1)
+        self._generate_school_units_absences(reported_date, current_date)
 
-        classes_dict = _compute_report_data_for_school_unit(self.current_calendar.academic_year, report_date,
+        classes_dict = _compute_report_data_for_school_unit(self.current_calendar.academic_year, reported_date,
                                                             self.school_unit1)
         classes = list(classes_dict.values())
         self.assertEqual(4, len(classes))
@@ -175,7 +175,51 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
         self._assert_subject('Matematica', 40, 50, clazz['subjects'][1])
         self._assert_subject('Tehnologii generale in electronica -automatizari(M1)', 40, 50, clazz['subjects'][2])
 
+    def _generate_school_units_absences(self, report_date, today):
+        absences = []
+
+        for catalog_per_subject in self.unit1_class1._catalogs:
+            absences.extend(_build_absences(catalog_per_subject, report_date, today, 2, 3))
+        for catalog_per_subject in self.unit1_class2._catalogs:
+            absences.extend(_build_absences(catalog_per_subject, report_date, today, 4, 5))
+
+        for catalog_per_subject in self.unit2_class1._catalogs:
+            absences.extend(_build_absences(catalog_per_subject, report_date, today, 6, 7))
+        for catalog_per_subject in self.unit2_class2._catalogs:
+            absences.extend(_build_absences(catalog_per_subject, report_date, today, 8, 9))
+
+        SubjectAbsence.objects.bulk_create(absences)
+
     def _assert_subject(self, name, founded_absences, unfounded_absences, subject):
         self.assertEqual(name, subject['subject_name'])
         self.assertEqual(founded_absences, subject['founded_absences'])
         self.assertEqual(unfounded_absences, subject['unfounded_absences'])
+
+
+def _gen_students(count):
+    return UserProfileFactory.create_batch(count, user_role=UserProfile.UserRoles.STUDENT)
+
+
+# declare a helper function to generate absences
+def _build_absences(catalog_per_subject, target_date, current_date, founded_absences, unfounded_absences):
+    year = current_date.year
+    month = current_date.month
+    target_year = target_date.year
+    target_month = target_date.month
+    absences = []
+
+    # build absences for the current date as well to make sure all those for the target date are considered
+    absences.extend(SubjectAbsenceFactory.build_batch(unfounded_absences, catalog_per_subject=catalog_per_subject,
+                                                      student=catalog_per_subject.student,
+                                                      taken_at=datetime.date(target_year, target_month, 1)))
+    absences.extend(SubjectAbsenceFactory.build_batch(unfounded_absences, catalog_per_subject=catalog_per_subject,
+                                                      student=catalog_per_subject.student,
+                                                      taken_at=datetime.date(year, month, 1)))
+
+    absences.extend(SubjectAbsenceFactory.build_batch(founded_absences, catalog_per_subject=catalog_per_subject,
+                                                      student=catalog_per_subject.student, is_founded=True,
+                                                      taken_at=datetime.date(target_year, target_month, 1)))
+    absences.extend(SubjectAbsenceFactory.build_batch(founded_absences, catalog_per_subject=catalog_per_subject,
+                                                      student=catalog_per_subject.student, is_founded=True,
+                                                      taken_at=datetime.date(year, month, 1)))
+    return absences
