@@ -80,6 +80,13 @@ class CatalogPerYearRemarksUpdateTestCase(CommonAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, {'remarks': ['Ensure this field has no more than 500 characters.']})
 
+    @data(None, '')
+    def test_catalogs_per_year_remarks_update_null_empty(self, remarks_value):
+        self.client.login(username=self.teacher.username, password='passwd')
+        self.data['remarks'] = remarks_value
+        response = self.client.put(self.build_url(self.catalog.id), self.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_catalogs_per_year_remarks_update_success(self):
         self.client.login(username=self.teacher.username, password='passwd')
         self.catalog.remarks = 'remarks'
