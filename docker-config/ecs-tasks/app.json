@@ -89,6 +89,10 @@
                 {
                     "name": "WEB2SMS_SECRET_KEY",
                     "valueFrom": "${SECRETS}:WEB2SMS_SECRET_KEY::"
+                },
+                {
+                    "name": "ABSENCES_REPORT_DELIVERY_EMAILS",
+                    "valueFrom": "${SECRETS}:ABSENCES_REPORT_DELIVERY_EMAILS::"
                 }
             ],
             "mountPoints": [
@@ -163,6 +167,10 @@
                 {
                     "name": "WEB2SMS_SECRET_KEY",
                     "valueFrom": "${SECRETS}:WEB2SMS_SECRET_KEY::"
+                },
+                {
+                    "name": "ABSENCES_REPORT_DELIVERY_EMAILS",
+                    "valueFrom": "${SECRETS}:ABSENCES_REPORT_DELIVERY_EMAILS::"
                 }
             ],
             "logConfiguration": {
