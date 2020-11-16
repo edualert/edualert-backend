@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-28 15:05+0000\n"
+"POT-Creation-Date: 2020-11-16 15:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -435,26 +435,16 @@ msgstr "cataloage"
 msgid "This absence is already authorized."
 msgstr "Această absență este deja motivată."
 
-#: edualert/catalogs/views/absences.py:75
-msgid "You can't authorize this absence anymore."
-msgstr "Această absență nu mai poate fi motivată."
-
-#: edualert/catalogs/views/absences.py:108
-msgid "You can't delete this absence anymore."
-msgstr "Această absență nu mai poate fi ștearsă"
-
-#: edualert/catalogs/views/absences.py:123
+#: edualert/catalogs/views/absences.py:116
 msgid "Can't add absences at this time."
 msgstr "Nu se pot adăuga absențe în acest moment."
 
 #: edualert/catalogs/views/examination_grades.py:59
-#: edualert/catalogs/views/grades.py:79
 #: edualert/study_classes/views/study_classes.py:178
 msgid "delete"
 msgstr "șterge"
 
 #: edualert/catalogs/views/examination_grades.py:59
-#: edualert/catalogs/views/grades.py:79
 #: edualert/study_classes/views/study_classes.py:164
 #: edualert/study_classes/views/study_classes.py:171
 msgid "update"
@@ -472,19 +462,15 @@ msgstr "Notele nu se pot {} în acest moment."
 msgid "Can't add grades for an exempted student."
 msgstr "Nu se pot adăuga note pentru un elev scutit."
 
-#: edualert/catalogs/views/grades.py:48 edualert/catalogs/views/grades.py:119
+#: edualert/catalogs/views/grades.py:48 edualert/catalogs/views/grades.py:113
 msgid "Can't add grades for coordination subject."
 msgstr "Nu se pot adăuga alte note la purtare."
 
-#: edualert/catalogs/views/grades.py:82
-msgid "Cannot {} a grade that was created more than 7 days ago."
-msgstr "Nu se poate {} o notă care a fost creată cu mai mult de 7 zile în urmă."
-
-#: edualert/catalogs/views/grades.py:98
+#: edualert/catalogs/views/grades.py:92
 msgid "Can't delete coordination subject grade."
 msgstr "Nu se pot șterge notele de la purtare."
 
-#: edualert/catalogs/views/grades.py:114
+#: edualert/catalogs/views/grades.py:108
 msgid "Can't add grades at this time."
 msgstr "Nu se pot adăuga note în acest moment."
 
@@ -563,7 +549,7 @@ msgid ""
 "different study classes)."
 msgstr ""
 
-#: edualert/notifications/models/target_user_through.py:44
+#: edualert/notifications/models/target_user_through.py:46
 msgid "Only if the target is one parent."
 msgstr ""
 

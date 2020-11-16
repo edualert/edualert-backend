@@ -130,17 +130,12 @@ class GradeUpdateTestCase(CommonAPITestCase):
         datetime.datetime(2020, 4, 1, 22, 59),
     )
     @patch('django.utils.timezone.now', return_value=timezone.datetime(2020, 4, 9, 12, 0, 0).replace(tzinfo=utc))
-    def test_grade_update_grade_more_than_7_days_in_the_past(self, created_at, mocked_method):
+    def test_grade_update_grade_coordination_subject(self, created_at, mocked_method):
         self.client.login(username=self.teacher.username, password='passwd')
         grade = self.create_grade()
         grade.created = created_at.replace(tzinfo=utc)
         grade.save()
 
-        response = self.client.put(self.build_url(grade.id), self.data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, {'message': 'Cannot update a grade that was created more than 7 days ago.'})
-
-        # This action is possible for coordination subject though.
         self.catalog.is_coordination_subject = True
         self.catalog.avg_sem1 = 10
         self.catalog.save()
