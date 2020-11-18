@@ -13,7 +13,7 @@ from edualert.profiles.constants import TRANSFERRED_LABEL, EXPELLED_LABEL, \
     ABANDONMENT_RISK_TITLE, ABANDONMENT_RISK_BODY, TRANSFERRED_TITLE, TRANSFERRED_BODY, \
     EXPELLED_TITLE, EXPELLED_BODY, ABANDONMENT_TITLE, ABANDONMENT_BODY, \
     HELD_BACK_TITLE, HELD_BACK_BODY, EXEMPTED_TITLE, EXEMPTED_BODY, \
-    PROJECTS_MAP, PROGRAM_ENROLLMENT_TITLE, PROGRAM_ENROLLMENT_BODY, RESET_PASSWORD_TITLE, RESET_PASSWORD_BODY_EMAIL, RESET_PASSWORD_BODY_SMS
+    PROJECTS_MAP, PROGRAM_ENROLLMENT_TITLE, PROGRAM_ENROLLMENT_BODY, RESET_PASSWORD_TITLE, RESET_PASSWORD_BODY_SMS
 
 
 @shared_task
@@ -85,11 +85,7 @@ def send_reset_password_message(user_profile_id, link):
 
     if profile.email:
         bodies = {
-            'text/html': get_template('message.html').render(context={'title': RESET_PASSWORD_TITLE,
-                                                                      'body': RESET_PASSWORD_BODY_EMAIL.format(link),
-                                                                      'frontend_url': settings.FRONTEND_URL,
-                                                                      'show_my_account': False,
-                                                                      'signature': 'Echipa EduAlert'}),
+            'text/html': get_template('reset_password_message.html').render(context={'link': link}),
         }
         send_mail(RESET_PASSWORD_TITLE, bodies, settings.SERVER_EMAIL, [profile.email])
     elif profile.phone_number:
