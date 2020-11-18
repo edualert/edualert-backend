@@ -63,7 +63,4 @@ ACCOUNT_ACTIVATED_BODY = 'Contul EduAlert a fost reactivat.'
 ACCOUNT_DEACTIVATED_BODY = 'Contul EduAlert a fost dezactivat.'
 
 RESET_PASSWORD_TITLE = 'Resetare parolă'
-RESET_PASSWORD_BODY_EMAIL = 'Pentru resetarea parolei pentru platforma EduAlert, accesați linkul de mai jos și urmați instrucțiunile:\n' \
-                            '{}\n' \
-                            'Dacă nu ați cerut resetarea parolei din platforma EduAlert ignorați acest email.'
 RESET_PASSWORD_BODY_SMS = 'Click pentru resetare parolă EduAlert: {}.'
