@@ -100,9 +100,6 @@ class AbsenceDelete(generics.DestroyAPIView):
         # if not can_update_grades_or_absences(catalog.study_class):
         #     return Response({'message': _("Can't delete absences at this time.")}, status=status.HTTP_400_BAD_REQUEST)
 
-        if absence.created < timezone.now() - timezone.timedelta(days=7):
-            return Response({'message': _("You can't delete this absence anymore.")}, status=status.HTTP_400_BAD_REQUEST)
-
         semester = absence.semester
         is_founded = absence.is_founded
 

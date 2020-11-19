@@ -76,12 +76,6 @@ class GradeDetail(UpdateAPIView, DestroyAPIView):
     def check_grade_can_be_edited(self):
         grade = self.get_object()
 
-        action = _('delete') if self.request.method == DELETE else _('update')
-        if not grade.catalog_per_subject.is_coordination_subject and \
-                grade.created < timezone.now() - timezone.timedelta(days=7):
-            return Response({'message': _('Cannot {} a grade that was created more than 7 days ago.').format(action)},
-                            status=status.HTTP_400_BAD_REQUEST)
-
         # TODO uncomment after it's tested
         # if not can_update_grades_or_absences(grade.catalog_per_subject.study_class):
         #     return Response({'message': _(f'Cannot {action} grades at this time.')},
