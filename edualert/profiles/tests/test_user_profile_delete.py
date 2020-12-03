@@ -77,6 +77,14 @@ class UserProfileDeleteTestCase(CommonAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['message'], "This user cannot be deleted because it's either active or has data.")
 
+    def test_delete_user_principal_has_school(self):
+        school_unit = RegisteredSchoolUnitFactory()
+        self.client.login(username=self.admin.username, password='passwd')
+
+        response = self.client.delete(self.build_url(school_unit.school_principal.id))
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['message'], "This user cannot be deleted because it's either active or has data.")
+
     def test_delete_user_teacher_has_classes(self):
         teacher = UserProfileFactory(user_role=UserProfile.UserRoles.TEACHER, school_unit=self.school_unit)
         TeacherClassThroughFactory(teacher=teacher)

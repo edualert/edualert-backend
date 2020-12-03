@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-23 16:57+0000\n"
+"POT-Creation-Date: 2020-12-03 10:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -740,16 +740,16 @@ msgstr ""
 msgid "Invalid class master."
 msgstr "Diriginte invalid."
 
-#: edualert/profiles/views/manage_users.py:143
+#: edualert/profiles/views/manage_users.py:145
 msgid "This user cannot be deleted because it's either active or has data."
 msgstr ""
 "Acest utilizator nu poate fi șters pentru ca fie e activ, fie are date."
 
-#: edualert/profiles/views/manage_users.py:158
+#: edualert/profiles/views/manage_users.py:160
 msgid "This user is already active."
 msgstr "Acest utilizator este deja activ."
 
-#: edualert/profiles/views/manage_users.py:179
+#: edualert/profiles/views/manage_users.py:181
 msgid "This user is already inactive."
 msgstr "Acest utilizator este deja inactiv."
 
