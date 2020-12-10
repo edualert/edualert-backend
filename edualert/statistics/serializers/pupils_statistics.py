@@ -30,7 +30,7 @@ class PupilStatisticsForORSSerializer(PupilStatisticsBaseSerializer):
 
     @staticmethod
     def get_student(obj):
-        return 'Elev {}'.format(obj.id)
+        return 'Elev {}'.format(obj.student_id)
 
     @staticmethod
     def get_behavior_grade_limit(obj):

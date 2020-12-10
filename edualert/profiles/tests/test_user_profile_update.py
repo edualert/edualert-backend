@@ -224,6 +224,14 @@ class UserProfileUpdateTestCase(CommonAPITestCase):
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
             self.assertEqual(response.data['user_role'], ['Cannot change user role.'])
 
+        teacher = UserProfileFactory(user_role=UserProfile.UserRoles.TEACHER, school_unit=self.school_unit)
+        TeacherClassThroughFactory(teacher=teacher)
+
+        self.teacher_data['user_role'] = UserProfile.UserRoles.STUDENT
+        response = self.client.put(self.build_url(teacher.id), self.teacher_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['user_role'], ['Cannot change user role.'])
+
     @data(
         (UserProfile.UserRoles.ADMINISTRATOR, 'data'),
         (UserProfile.UserRoles.PRINCIPAL, 'principal_data')

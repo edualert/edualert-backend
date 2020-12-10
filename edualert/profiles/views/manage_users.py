@@ -134,6 +134,8 @@ class UserProfileDetail(UserProfileDetailBase, generics.RetrieveUpdateDestroyAPI
     def delete(self, request, *args, **kwargs):
         requested_profile = self.get_object()
         if requested_profile.last_online or \
+                (requested_profile.user_role == UserProfile.UserRoles.PRINCIPAL and
+                 getattr(requested_profile, 'registered_school_unit', None)) or \
                 (requested_profile.user_role == UserProfile.UserRoles.TEACHER and
                  self.has_assigned_study_classes(requested_profile)) or \
                 (requested_profile.user_role == UserProfile.UserRoles.STUDENT and

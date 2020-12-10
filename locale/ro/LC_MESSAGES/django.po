@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-16 15:52+0000\n"
+"POT-Creation-Date: 2020-12-03 10:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -325,10 +325,10 @@ msgstr "A apărut o eroare în timp ce se adăuga catalogul."
 #: edualert/profiles/import_user_profiles.py:146
 #: edualert/profiles/serializers/my_account.py:26
 #: edualert/profiles/serializers/my_account.py:28
-#: edualert/profiles/serializers/users.py:271
-#: edualert/profiles/serializers/users.py:273
-#: edualert/profiles/serializers/users.py:506
-#: edualert/profiles/serializers/users.py:512
+#: edualert/profiles/serializers/users.py:278
+#: edualert/profiles/serializers/users.py:280
+#: edualert/profiles/serializers/users.py:513
+#: edualert/profiles/serializers/users.py:519
 #: edualert/profiles/views/my_account.py:56
 #: edualert/profiles/views/my_account.py:103
 #: edualert/study_classes/serializers.py:173
@@ -603,7 +603,7 @@ msgstr ""
 "de Scoala', 'Profesor', 'Parinte' sau 'Elev'."
 
 #: edualert/profiles/import_user_profiles.py:161
-#: edualert/profiles/serializers/users.py:443
+#: edualert/profiles/serializers/users.py:450
 msgid "Either email or phone number is required for the educator."
 msgstr ""
 "Este obligatoriu să completați cel puțin unul dintre câmpuri pentru pedagog: "
@@ -685,71 +685,71 @@ msgstr ""
 msgid "You don't have permission to create a user with this role."
 msgstr "Nu aveți permisiunea sa creați un utilizator cu acest rol."
 
-#: edualert/profiles/serializers/users.py:138
+#: edualert/profiles/serializers/users.py:135
 msgid "Cannot change user role."
 msgstr "Nu se poate schimba rolul utilizatorului."
 
-#: edualert/profiles/serializers/users.py:148
+#: edualert/profiles/serializers/users.py:145
 msgid "Invalid role transition."
 msgstr "Modificare de rol invalidă."
 
-#: edualert/profiles/serializers/users.py:281
+#: edualert/profiles/serializers/users.py:288
 msgid "Labels do not correspond to the created user role."
 msgstr "Etichetele nu corespund cu rolul utilizatorului."
 
-#: edualert/profiles/serializers/users.py:369
+#: edualert/profiles/serializers/users.py:376
 msgid "There must be provided teachers for all classes for this subject."
 msgstr ""
 "Trebuie să adăugați profesori înlocuitori pentru toate clasele pentru "
 "această materie."
 
-#: edualert/profiles/serializers/users.py:372
-#: edualert/profiles/serializers/users.py:518
+#: edualert/profiles/serializers/users.py:379
+#: edualert/profiles/serializers/users.py:525
 msgid "No duplicates allowed."
 msgstr "Nu sunt permise duplicatele."
 
-#: edualert/profiles/serializers/users.py:378
-#: edualert/profiles/serializers/users.py:528
+#: edualert/profiles/serializers/users.py:385
+#: edualert/profiles/serializers/users.py:535
 #: edualert/study_classes/serializers.py:195
 #: edualert/study_classes/serializers.py:355
 msgid "At least one teacher is invalid."
 msgstr "Cel puțin un profesor este invalid."
 
-#: edualert/profiles/serializers/users.py:386
-#: edualert/profiles/serializers/users.py:537
+#: edualert/profiles/serializers/users.py:393
+#: edualert/profiles/serializers/users.py:544
 #: edualert/study_classes/serializers.py:199
 #: edualert/study_classes/serializers.py:369
 msgid "Teacher {} does not teach {}."
 msgstr "Profesorul {} nu predă materia {}."
 
-#: edualert/profiles/serializers/users.py:394
+#: edualert/profiles/serializers/users.py:401
 msgid "This field is incompatible with the request data."
 msgstr "Acest câmp este incompatibil cu restul datelor."
 
-#: edualert/profiles/serializers/users.py:461
+#: edualert/profiles/serializers/users.py:468
 msgid "Parents must belong to the user's school unit."
 msgstr "Părinții trebuie să aparțină școlii."
 
-#: edualert/profiles/serializers/users.py:521
+#: edualert/profiles/serializers/users.py:528
 msgid "There must be provided teachers for all classes and subjects."
 msgstr ""
 "Trebuie să adăugați profesori înlocuitori pentru toate clasele și materiile "
 "predate."
 
-#: edualert/profiles/serializers/users.py:539
+#: edualert/profiles/serializers/users.py:546
 msgid "Invalid class master."
 msgstr "Diriginte invalid."
 
-#: edualert/profiles/views/manage_users.py:143
+#: edualert/profiles/views/manage_users.py:145
 msgid "This user cannot be deleted because it's either active or has data."
 msgstr ""
 "Acest utilizator nu poate fi șters pentru ca fie e activ, fie are date."
 
-#: edualert/profiles/views/manage_users.py:158
+#: edualert/profiles/views/manage_users.py:160
 msgid "This user is already active."
 msgstr "Acest utilizator este deja activ."
 
-#: edualert/profiles/views/manage_users.py:179
+#: edualert/profiles/views/manage_users.py:181
 msgid "This user is already inactive."
 msgstr "Acest utilizator este deja inactiv."
 

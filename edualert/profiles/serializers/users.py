@@ -131,10 +131,7 @@ class BaseUserProfileDetailSerializer(UserProfileBaseSerializer):
 
         if self.instance and self.instance.user_role != user_role:
             # Ran on update
-            if self.instance.last_online or (self.instance.user_role == UserProfile.UserRoles.STUDENT and
-                                             (SubjectGrade.objects.filter(student=self.instance).exists() or
-                                              SubjectAbsence.objects.filter(student=self.instance).exists() or
-                                              ExaminationGrade.objects.filter(student=self.instance).exists())):
+            if not self.can_change_user_role():
                 raise serializers.ValidationError({'user_role': _('Cannot change user role.')})
 
             allowed_role_transitions = {
@@ -237,6 +234,16 @@ class BaseUserProfileDetailSerializer(UserProfileBaseSerializer):
         representation = self.representation_serializer.to_representation(instance) \
             if self.representation_serializer else super().to_representation(instance)
         return representation
+
+    def can_change_user_role(self):
+        return not (self.instance.last_online or
+                    (self.instance.user_role == UserProfile.UserRoles.TEACHER and
+                     self.instance.teacher_class_through.exists()) or
+                    (self.instance.user_role == UserProfile.UserRoles.STUDENT and
+                     (self.instance.student_in_class is not None or
+                      SubjectGrade.objects.filter(student=self.instance).exists() or
+                      SubjectAbsence.objects.filter(student=self.instance).exists() or
+                      ExaminationGrade.objects.filter(student=self.instance).exists())))
 
     @staticmethod
     def is_allowed_to_edit(request_user_role, target_user_role):
