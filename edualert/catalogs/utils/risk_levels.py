@@ -165,24 +165,28 @@ def set_student_risk_level(student, risk_1_label, risk_2_label, max_attendance_r
     if max_attendance_risk_level == 2 or max_grades_risk_level == 2 or behavior_risk_level == 2:
         student.is_at_risk = True
         student.labels.add(risk_2_label)
-        risk_description = ''
-        if max_attendance_risk_level == 2:
-            risk_description += '4 sau mai multe absențe nemotivate'
-        if max_grades_risk_level == 2:
-            risk_description += 'Notă Limba română sau Matematică sub 5' if risk_description == '' else ' și notă Limba română sau Matematică sub 5'
-        if behavior_risk_level == 2:
-            risk_description += 'Notă purtare sub 8' if risk_description == '' else ' și notă purtare sub 8'
-        student.risk_description = risk_description
     elif max_attendance_risk_level == 1 or max_grades_risk_level == 1 or behavior_risk_level == 1:
         student.is_at_risk = True
         student.labels.add(risk_1_label)
-        risk_description = ''
-        if max_attendance_risk_level == 1:
-            risk_description += '1-3 absențe nemotivate'
-        if max_grades_risk_level == 1:
-            risk_description += '5-6 notă Limba română sau Matematică' if risk_description == '' else ' și 5-6 notă Limba română sau Matematică'
-        if behavior_risk_level == 1:
-            risk_description += '8-9 notă purtare' if risk_description == '' else ' și 8-9 notă purtare'
+
+    risk_description = ''
+
+    if max_attendance_risk_level == 2:
+        risk_description += '4 sau mai multe absențe nemotivate'
+    elif max_attendance_risk_level == 1:
+        risk_description += '1-3 absențe nemotivate'
+
+    if max_grades_risk_level == 2:
+        risk_description += 'Medie Limba română sau Matematică sub 5' if risk_description == '' else ' și medie Limba română sau Matematică sub 5'
+    elif max_grades_risk_level == 1:
+        risk_description += '5-6 medie Limba română sau Matematică' if risk_description == '' else ' și 5-6 medie Limba română sau Matematică'
+
+    if behavior_risk_level == 2:
+        risk_description += 'Notă purtare sub 8' if risk_description == '' else ' și notă purtare sub 8'
+    elif behavior_risk_level == 1:
+        risk_description += '8-9 notă purtare' if risk_description == '' else ' și 8-9 notă purtare'
+
+    if risk_description:
         student.risk_description = risk_description
 
 
