@@ -8,7 +8,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from edualert.academic_calendars.utils import get_current_academic_calendar
+from edualert.academic_calendars.utils import get_current_academic_calendar, get_second_semester_end_events
 from edualert.catalogs.models import StudentCatalogPerYear
 from edualert.catalogs.utils import get_behavior_grade_limit
 from edualert.common.permissions import IsAdministratorOrSchoolEmployee, IsTeacher, IsPrincipal
@@ -188,6 +188,89 @@ class SchoolStudentsAtRisk(generics.ListAPIView):
                     student__is_at_risk=True) \
             .distinct() \
             .order_by(order_by1, order_by2, Lower('student__full_name'))
+
+
+class SchoolStudentsAtRiskExport(APIView):
+    permission_classes = (IsPrincipal,)
+
+    def get(self, request, *args, **kwargs):
+        from edualert.catalogs.utils import has_technological_category
+        from edualert.catalogs.utils import get_current_semester
+        from edualert.catalogs.models import StudentCatalogPerSubject
+        from django.http import HttpResponse
+        import csv
+
+        now = timezone.now()
+        file_name = f"RaportStudentiRisc_{now.year}-{now.month}-{now.day}_{now.hour}:{now.minute}:{now.second}.csv"
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+        profile = self.request.user.user_profile
+        current_calendar = get_current_academic_calendar()
+        if not current_calendar:
+            return response
+
+        second_semester_end_events = get_second_semester_end_events(current_calendar)
+        is_technological_school = has_technological_category(profile.school_unit)
+
+        writer = csv.writer(response)
+        # write headers
+        writer.writerow(['Nume', 'Medie Matematică', 'Medie Limba Română', 'Absențe nemotivate', 'Notă purtare',
+                         'Telefon elev', 'Telefon părinți', 'Clasă', 'Descriere risc'])
+
+        student_catalogs = StudentCatalogPerYear.objects.select_related('student', 'study_class') \
+            .filter(student__school_unit_id=profile.school_unit_id,
+                    academic_year=current_calendar.academic_year,
+                    student__is_at_risk=True) \
+            .distinct() \
+            .order_by(Lower('student__full_name'))
+
+        for student_catalog in student_catalogs:  # type: StudentCatalogPerYear
+            student = student_catalog.student  # type: UserProfile
+            study_class = student_catalog.study_class
+
+            current_semester = get_current_semester(now.date(), current_calendar, second_semester_end_events,
+                                                    study_class.class_grade_arabic,
+                                                    is_technological_school)
+
+            math = StudentCatalogPerSubject.objects.filter(
+                student_id=student.id, academic_year=current_calendar.academic_year, subject_name='Matematică').first()
+            if not math:
+                math = type('', (object,), dict(avg_annual='-', avg_sem1='-'))
+
+            romanian = StudentCatalogPerSubject.objects.filter(
+                Q(subject_name='Limba Română') | Q(subject_name='Limba și literatura română'), student_id=student.id,
+                academic_year=current_calendar.academic_year).first()
+            if not romanian:
+                romanian = type('', (object,), dict(avg_annual='-', avg_sem1='-'))
+
+            parents_phone_numbers = student.parents.values_list('phone_number', flat=True)
+            filtered_parents_phone_numbers = filter(lambda x: x and x != '', parents_phone_numbers)
+
+            row = [
+                student.full_name,
+                math.avg_annual,
+                romanian.avg_annual,
+                student_catalog.unfounded_abs_count_annual,
+                student_catalog.behavior_grade_annual,
+                student.phone_number,
+                ','.join(filtered_parents_phone_numbers),
+                study_class.class_grade + ' ' + study_class.class_letter,
+                student.risk_description,
+            ]
+            if current_semester == 1:
+                row[1] = '-'
+                row[2] = '-'
+                row[3] = student_catalog.unfounded_abs_count_sem1
+                row[4] = '-'
+            elif current_semester == 2:
+                row[1] = math.avg_sem1
+                row[2] = romanian.avg_sem1
+                row[3] = student_catalog.unfounded_abs_count_sem2
+                row[4] = student_catalog.behavior_grade_sem1
+            writer.writerow(row)
+
+        return response
 
 
 class OwnStudentsAtRisk(generics.ListAPIView):

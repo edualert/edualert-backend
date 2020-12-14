@@ -76,21 +76,21 @@ class RiskLevelsTestCase(CommonAPITestCase):
 
         cls.study_class4 = StudyClassFactory(school_unit=cls.school2, class_grade='VIII', class_grade_arabic=8)
 
-        # Absences risk 1 + Grades risk 1
+        # Absences risk 1 + Grades risk 2
         cls.student8 = UserProfileFactory(school_unit=cls.school2, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class4)
         StudentCatalogPerYearFactory(student=cls.student8, study_class=cls.study_class4)
-        cls.catalog5 = StudentCatalogPerSubjectFactory(student=cls.student8, study_class=cls.study_class4, subject=subject, avg_sem1=5, avg_sem2=6)
+        cls.catalog5 = StudentCatalogPerSubjectFactory(student=cls.student8, study_class=cls.study_class4, subject=subject, avg_sem1=4, avg_sem2=4)
         SubjectAbsenceFactory(catalog_per_subject=cls.catalog5, student=cls.student8)
-        # Grades risk 1 + Behavior grade risk 1 (sem II)
+        # Grades risk 1 + Behavior grade risk 2 (sem II)
         cls.student9 = UserProfileFactory(school_unit=cls.school2, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class4)
-        StudentCatalogPerYearFactory(student=cls.student9, study_class=cls.study_class4, behavior_grade_sem1=10, behavior_grade_sem2=9)
+        StudentCatalogPerYearFactory(student=cls.student9, study_class=cls.study_class4, behavior_grade_sem1=10, behavior_grade_sem2=7)
         cls.catalog6 = StudentCatalogPerSubjectFactory(student=cls.student9, study_class=cls.study_class4, subject=subject, avg_sem1=7, avg_sem2=6)
 
         cls.study_class5 = StudyClassFactory(school_unit=cls.school2, class_grade='IX', class_grade_arabic=9)
 
-        # Absences risk 2 (both sem) + Behavior grade risk 2 (sem II)
+        # Absences risk 2 (both sem) + Behavior grade risk 1 (sem II)
         cls.student10 = UserProfileFactory(school_unit=cls.school2, user_role=UserProfile.UserRoles.STUDENT, student_in_class=cls.study_class5)
-        StudentCatalogPerYearFactory(student=cls.student10, study_class=cls.study_class5, behavior_grade_sem1=10, behavior_grade_sem2=6)
+        StudentCatalogPerYearFactory(student=cls.student10, study_class=cls.study_class5, behavior_grade_sem1=10, behavior_grade_sem2=9)
         cls.catalog7 = StudentCatalogPerSubjectFactory(student=cls.student10, study_class=cls.study_class5, subject=subject)
         for _ in range(5):
             SubjectAbsenceFactory(catalog_per_subject=cls.catalog7, student=cls.student10)
@@ -335,7 +335,7 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertCountEqual(self.student4.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
         self.assertTrue(self.student4.is_at_risk)
         self.assertTrue(self.catalog3.is_at_risk)
-        self.assertEqual(self.student4.risk_description, '5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student4.risk_description, '5-6 medie Limba română sau Matematică')
 
         self.assertEqual(self.student5.labels.count(), 0)
         self.assertFalse(self.student5.is_at_risk)
@@ -350,10 +350,10 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertTrue(self.student7.is_at_risk)
         self.assertEqual(self.student7.risk_description, 'Notă purtare sub 8')
 
-        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
+        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student8.is_at_risk)
         self.assertTrue(self.catalog5.is_at_risk)
-        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și 5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și medie Limba română sau Matematică sub 5')
 
         self.assertEqual(self.student9.labels.count(), 0)
         self.assertFalse(self.student9.is_at_risk)
@@ -368,7 +368,7 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertCountEqual(self.student11.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student11.is_at_risk)
         self.assertTrue(self.catalog8.is_at_risk)
-        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și notă Limba română sau Matematică sub 5 și notă purtare sub 8')
+        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și medie Limba română sau Matematică sub 5 și notă purtare sub 8')
 
         country_stats = StudentAtRiskCounts.objects.get(by_country=True, year=2020, month=6)
         self.assertEqual(country_stats.daily_counts[0]['count'], 8)
@@ -411,7 +411,7 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertCountEqual(self.student4.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
         self.assertTrue(self.student4.is_at_risk)
         self.assertTrue(self.catalog3.is_at_risk)
-        self.assertEqual(self.student4.risk_description, '5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student4.risk_description, '5-6 medie Limba română sau Matematică')
 
         self.assertEqual(self.student5.labels.count(), 0)
         self.assertFalse(self.student5.is_at_risk)
@@ -426,15 +426,15 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertTrue(self.student7.is_at_risk)
         self.assertEqual(self.student7.risk_description, 'Notă purtare sub 8')
 
-        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
+        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student8.is_at_risk)
         self.assertTrue(self.catalog5.is_at_risk)
-        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și 5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și medie Limba română sau Matematică sub 5')
 
-        self.assertCountEqual(self.student9.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
+        self.assertCountEqual(self.student9.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student9.is_at_risk)
         self.assertTrue(self.catalog6.is_at_risk)
-        self.assertEqual(self.student9.risk_description, '5-6 notă Limba română sau Matematică și 8-9 notă purtare')
+        self.assertEqual(self.student9.risk_description, '5-6 medie Limba română sau Matematică și notă purtare sub 8')
 
         self.assertCountEqual(self.student10.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student10.is_at_risk)
@@ -444,7 +444,7 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertCountEqual(self.student11.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student11.is_at_risk)
         self.assertTrue(self.catalog8.is_at_risk)
-        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și notă Limba română sau Matematică sub 5 și notă purtare sub 8')
+        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și medie Limba română sau Matematică sub 5 și notă purtare sub 8')
 
         country_stats = StudentAtRiskCounts.objects.get(by_country=True, year=2020, month=6)
         self.assertEqual(country_stats.daily_counts[1]['count'], 9)
@@ -487,12 +487,12 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertCountEqual(self.student4.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
         self.assertTrue(self.student4.is_at_risk)
         self.assertTrue(self.catalog3.is_at_risk)
-        self.assertEqual(self.student4.risk_description, '5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student4.risk_description, '5-6 medie Limba română sau Matematică')
 
         self.assertCountEqual(self.student5.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student5.is_at_risk)
         self.assertTrue(self.catalog4.is_at_risk)
-        self.assertEqual(self.student5.risk_description, 'Notă Limba română sau Matematică sub 5')
+        self.assertEqual(self.student5.risk_description, 'Medie Limba română sau Matematică sub 5')
 
         self.assertCountEqual(self.student6.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
         self.assertTrue(self.student6.is_at_risk)
@@ -502,15 +502,15 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertTrue(self.student7.is_at_risk)
         self.assertEqual(self.student7.risk_description, 'Notă purtare sub 8')
 
-        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
+        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student8.is_at_risk)
         self.assertTrue(self.catalog5.is_at_risk)
-        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și 5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și medie Limba română sau Matematică sub 5')
 
-        self.assertCountEqual(self.student9.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
+        self.assertCountEqual(self.student9.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student9.is_at_risk)
         self.assertTrue(self.catalog6.is_at_risk)
-        self.assertEqual(self.student9.risk_description, '5-6 notă Limba română sau Matematică și 8-9 notă purtare')
+        self.assertEqual(self.student9.risk_description, '5-6 medie Limba română sau Matematică și notă purtare sub 8')
 
         self.assertCountEqual(self.student10.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student10.is_at_risk)
@@ -520,7 +520,7 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertCountEqual(self.student11.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student11.is_at_risk)
         self.assertTrue(self.catalog8.is_at_risk)
-        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și notă Limba română sau Matematică sub 5 și notă purtare sub 8')
+        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și medie Limba română sau Matematică sub 5 și notă purtare sub 8')
 
         country_stats = StudentAtRiskCounts.objects.get(by_country=True, year=2020, month=6)
         self.assertEqual(country_stats.daily_counts[2]['count'], 10)
@@ -563,12 +563,12 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertCountEqual(self.student4.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
         self.assertTrue(self.student4.is_at_risk)
         self.assertTrue(self.catalog3.is_at_risk)
-        self.assertEqual(self.student4.risk_description, '5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student4.risk_description, '5-6 medie Limba română sau Matematică')
 
         self.assertCountEqual(self.student5.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student5.is_at_risk)
         self.assertTrue(self.catalog4.is_at_risk)
-        self.assertEqual(self.student5.risk_description, 'Notă Limba română sau Matematică sub 5')
+        self.assertEqual(self.student5.risk_description, 'Medie Limba română sau Matematică sub 5')
 
         self.assertCountEqual(self.student6.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
         self.assertTrue(self.student6.is_at_risk)
@@ -578,25 +578,25 @@ class RiskLevelsTestCase(CommonAPITestCase):
         self.assertTrue(self.student7.is_at_risk)
         self.assertEqual(self.student7.risk_description, 'Notă purtare sub 8')
 
-        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
+        self.assertCountEqual(self.student8.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student8.is_at_risk)
         self.assertTrue(self.catalog5.is_at_risk)
-        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și 5-6 notă Limba română sau Matematică')
+        self.assertEqual(self.student8.risk_description, '1-3 absențe nemotivate și medie Limba română sau Matematică sub 5')
 
-        self.assertCountEqual(self.student9.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_1_LABEL))
+        self.assertCountEqual(self.student9.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student9.is_at_risk)
         self.assertTrue(self.catalog6.is_at_risk)
-        self.assertEqual(self.student9.risk_description, '5-6 notă Limba română sau Matematică și 8-9 notă purtare')
+        self.assertEqual(self.student9.risk_description, '5-6 medie Limba română sau Matematică și notă purtare sub 8')
 
         self.assertCountEqual(self.student10.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student10.is_at_risk)
         self.assertTrue(self.catalog7.is_at_risk)
-        self.assertEqual(self.student10.risk_description, '4 sau mai multe absențe nemotivate și notă purtare sub 8')
+        self.assertEqual(self.student10.risk_description, '4 sau mai multe absențe nemotivate și 8-9 notă purtare')
 
         self.assertCountEqual(self.student11.labels.all(), Label.objects.filter(text=ABANDONMENT_RISK_2_LABEL))
         self.assertTrue(self.student11.is_at_risk)
         self.assertTrue(self.catalog8.is_at_risk)
-        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și notă Limba română sau Matematică sub 5 și notă purtare sub 8')
+        self.assertEqual(self.student11.risk_description, '4 sau mai multe absențe nemotivate și medie Limba română sau Matematică sub 5 și notă purtare sub 8')
 
         country_stats = StudentAtRiskCounts.objects.get(by_country=True, year=2020, month=6)
         self.assertEqual(country_stats.daily_counts[3]['count'], 10)
