@@ -15,6 +15,7 @@ urlpatterns = [
     path('own-child-absences-evolution/<int:id>/', views.OwnChildAbsencesEvolution.as_view(), name='own-child-absences-evolution'),
     path('own-absences-evolution/', views.OwnAbsencesEvolution.as_view(), name='own-absences-evolution'),
     path('school-students-at-risk/', views.SchoolStudentsAtRisk.as_view(), name='school-students-at-risk'),
+    path('school-students-at-risk/export/', views.SchoolStudentsAtRiskExport.as_view(), name='school-students-at-risk-export'),
     path('students-risk-evolution/', views.StudentsRiskEvolution.as_view(), name='students-risk-evolution'),
     path('own-students-at-risk/', views.OwnStudentsAtRisk.as_view(), name='own-students-at-risk'),
     path('own-students-averages/', views.OwnStudentsAverages.as_view(), name='own-students-averages'),
