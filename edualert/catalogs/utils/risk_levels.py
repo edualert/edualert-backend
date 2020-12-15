@@ -13,7 +13,6 @@ from edualert.study_classes.models import StudyClass
 
 def calculate_students_risk_level():
     today = timezone.now().date()
-    thirty_days_ago = today - timezone.timedelta(days=30)
 
     current_calendar = get_current_academic_calendar()
     if not current_calendar:
@@ -46,20 +45,13 @@ def calculate_students_risk_level():
             student.risk_description = None
             student.labels.remove(risk_1_label, risk_2_label)
 
-            max_attendance_risk_level = 0
+            attendance_risk_level = 0
             max_grades_risk_level = 0
             behavior_risk_level = 0
 
             student_catalogs_per_subject = catalogs_per_subject.get(catalog.student_id, [])
             for catalog_per_subject in student_catalogs_per_subject:
                 catalog_per_subject.is_at_risk = False
-
-                # Check attendance
-                attendance_risk_level = get_attendance_risk_level(catalog_per_subject, thirty_days_ago)
-                if attendance_risk_level > 0:
-                    catalog_per_subject.is_at_risk = True
-                    if attendance_risk_level > max_attendance_risk_level:
-                        max_attendance_risk_level = attendance_risk_level
 
                 # Check grades
                 if current_semester != 1 and catalog_per_subject.subject_name in ['Matematică', 'Limba Română', 'Limba și literatura română']:
@@ -71,12 +63,16 @@ def calculate_students_risk_level():
 
                 catalogs_per_subject_to_update.append(catalog_per_subject)
 
+            if current_semester is not None:
+                # Check attendance
+                attendance_risk_level = get_attendance_risk_level(catalog, current_semester)
+
             if current_semester != 1:
                 # Check behavior
                 behavior_risk_level = get_behavior_risk_level(catalog, current_semester)
 
             # Set corresponding risk labels & description
-            set_student_risk_level(student, risk_1_label, risk_2_label, max_attendance_risk_level, max_grades_risk_level, behavior_risk_level)
+            set_student_risk_level(student, risk_1_label, risk_2_label, attendance_risk_level, max_grades_risk_level, behavior_risk_level)
 
             students_to_update.append(student)
             if student.is_at_risk:
@@ -129,8 +125,8 @@ def get_mapped_catalogs_per_subject(academic_year, school_unit_id):
     return catalogs_map
 
 
-def get_attendance_risk_level(catalog_per_subject, date_limit):
-    absences_count = catalog_per_subject.absences.filter(taken_at__gte=date_limit, is_founded=False).count()
+def get_attendance_risk_level(catalog_per_year, current_semester):
+    absences_count = catalog_per_year.unfounded_abs_count_sem2 if current_semester == 2 else catalog_per_year.unfounded_abs_count_sem1
     attendance_risk_level = 0
     if 1 <= absences_count <= 3:
         attendance_risk_level = 1
@@ -161,19 +157,19 @@ def get_behavior_risk_level(catalog_per_year, current_semester):
     return behavior_risk_level
 
 
-def set_student_risk_level(student, risk_1_label, risk_2_label, max_attendance_risk_level, max_grades_risk_level, behavior_risk_level):
-    if max_attendance_risk_level == 2 or max_grades_risk_level == 2 or behavior_risk_level == 2:
+def set_student_risk_level(student, risk_1_label, risk_2_label, attendance_risk_level, max_grades_risk_level, behavior_risk_level):
+    if attendance_risk_level == 2 or max_grades_risk_level == 2 or behavior_risk_level == 2:
         student.is_at_risk = True
         student.labels.add(risk_2_label)
-    elif max_attendance_risk_level == 1 or max_grades_risk_level == 1 or behavior_risk_level == 1:
+    elif attendance_risk_level == 1 or max_grades_risk_level == 1 or behavior_risk_level == 1:
         student.is_at_risk = True
         student.labels.add(risk_1_label)
 
     risk_description = ''
 
-    if max_attendance_risk_level == 2:
+    if attendance_risk_level == 2:
         risk_description += '4 sau mai multe absențe nemotivate'
-    elif max_attendance_risk_level == 1:
+    elif attendance_risk_level == 1:
         risk_description += '1-3 absențe nemotivate'
 
     if max_grades_risk_level == 2:
