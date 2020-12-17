@@ -197,44 +197,11 @@ def send_monthly_school_unit_absence_report_task():
     if not academic_calendar:
         return
 
-    # generate all the reports which have to be sent
-    report_files = []
-    try:
-        _generate_report_files(report_files, academic_calendar.academic_year, reported_date, today)
-    except Exception as err:
-        # remove all the generated temporary files before bubbling up the exception
-        for _, file in report_files:
-            unlink(file.name)
-        raise err
-
-    # Deliver all the reports to all the assigned emails
-    delivery_emails = settings.ABSENCES_REPORT_DELIVERY_EMAILS
-    try:
-        subject = 'Raport lunar absențe - {} {}'.format(month_name, reported_date.year)
-        content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașate documentele ' \
-                  'care conțin evidența absențelor pentru {} {}.'.format(month_name, reported_date.year)
-        # compose attachments based on: filesystem filename, attachment filename
-        attachments = [(file.name, '{}.xlsx'.format(school_name)) for school_name, file in report_files]
-
-        template = get_template('message.html')
-        template_context = {
-            'title': subject, 'body': content, 'show_my_account': False, 'signature': 'Echipa EduAlert'
-        }
-        bodies = {
-            'text/html': template.render(context=template_context)
-        }
-        send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, delivery_emails, attachments)
-    finally:
-        # remove all the generated temporary files
-        for _, file in report_files:
-            unlink(file.name)
-
-
-def _generate_report_files(report_files, academic_year, reported_date, current_date):
     query_offset = 0
     query_batch_size = 200
     school_units_count = RegisteredSchoolUnit.objects.count()
     school_units_qs = RegisteredSchoolUnit.objects.all().order_by('created')
+    delivery_emails = settings.ABSENCES_REPORT_DELIVERY_EMAILS
 
     # Iterate over all registered school units in batches of `query_batch_size` to avoid running out of memory in
     # case we have a lot of registered school units.
@@ -244,18 +211,38 @@ def _generate_report_files(report_files, academic_year, reported_date, current_d
     # item twice or not at all when a new item is inserter before our current index or an item is removed before
     # our current index.
     while query_offset < school_units_count:
-        for school_unit in school_units_qs[query_offset:query_offset + query_batch_size]:
-            # generate a temporary file for this school unit and add it to the list
+        for school_unit in school_units_qs[query_offset:query_offset + query_batch_size]:  # type: RegisteredSchoolUnit
+            # generate a temporary file for this school unit
             file = tempfile.NamedTemporaryFile(prefix='edu_report_', suffix='.xslx', delete=False)
-            report_files.append((school_unit.name, file))
-            # compute report data and write it to the temporary file
-            report_data = _compute_report_data_for_school_unit(academic_year, reported_date, school_unit)
-            _write_report_xslx(file.name, reported_date, current_date, report_data.values())
-            # move on to the next bach
-            query_offset += query_batch_size
+
+            try:
+                # compute report data and write it to the temporary file
+                report_data = _compute_report_data_for_school_unit(academic_calendar.academic_year, reported_date, school_unit)
+                _write_report_xslx(file.name, reported_date, today, report_data.values())
+
+                subject = 'Raport lunar absențe - {} {}'.format(month_name, reported_date.year)
+                content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașat documentul ' \
+                          'care conține evidența absențelor pentru {} {}.'.format(month_name, reported_date.year)
+                # compose attachments based on: filesystem filename, attachment filename
+                attachments = [(file.name, '{} - {} {}.xlsx'.format(school_unit.name, month_name, reported_date.year))]
+
+                template = get_template('message.html')
+                template_context = {
+                    'title': subject, 'body': content, 'show_my_account': False, 'signature': 'Echipa EduAlert'
+                }
+                bodies = {
+                    'text/html': template.render(context=template_context)
+                }
+                send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, delivery_emails, attachments, cc=[school_unit.school_principal.email])
+            finally:
+                # remove the generated temporary file
+                unlink(file.name)
+
+        # move on to the next bach
+        query_offset += query_batch_size
 
 
-def _compute_report_data_for_school_unit(academic_year, reported_date, school_unit):
+def _compute_report_data_for_school_unit(academic_year, reported_date, school_unit: RegisteredSchoolUnit):
     year = reported_date.year
     month = reported_date.month
     unfounded_absences = Count('absence', filter=Q(absence__is_founded=False, absence__taken_at__year=year, absence__taken_at__month=month))

@@ -3,6 +3,9 @@ from django.db.models.functions import Lower
 from django.http import Http404
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
+from openpyxl import Workbook
+from openpyxl.styles import Alignment
+from openpyxl.styles.numbers import FORMAT_TEXT
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -198,11 +201,10 @@ class SchoolStudentsAtRiskExport(APIView):
         from edualert.catalogs.utils import get_current_semester
         from edualert.catalogs.models import StudentCatalogPerSubject
         from django.http import HttpResponse
-        import csv
 
         now = timezone.now()
         file_name = f"RaportStudentiRisc_{now.year}-{now.month}-{now.day}_{now.hour}:{now.minute}:{now.second}.csv"
-        response = HttpResponse(content_type='text/csv')
+        response = HttpResponse(content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
         profile = self.request.user.user_profile
@@ -213,10 +215,20 @@ class SchoolStudentsAtRiskExport(APIView):
         second_semester_end_events = get_second_semester_end_events(current_calendar)
         is_technological_school = has_technological_category(profile.school_unit)
 
-        writer = csv.writer(response)
+        current_row = 1
+        headers = ['Nume', 'Medie Matematică', 'Medie Limba Română', 'Absențe nemotivate', 'Notă purtare',
+                   'Telefon elev', 'Telefon părinți', 'Clasă', 'Descriere risc']
+        column_widths = []
+
+        workbook = Workbook()
+        worksheet = workbook.active
+
         # write headers
-        writer.writerow(['Nume', 'Medie Matematică', 'Medie Limba Română', 'Absențe nemotivate', 'Notă purtare',
-                         'Telefon elev', 'Telefon părinți', 'Clasă', 'Descriere risc'])
+        for i, header in enumerate(headers):
+            cell = worksheet.cell(column=i + 1, row=current_row)
+            cell.value = header
+            column_widths.append(len(header))
+        current_row += 1
 
         student_catalogs = StudentCatalogPerYear.objects.select_related('student', 'study_class') \
             .filter(student__school_unit_id=profile.school_unit_id,
@@ -230,8 +242,7 @@ class SchoolStudentsAtRiskExport(APIView):
             study_class = student_catalog.study_class
 
             current_semester = get_current_semester(now.date(), current_calendar, second_semester_end_events,
-                                                    study_class.class_grade_arabic,
-                                                    is_technological_school)
+                                                    study_class.class_grade_arabic, is_technological_school)
 
             math = StudentCatalogPerSubject.objects.filter(
                 student_id=student.id, academic_year=current_calendar.academic_year, subject_name='Matematică').first()
@@ -268,8 +279,29 @@ class SchoolStudentsAtRiskExport(APIView):
                 row[2] = romanian.avg_sem1
                 row[3] = student_catalog.unfounded_abs_count_sem2
                 row[4] = student_catalog.behavior_grade_sem1
-            writer.writerow(row)
 
+            # set the value and styling for each cell
+            for i, val in enumerate(row):
+                cell = worksheet.cell(column=i + 1, row=current_row)
+                cell.alignment = Alignment(horizontal='left')
+                cell.number_format = FORMAT_TEXT
+                if val and val != '':
+                    cell.value = val
+                else:
+                    cell.value = '-'
+
+                # update column width if necessary
+                width = len(str(cell.value))
+                if width > column_widths[i]:
+                    column_widths[i] = width
+            current_row += 1
+
+        # update the width of the columns
+        for i, header in enumerate(headers):
+            col_letter = chr(ord('A') + i)
+            worksheet.column_dimensions[col_letter].width = column_widths[i]
+
+        workbook.save(response)
         return response
 
 
