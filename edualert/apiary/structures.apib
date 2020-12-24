@@ -807,9 +807,8 @@
 + subject_name: `Matematica` (string)
 + event_type (StudentActivityType)
 + event: `Nota 10` (string)
-+ is_coordination_subject: false (boolean)
-+ behavior_grade_limit: 8 (number) - only for behavior grades
-+ grade_limit: 5 (number) - only for averages (second examination / difference)
++ grade_limit: 5 (number) - for grades (regular / behavior / thesis / second examination / difference)
++ grade_value: 10 (number) - for grades (regular / behavior / thesis / second examination / difference)
 
 
 ## CatalogCSVImport (object)
@@ -846,11 +845,13 @@
 + Scutit: `Nu` (string) - Da/Nu
 + Înregistrat opțional: `Da` (string) - Da/Nu
 
+
 ## CatalogCSVExport(CatalogCSVImport):
 + Clasă: `X E` (string) - Class grade and letter
 + Medie sem. I: `10` (string)
 + Medie sem. II: `10` (number)
 + Medie anuală: `10` (string)
+
 
 ## StandardError (object)
 + message: an error has occurred (string) - A description of the error
