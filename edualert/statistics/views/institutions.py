@@ -96,7 +96,7 @@ class InstitutionsEnrollmentStats(APIView):
         if not current_calendar:
             raise Http404()
 
-        if month and not (month.isnumeric() and 1 <= int(month) <= 12) or not month:
+        if not month or not (month.isnumeric() and 1 <= int(month) <= 12):
             month = today.month
 
         enrollment_stats = get_object_or_404(
