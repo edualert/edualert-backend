@@ -342,11 +342,14 @@ class StudentsRiskEvolution(APIView):
     def get(self, request, *args, **kwargs):
         today = timezone.now().date()
         month = self.request.GET.get('month')
-        filters = {}
+        current_calendar = get_current_academic_calendar()
+        if not current_calendar:
+            raise Http404()
 
-        if month and not (month.isnumeric() and 1 <= int(month) <= 12) or not month:
+        if not month or not (month.isnumeric() and 1 <= int(month) <= 12):
             month = today.month
 
+        filters = {}
         profile = self.request.user.user_profile
         if profile.user_role == UserProfile.UserRoles.ADMINISTRATOR:
             school_unit = self.request.GET.get('school_unit')
@@ -360,5 +363,7 @@ class StudentsRiskEvolution(APIView):
             if current_calendar:
                 filters.update({'study_class__class_master_id': profile.id, 'study_class__academic_year': current_calendar.academic_year})
 
-        stats = StudentAtRiskCounts.objects.filter(year=today.year, month=month, **filters).first()
+        stats = StudentAtRiskCounts.objects.filter(
+            year=today.year if int(month) <= today.month else current_calendar.academic_year,
+            month=month, **filters).first()
         return Response(stats.daily_counts if stats else [])
