@@ -220,7 +220,7 @@ def send_monthly_school_unit_absence_report_task():
                 report_data = _compute_report_data_for_school_unit(academic_calendar.academic_year, reported_date, school_unit)
                 _write_report_xslx(file.name, reported_date, today, report_data.values())
 
-                subject = 'Raport lunar absențe - {} {}'.format(month_name, reported_date.year)
+                subject = 'Raport lunar absențe {} - {} {}'.format(school_unit.name, month_name, reported_date.year)
                 content = 'Bună ziua!\n\nAcesta este un raport lunar automat în care veți găsi atașat documentul ' \
                           'care conține evidența absențelor pentru {} {}.'.format(month_name, reported_date.year)
                 # compose attachments based on: filesystem filename, attachment filename
@@ -233,7 +233,7 @@ def send_monthly_school_unit_absence_report_task():
                 bodies = {
                     'text/html': template.render(context=template_context)
                 }
-                send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, delivery_emails, attachments, cc=[school_unit.school_principal.email])
+                send_mail_with_attachments(subject, bodies, settings.SERVER_EMAIL, delivery_emails, attachments)
             finally:
                 # remove the generated temporary file
                 unlink(file.name)
