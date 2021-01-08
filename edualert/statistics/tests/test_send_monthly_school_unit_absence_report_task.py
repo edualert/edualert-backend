@@ -116,14 +116,8 @@ class SendMonthlySchoolUnitAbsenceReportTestCase(TestCase):
         # the reports should be sent
         from_email = ''
         to_emails = []
-        principal_email_format = ''
 
         reported_date = current_date - relativedelta(months=1)
-
-        # update the email for the school principals
-        for index, principal in enumerate(UserProfile.objects.filter(user_role=UserProfile.UserRoles.PRINCIPAL)):
-            principal.email = principal_email_format.format(index)
-            principal.save()
 
         # only generate absences for the months in the current calendar
         if reported_date.year == 2019 or reported_date.month < 7:
