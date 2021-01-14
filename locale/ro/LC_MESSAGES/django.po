@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-03 10:17+0000\n"
+"POT-Creation-Date: 2020-12-24 10:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -806,35 +806,35 @@ msgstr "Această școală este deja inactivă."
 msgid "Authorized absence from {}"
 msgstr "Motivare absență din {}"
 
-#: edualert/statistics/views/activity_history.py:85
+#: edualert/statistics/views/activity_history.py:84
 msgid "Authorized absence"
 msgstr "Absență motivată"
 
-#: edualert/statistics/views/activity_history.py:85
+#: edualert/statistics/views/activity_history.py:84
 msgid "Unauthorized absence"
 msgstr "Absență nemotivată"
 
-#: edualert/statistics/views/activity_history.py:107
+#: edualert/statistics/views/activity_history.py:105
 msgid "Grade {}"
 msgstr "Notă {}"
 
-#: edualert/statistics/views/activity_history.py:108
+#: edualert/statistics/views/activity_history.py:106
 msgid "Thesis grade {}"
 msgstr "Notă teză {}"
 
-#: edualert/statistics/views/activity_history.py:154
+#: edualert/statistics/views/activity_history.py:152
 msgid "Second examination average {}"
 msgstr "Medie corigență {}"
 
-#: edualert/statistics/views/activity_history.py:165
+#: edualert/statistics/views/activity_history.py:163
 msgid "Difference average {} for class {}"
 msgstr "Medie diferențe {} pentru clasa {}"
 
-#: edualert/statistics/views/activity_history.py:175
+#: edualert/statistics/views/activity_history.py:173
 msgid "Difference average {} for class {}, semester 1"
 msgstr "Medie diferențe {} pentru clasa {}, semestrul 1"
 
-#: edualert/statistics/views/activity_history.py:185
+#: edualert/statistics/views/activity_history.py:183
 msgid "Difference average {} for class {}, semester 2"
 msgstr "Medie diferențe {} pentru clasa {}, semestrul 2"
 

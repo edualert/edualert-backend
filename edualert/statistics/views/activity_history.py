@@ -75,7 +75,6 @@ def get_absences_activities(absences):
                 'subject_name': absence.subject_name,
                 'event_type': ABSENCE_AUTHORIZATION,
                 'event': _('Authorized absence from {}').format(absence.taken_at.strftime('%d-%m')),
-                'is_coordination_subject': absence.catalog_per_subject.is_coordination_subject
             })
         else:
             activities.append({
@@ -83,7 +82,6 @@ def get_absences_activities(absences):
                 'subject_name': absence.subject_name,
                 'event_type': NEW_AUTHORIZED_ABSENCE if absence.is_founded else NEW_UNAUTHORIZED_ABSENCE,
                 'event': _('Authorized absence') if absence.is_founded else _('Unauthorized absence'),
-                'is_coordination_subject': absence.catalog_per_subject.is_coordination_subject
             })
 
     return activities
@@ -96,9 +94,9 @@ def get_grades_activities(grades):
         is_coordination_subject = grade.catalog_per_subject.is_coordination_subject
         if is_coordination_subject:
             academic_profile = grade.student.school_unit.academic_profile
-            behavior_grade_limit = get_behavior_grade_limit(academic_profile)
+            grade_limit = get_behavior_grade_limit(academic_profile)
         else:
-            behavior_grade_limit = None
+            grade_limit = 5
 
         activities.append({
             'date': grade.taken_at.strftime('%d-%m-%Y'),
@@ -106,8 +104,8 @@ def get_grades_activities(grades):
             'event_type': NEW_GRADE,
             'event': _('Grade {}').format(grade.grade) if grade.grade_type == SubjectGrade.GradeTypes.REGULAR
             else _('Thesis grade {}').format(grade.grade),
-            'is_coordination_subject': is_coordination_subject,
-            'behavior_grade_limit': behavior_grade_limit
+            'grade_limit': grade_limit,
+            'grade_value': grade.grade
         })
 
     return activities
@@ -152,8 +150,8 @@ def get_exam_grades_activities(exam_grades):
                 'subject_name': catalog.subject_name,
                 'event_type': SECOND_EXAMINATION_AVERAGE,
                 'event': _('Second examination average {}').format(get_printable_average(catalog.avg_after_2nd_examination)),
-                'is_coordination_subject': catalog.is_coordination_subject,
-                'grade_limit': grade_limit
+                'grade_limit': grade_limit,
+                'grade_value': catalog.avg_after_2nd_examination
             })
         if len(group_by_semester[0][ExaminationGrade.GradeTypes.DIFFERENCE]) == 2 and \
                 catalog.avg_annual is not None:
@@ -163,8 +161,8 @@ def get_exam_grades_activities(exam_grades):
                 'subject_name': catalog.subject_name,
                 'event_type': DIFFERENCE_AVERAGE,
                 'event': _('Difference average {} for class {}').format(get_printable_average(catalog.avg_annual), catalog.study_class.class_grade),
-                'is_coordination_subject': catalog.is_coordination_subject,
-                'grade_limit': grade_limit
+                'grade_limit': grade_limit,
+                'grade_value': catalog.avg_annual
             })
         if len(group_by_semester[1]) == 2 and catalog.avg_sem1 is not None:
             grades = group_by_semester[1]
@@ -173,8 +171,8 @@ def get_exam_grades_activities(exam_grades):
                 'subject_name': catalog.subject_name,
                 'event_type': DIFFERENCE_AVERAGE,
                 'event': _('Difference average {} for class {}, semester 1').format(catalog.avg_sem1, catalog.study_class.class_grade),
-                'is_coordination_subject': catalog.is_coordination_subject,
-                'grade_limit': grade_limit
+                'grade_limit': grade_limit,
+                'grade_value': catalog.avg_sem1
             })
         if len(group_by_semester[2]) == 2 and catalog.avg_sem2 is not None:
             grades = group_by_semester[2]
@@ -183,8 +181,8 @@ def get_exam_grades_activities(exam_grades):
                 'subject_name': catalog.subject_name,
                 'event_type': DIFFERENCE_AVERAGE,
                 'event': _('Difference average {} for class {}, semester 2').format(catalog.avg_sem2, catalog.study_class.class_grade),
-                'is_coordination_subject': catalog.is_coordination_subject,
-                'grade_limit': grade_limit
+                'grade_limit': grade_limit,
+                'grade_value': catalog.avg_sem2
             })
 
     return activities
