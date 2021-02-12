@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, F
 from django.db.models.functions import Lower
 from django.http import Http404
 from django.utils import timezone
@@ -128,7 +128,9 @@ class OwnStudentsStatisticsBaseClass(generics.ListAPIView):
 
         return mastering_study_class.student_catalogs_per_year \
             .select_related('student') \
-            .order_by(order_by, Lower('student__full_name'))
+            .order_by(
+                F(order_by).desc(nulls_last=True),
+                Lower('student__full_name'))
 
 
 class OwnStudentsAverages(OwnStudentsStatisticsBaseClass):
@@ -136,7 +138,7 @@ class OwnStudentsAverages(OwnStudentsStatisticsBaseClass):
 
     @staticmethod
     def get_order_by(current_calendar):
-        return '-avg_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else '-avg_final'
+        return 'avg_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else 'avg_final'
 
 
 class OwnStudentsAbsences(OwnStudentsStatisticsBaseClass):
@@ -144,7 +146,7 @@ class OwnStudentsAbsences(OwnStudentsStatisticsBaseClass):
 
     @staticmethod
     def get_order_by(current_calendar):
-        return '-unfounded_abs_count_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else '-unfounded_abs_count_annual'
+        return 'unfounded_abs_count_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else 'unfounded_abs_count_annual'
 
 
 class OwnStudentsBehaviorGrades(OwnStudentsStatisticsBaseClass):
@@ -160,7 +162,7 @@ class OwnStudentsBehaviorGrades(OwnStudentsStatisticsBaseClass):
 
     @staticmethod
     def get_order_by(current_calendar):
-        return '-behavior_grade_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else '-behavior_grade_annual'
+        return 'behavior_grade_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else 'behavior_grade_annual'
 
 
 class SchoolStudentsAtRisk(generics.ListAPIView):

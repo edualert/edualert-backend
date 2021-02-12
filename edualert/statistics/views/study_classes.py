@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.utils import timezone
 from rest_framework import generics
 
@@ -20,13 +21,13 @@ class StudyClassesAverages(generics.ListAPIView):
         if not current_calendar:
             return StudyClass.objects.none()
 
-        order_by = '-avg_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else '-avg_annual'
+        order_by = 'avg_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else 'avg_annual'
 
         return StudyClass.objects.filter(
             school_unit_id=self.request.user.user_profile.school_unit_id,
             academic_year=current_calendar.academic_year
         ).order_by(
-            order_by,
+            F(order_by).desc(nulls_last=True),
             'class_grade_arabic',
             'class_letter'
         )
@@ -42,13 +43,13 @@ class StudyClassesAbsences(generics.ListAPIView):
         if not current_calendar:
             return StudyClass.objects.none()
 
-        order_by = '-unfounded_abs_avg_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else '-unfounded_abs_avg_annual'
+        order_by = 'unfounded_abs_avg_sem1' if timezone.now().date() < current_calendar.second_semester.ends_at else 'unfounded_abs_avg_annual'
 
         return StudyClass.objects.filter(
             school_unit_id=self.request.user.user_profile.school_unit_id,
             academic_year=current_calendar.academic_year
         ).order_by(
-            order_by,
+            F(order_by).desc(nulls_last=True),
             'class_grade_arabic',
             'class_letter'
         )

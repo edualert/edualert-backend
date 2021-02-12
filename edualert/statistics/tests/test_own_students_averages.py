@@ -64,16 +64,19 @@ class OwnStudentsAveragesTestCase(CommonAPITestCase):
         catalog1 = StudentCatalogPerYearFactory(student=UserProfileFactory(user_role=UserProfile.UserRoles.STUDENT, school_unit=self.school_unit, student_in_class=self.study_class),
                                                 study_class=self.study_class, avg_sem1=9, avg_final=8)
         catalog2 = StudentCatalogPerYearFactory(student=UserProfileFactory(user_role=UserProfile.UserRoles.STUDENT, school_unit=self.school_unit, student_in_class=self.study_class),
+                                                study_class=self.study_class, avg_sem1=None, avg_final=None)
+        catalog3 = StudentCatalogPerYearFactory(student=UserProfileFactory(user_role=UserProfile.UserRoles.STUDENT, school_unit=self.school_unit, student_in_class=self.study_class),
                                                 study_class=self.study_class, avg_sem1=8, avg_final=9)
 
         response = self.client.get(self.url)
-        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(len(response.data['results']), 3)
         for catalog in response.data['results']:
             self.assertCountEqual(catalog.keys(), self.expected_fields)
             self.assertCountEqual(catalog['student'].keys(), self.student_expected_fields)
 
         self.assertEqual(response.data['results'][0]['id'], catalog1.id)
-        self.assertEqual(response.data['results'][1]['id'], catalog2.id)
+        self.assertEqual(response.data['results'][1]['id'], catalog3.id)
+        self.assertEqual(response.data['results'][2]['id'], catalog2.id)
 
     @patch('django.utils.timezone.now', return_value=datetime.datetime(2020, 8, 8).replace(tzinfo=utc))
     def test_own_students_averages_second_semester(self, mocked_method):

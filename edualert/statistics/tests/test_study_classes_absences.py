@@ -49,30 +49,34 @@ class StudyClassesAbsencesTestCase(CommonAPITestCase):
     def test_study_classes_absences_first_semester(self, mocked_method):
         self.client.login(username=self.principal.username, password='passwd')
         StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=1, unfounded_abs_avg_annual=3)
+        StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=None, unfounded_abs_avg_annual=None)
         StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=2, unfounded_abs_avg_annual=2)
         StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=3, unfounded_abs_avg_annual=1)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(len(response.data['results']), 4)
         for result in response.data['results']:
             self.assertCountEqual(result.keys(), self.expected_fields)
         self.assertEqual(response.data['results'][0]['unfounded_abs_avg_sem1'], 3)
         self.assertEqual(response.data['results'][1]['unfounded_abs_avg_sem1'], 2)
         self.assertEqual(response.data['results'][2]['unfounded_abs_avg_sem1'], 1)
+        self.assertEqual(response.data['results'][3]['unfounded_abs_avg_sem1'], None)
 
     @patch('django.utils.timezone.now', return_value=datetime.datetime(2020, 8, 8).replace(tzinfo=utc))
     def test_study_classes_absences_second_semester(self, mocked_method):
         self.client.login(username=self.principal.username, password='passwd')
         StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=1, unfounded_abs_avg_annual=1)
         StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=2, unfounded_abs_avg_annual=2)
+        StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=None, unfounded_abs_avg_annual=None)
         StudyClassFactory(school_unit=self.school_unit, unfounded_abs_avg_sem1=3, unfounded_abs_avg_annual=3)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(len(response.data['results']), 4)
         for result in response.data['results']:
             self.assertCountEqual(result.keys(), self.expected_fields)
         self.assertEqual(response.data['results'][0]['unfounded_abs_avg_annual'], 3)
         self.assertEqual(response.data['results'][1]['unfounded_abs_avg_annual'], 2)
         self.assertEqual(response.data['results'][2]['unfounded_abs_avg_annual'], 1)
+        self.assertEqual(response.data['results'][3]['unfounded_abs_avg_annual'], None)

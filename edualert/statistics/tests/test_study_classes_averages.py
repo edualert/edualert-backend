@@ -51,15 +51,17 @@ class StudyClassesAveragesTestCase(CommonAPITestCase):
         StudyClassFactory(school_unit=self.school_unit, avg_sem1=1, avg_annual=3)
         StudyClassFactory(school_unit=self.school_unit, avg_sem1=2, avg_annual=2)
         StudyClassFactory(school_unit=self.school_unit, avg_sem1=3, avg_annual=1)
+        StudyClassFactory(school_unit=self.school_unit, avg_sem1=None, avg_annual=None)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(len(response.data['results']), 4)
         for result in response.data['results']:
             self.assertCountEqual(result.keys(), self.expected_fields)
         self.assertEqual(response.data['results'][0]['avg_sem1'], 3)
         self.assertEqual(response.data['results'][1]['avg_sem1'], 2)
         self.assertEqual(response.data['results'][2]['avg_sem1'], 1)
+        self.assertEqual(response.data['results'][3]['avg_sem1'], None)
 
     @patch('django.utils.timezone.now', return_value=datetime.datetime(2020, 8, 8).replace(tzinfo=utc))
     def test_study_classes_averages_second_semester(self, mocked_method):
@@ -67,12 +69,14 @@ class StudyClassesAveragesTestCase(CommonAPITestCase):
         StudyClassFactory(school_unit=self.school_unit, avg_sem1=1, avg_annual=1)
         StudyClassFactory(school_unit=self.school_unit, avg_sem1=2, avg_annual=2)
         StudyClassFactory(school_unit=self.school_unit, avg_sem2=3, avg_annual=3)
+        StudyClassFactory(school_unit=self.school_unit, avg_sem1=None, avg_annual=None)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(len(response.data['results']), 4)
         for result in response.data['results']:
             self.assertCountEqual(result.keys(), self.expected_fields)
         self.assertEqual(response.data['results'][0]['avg_annual'], 3)
         self.assertEqual(response.data['results'][1]['avg_annual'], 2)
         self.assertEqual(response.data['results'][2]['avg_annual'], 1)
+        self.assertEqual(response.data['results'][3]['avg_annual'], None)
