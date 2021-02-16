@@ -32,23 +32,23 @@ class StudentPlacementTestCase(CommonAPITestCase):
         )
         SchoolEventFactory(
             academic_year_calendar=cls.calendar,
-            semester = cls.calendar.second_semester,
+            semester=cls.calendar.second_semester,
             event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_IX_XI_FILIERA_TEHNOLOGICA,
-            starts_at=date(2020, 12, 22),
+            starts_at=date(2020, 12, 23),
             ends_at=date(2020, 12, 23)
         )
         SchoolEventFactory(
             academic_year_calendar=cls.calendar,
             semester=cls.calendar.second_semester,
             event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_XII_XIII_GRADE,
-            starts_at=date(2020, 12, 21),
+            starts_at=date(2020, 12, 22),
             ends_at=date(2020, 12, 22)
         )
         SchoolEventFactory(
             academic_year_calendar=cls.calendar,
             semester=cls.calendar.second_semester,
             event_type=SchoolEvent.EventTypes.SECOND_SEMESTER_END_VIII_GRADE,
-            starts_at=date(2020, 12, 23),
+            starts_at=date(2020, 12, 24),
             ends_at=date(2020, 12, 24)
         )
 
@@ -86,9 +86,9 @@ class StudentPlacementTestCase(CommonAPITestCase):
 
         catalog2 = StudentCatalogPerYearFactory(
             study_class=self.study_class,
-            avg_sem1=2,
-            avg_sem2=2,
-            avg_annual=2,
+            avg_sem1=None,
+            avg_sem2=None,
+            avg_annual=None,
             abs_count_sem1=2,
             abs_count_sem2=2,
             abs_count_annual=2
@@ -144,8 +144,8 @@ class StudentPlacementTestCase(CommonAPITestCase):
         catalog5.refresh_from_db()
 
         self.assertEqual(catalog3.class_place_by_avg_sem1, 1)
-        self.assertEqual(catalog2.class_place_by_avg_sem1, 2)
-        self.assertEqual(catalog1.class_place_by_avg_sem1, 3)
+        self.assertEqual(catalog1.class_place_by_avg_sem1, 2)
+        self.assertEqual(catalog2.class_place_by_avg_sem1, 3)
         self.assertEqual(catalog3.class_place_by_abs_sem1, 1)
         self.assertEqual(catalog2.class_place_by_abs_sem1, 2)
         self.assertEqual(catalog1.class_place_by_abs_sem1, 3)
@@ -156,8 +156,8 @@ class StudentPlacementTestCase(CommonAPITestCase):
         self.assertEqual(catalog5.class_place_by_abs_sem1, 1)
 
         self.assertEqual(catalog3.school_place_by_avg_sem1, 3)
-        self.assertEqual(catalog2.school_place_by_avg_sem1, 4)
-        self.assertEqual(catalog1.school_place_by_avg_sem1, 5)
+        self.assertEqual(catalog1.school_place_by_avg_sem1, 4)
+        self.assertEqual(catalog2.school_place_by_avg_sem1, 5)
         self.assertEqual(catalog3.school_place_by_abs_sem1, 3)
         self.assertEqual(catalog2.school_place_by_abs_sem1, 4)
         self.assertEqual(catalog1.school_place_by_abs_sem1, 5)

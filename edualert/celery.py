@@ -30,10 +30,10 @@ app.conf.beat_schedule = {
         'task': 'edualert.catalogs.tasks.send_alerts_for_risks_task',
         'schedule': crontab(day_of_week=1, hour=6, minute=30)
     },
-    # 'send_alerts_for_school_situation_task': {
-    #     'task': 'edualert.catalogs.tasks.send_alerts_for_school_situation_task',
-    #     'schedule': crontab(day_of_week=1, hour=10, minute=0)
-    # },
+    'send_alerts_for_school_situation_task': {
+        'task': 'edualert.catalogs.tasks.send_alerts_for_school_situation_task',
+        'schedule': crontab(day_of_week=1, hour=10, minute=0)
+    },
     'send_monthly_school_unit_absence_report_task': {
         'task': 'edualert.statistics.tasks.send_monthly_school_unit_absence_report_task',
         'schedule': crontab(day_of_month=12, hour=13, minute=0),
