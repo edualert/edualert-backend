@@ -36,7 +36,7 @@ app.conf.beat_schedule = {
     },
     'send_monthly_school_unit_absence_report_task': {
         'task': 'edualert.statistics.tasks.send_monthly_school_unit_absence_report_task',
-        'schedule': crontab(day_of_month=12, hour=13, minute=0),
+        'schedule': crontab(day_of_month='2,12', hour=13, minute=0),
     },
     'calculate_students_placements_task': {
         'task': 'edualert.catalogs.tasks.calculate_students_placements_task',
