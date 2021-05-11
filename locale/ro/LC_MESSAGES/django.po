@@ -683,7 +683,7 @@ msgstr ""
 
 #: edualert/profiles/serializers/users.py:25
 msgid "You don't have permission to create a user with this role."
-msgstr "Nu aveți permisiunea sa creați un utilizator cu acest rol."
+msgstr "Nu aveți permisiunea să creați un utilizator cu acest rol."
 
 #: edualert/profiles/serializers/users.py:135
 msgid "Cannot change user role."
