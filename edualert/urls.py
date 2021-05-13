@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from .common import urls as common_urls
 from .profiles import urls as profile_urls
 from .schools import urls as school_urls
 from .subjects import urls as subject_urls
@@ -31,6 +32,7 @@ from .statistics import urls as statistics_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('api/v1/', include(common_urls, namespace='common')),
     path('api/v1/', include(profile_urls, namespace='users')),
     path('api/v1/', include(school_urls, namespace='schools')),
     path('api/v1/', include(subject_urls, namespace='subjects')),
