@@ -35,6 +35,15 @@
                     "hostPort": 587
                 }
             ],
+            "healthCheck": {
+                "command": [
+                    "CMD-SHELL",
+                    "/bin/sh -c 'wget -q -O- http://localhost:8000/api/v1/health-check/ || exit 1'"
+                ],
+                "interval": 30,
+                "timeout": 10,
+                "retries": 3
+            },
             "environment": [
                 {
                     "name": "ENVIRONMENT",
