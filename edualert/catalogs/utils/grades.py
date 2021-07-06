@@ -1,4 +1,5 @@
 import decimal
+import math
 
 from django.db.models import Q
 
@@ -11,6 +12,12 @@ from edualert.subjects.models import ProgramSubjectThrough
 def grades_mean(grades):
     avg = sum(grades) / len(grades)
     return decimal.Decimal(avg).quantize(decimal.Decimal('.01'))
+
+
+def normal_round(n):
+    if n - math.floor(n) < 0.5:
+        return math.floor(n)
+    return math.ceil(n)
 
 
 def compute_averages(catalogs, semester, is_async=True):
@@ -45,9 +52,9 @@ def compute_averages(catalogs, semester, is_async=True):
             sem_avg = grades_mean([grade.grade for grade in grades])
 
         if semester == 1:
-            catalog.avg_sem1 = round(sem_avg)
+            catalog.avg_sem1 = normal_round(sem_avg)
         else:
-            catalog.avg_sem2 = round(sem_avg)
+            catalog.avg_sem2 = normal_round(sem_avg)
             if catalog.avg_sem1:
                 catalog.avg_annual = (catalog.avg_sem1 + catalog.avg_sem2) / 2
             else:
@@ -92,7 +99,7 @@ def change_averages_after_examination_grade_operation(catalogs, grade_type, seme
                 else:
                     catalog.avg_sem2 = None
             else:
-                average = round(compute_examinations_average(grades[0], grades[1]))
+                average = normal_round(compute_examinations_average(grades[0], grades[1]))
                 if semester == 1:
                     catalog.avg_sem1 = average
                 else:
